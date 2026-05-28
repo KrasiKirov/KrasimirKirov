@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Krasi Kirov | Software Engineering Portfolio</title>
+    <title>Krasimir Kirov | Software Engineering Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,14 +18,13 @@
         <a class="brand" href="./index.html" aria-label="Back to top">
           <span class="brand-mark">K</span>
           <span>
-            <strong>Krasi Kirov</strong>
+            <strong>Krasimir Kirov</strong>
             <small>Software Engineering</small>
           </span>
         </a>
 
         <nav class="nav-links" aria-label="Primary navigation">
           <button type="button" data-scroll-target="projects">Projects</button>
-          <button type="button" data-scroll-target="story">My Approach</button>
           <button type="button" data-scroll-target="experience">Experience</button>
           <button type="button" data-scroll-target="contact">Contact</button>
         </nav>
@@ -39,12 +38,12 @@
       <main>
         <section class="hero" id="home" aria-labelledby="hero-title">
           <div class="hero-copy">
-            <p class="eyebrow">Hi, I’m Krasi.</p>
-            <h1 id="hero-title">I build reliable backend and cloud systems.</h1>
+            <p class="eyebrow">Hi, I'm Krasimir.</p>
+            <h1 id="hero-title">I build reliable backend, database, and cloud systems.</h1>
             <p>
-              I’m studying Software Engineering at McGill, and I’m drawn to the parts of software where reliability,
-              data integrity, and clear system boundaries matter. I’ve worked on AWS Redshift observability, Kubernetes
-              production defects at UKG, and cloud-backed internal tools at Pomerleau.
+              I'm studying Software Engineering at McGill, and I'm drawn to the parts of software where reliability,
+              data integrity, and clear system boundaries matter. I've worked on AWS Redshift observability, Kubernetes
+              production defects at UKG, cloud-backed internal tools at Pomerleau, and full-stack insurance platform features at Intact Insurance.
             </p>
             <div class="hero-actions">
               <button class="primary-button" type="button" data-scroll-target="projects">See My Projects</button>
@@ -53,19 +52,19 @@
           </div>
 
           <aside class="intro-panel" aria-label="Quick facts about me">
-            <span class="panel-label">What I want this portfolio to show</span>
+            <span class="panel-label">Facts About me</span>
             <ul class="focus-list">
               <li>
-                <strong>I care about systems, not just screens.</strong>
-                <span>I like APIs, databases, validation, CI/CD, and the debugging trail behind a feature.</span>
+                <strong>Most of my work happens at the backend layer.</strong>
+                <span>At AWS I wrote SQL diagnostics to detect Redshift planner health signals. At UKG I tracked down production defects and data integrity issues in Java on Kubernetes. That kind of work is what I'm after.</span>
               </li>
               <li>
-                <strong>I keep claims tied to evidence.</strong>
-                <span>Project details come from public repos, README files, and my resume.</span>
+                <strong>My resume numbers come from real deliverables.</strong>
+                <span>25% faster API response at Pomerleau, 4 critical defects resolved at UKG and a scheduling platform used by 2,500 organizations.</span>
               </li>
               <li>
-                <strong>I’m still improving the public story.</strong>
-                <span>Some pinned repos need stronger READMEs, screenshots, and setup notes. I call that out directly.</span>
+                <strong>Five internships before graduating in December 2026.</strong>
+                <span>AWS in Berlin, UKG, Intact Insurance and Pomerleau in Montreal. I am actively looking for a backend, data, or database engineering role after I graduate.</span>
               </li>
             </ul>
           </aside>
@@ -79,13 +78,8 @@
           </article>
           <article>
             <span>Internship impact</span>
-            <strong>AWS, UKG, Pomerleau</strong>
-            <small>backend, cloud, observability, and production work</small>
-          </article>
-          <article>
-            <span>Main case studies</span>
-            <strong>GitFit + QuestionForger</strong>
-            <small>the two projects I can currently explain best</small>
+            <strong>AWS, UKG, Pomerleau, Intact Insurance</strong>
+            <small>backend, database, cloud, observability, and production work</small>
           </article>
         </section>
 
@@ -93,10 +87,6 @@
           <div class="section-heading">
             <p class="eyebrow">Projects</p>
             <h2 id="projects-title">Work I can walk you through</h2>
-            <p>
-              I’m using my pinned GitHub repositories as the source of truth. When a repo needs more documentation,
-              I say that instead of overstating what’s there.
-            </p>
           </div>
 
           <div class="project-layout">
@@ -119,19 +109,19 @@
               <p class="story-summary" id="active-service-summary">React app for adaptive learning with a SQL-backed question system.</p>
               <div class="repo-facts" id="repo-facts">
                 <div>
-                  <span>Stars</span>
-                  <strong id="latency-metric">-</strong>
-                  <small id="latency-delta">from GitHub API</small>
+                  <span>Language</span>
+                  <strong id="language-metric">-</strong>
+                  <small id="language-delta">primary language</small>
                 </div>
                 <div>
-                  <span>Forks</span>
-                  <strong id="test-metric">-</strong>
-                  <small id="test-delta">from GitHub API</small>
+                  <span>Category</span>
+                  <strong id="category-metric">-</strong>
+                  <small id="category-delta">project type</small>
                 </div>
                 <div>
                   <span>Updated</span>
-                  <strong id="query-metric">-</strong>
-                  <small id="query-delta">repository push date</small>
+                  <strong id="updated-metric">-</strong>
+                  <small id="updated-delta">repository push date</small>
                 </div>
               </div>
               <div id="inspector-content"></div>
@@ -139,46 +129,10 @@
           </div>
         </section>
 
-        <section class="story-section" id="story" aria-labelledby="story-title">
-          <div class="section-heading">
-            <p class="eyebrow">My approach</p>
-            <h2 id="story-title">How I think through a project</h2>
-          </div>
-          <div class="story-grid">
-            <article>
-              <span>01</span>
-              <strong>I start with the data shape.</strong>
-              <p>I want to understand the entities, constraints, and failure modes before I polish the interface.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <strong>I make the backend explainable.</strong>
-              <p>Clear endpoints, validation paths, and database decisions make a project easier to debug and extend.</p>
-            </article>
-            <article>
-              <span>03</span>
-              <strong>I document what I’d improve next.</strong>
-              <p>I’d rather be specific about gaps than make a small project sound bigger than it is.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="data-section" id="github-data" aria-labelledby="data-title">
-          <div class="section-heading">
-            <p class="eyebrow">Live GitHub data</p>
-            <h2 id="data-title">What the selected repo is made of</h2>
-            <p>I pull this from the public GitHub API when the page loads.</p>
-          </div>
-          <div class="language-panel">
-            <svg id="language-chart" viewBox="0 0 760 250" role="img" aria-label="Repository language distribution"></svg>
-            <button class="secondary-button compact" type="button" data-action="refresh-github">Refresh GitHub Data</button>
-          </div>
-        </section>
-
         <section class="experience-band" id="experience" aria-labelledby="experience-title">
           <div class="section-heading">
             <p class="eyebrow">Experience</p>
-            <h2 id="experience-title">Where I’ve learned the most so far</h2>
+            <h2 id="experience-title">Where I've learned the most so far</h2>
           </div>
           <div class="experience-grid">
             <article>
@@ -188,13 +142,18 @@
             </article>
             <article>
               <span>UKG</span>
-              <strong>I debugged production scheduling behavior.</strong>
-              <p>I worked in Java on Kubernetes, fixed critical defects, and validated changes with automated tests and API checks.</p>
+              <strong>I debugged production scheduling and data integrity issues.</strong>
+              <p>I worked in Java on Kubernetes, resolved critical defects including data integrity failures in the scheduling engine, and validated fixes with automated tests and API checks.</p>
             </article>
             <article>
               <span>Pomerleau</span>
               <strong>I improved internal cloud tools.</strong>
               <p>I worked with C#, Azure, SQL, EF Core, and CI/CD while improving response speed and data-fetching performance.</p>
+            </article>
+            <article>
+              <span>Intact Insurance</span>
+              <strong>I built features and fixed production bugs on insurance platform pages.</strong>
+              <p>I worked full-stack in Java and Angular, contributing to feature development and resolving defects across the platform.</p>
             </article>
           </div>
         </section>
@@ -202,7 +161,7 @@
         <section class="contact-section" id="contact" aria-labelledby="contact-title">
           <div>
             <p class="eyebrow">Contact</p>
-            <h2 id="contact-title">I’m looking for engineering work where backend depth and product sense both matter.</h2>
+            <h2 id="contact-title">I'm looking for engineering work where backend depth, data systems, and product sense all matter.</h2>
             <p class="contact-note">Email: <a href="mailto:krasimirkirov31@gmail.com?subject=Portfolio%20contact">krasimirkirov31@gmail.com</a></p>
           </div>
           <div class="contact-actions">
@@ -212,13 +171,6 @@
           </div>
         </section>
 
-        <section class="source-notes" aria-labelledby="source-title">
-          <div class="source-header">
-            <h2 id="source-title">Source notes</h2>
-            <button class="ghost-button" type="button" data-action="clear-logs">Clear</button>
-          </div>
-          <pre id="source-output" tabindex="0"></pre>
-        </section>
       </main>
     </div>
 

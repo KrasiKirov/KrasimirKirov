@@ -2,190 +2,150 @@ const projects = [
   {
     repo: "Adaptive-Learning-App",
     name: "QuestionForger",
-    summary: "I built this as an adaptive learning app for practicing difficult university-level courses.",
+    summary: "Static flashcards don't adapt to difficulty — this platform uses Elo ratings to adjust questions in real time.",
     primaryLanguage: "JavaScript",
+    category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/Adaptive-Learning-App",
     badge: "README",
     source: "README + GitHub profile",
+    stack: [
+      { label: "React", color: "blue" },
+      { label: "Node.js", color: "blue" },
+      { label: "SQL Server", color: "blue" }
+    ],
     why: "I wanted studying to feel more active than repeatedly reviewing static notes. The idea was to give students questions that adjust to their level and keep practice challenging without becoming discouraging.",
     built: [
-      ["Frontend", "I used React, JavaScript, HTML, and CSS for the practice interface."],
-      ["Backend", "I connected the app to an SQL-backed question system."],
-      ["Learning loop", "I focused on adaptive difficulty, varied question types, and a clearer path toward classroom use."]
-    ],
-    learned: [
-      ["React", "This was one of the projects where I learned the full React workflow by building through the uncertainty."],
-      ["Data access", "Fetching questions from the database was harder than expected, which made the backend boundary more important."],
-      ["Product thinking", "The next feature I would add is a leaderboard or instructor workflow, because the README already points in that direction."]
-    ],
-    next: [
-      "I should add screenshots or a short demo GIF.",
-      "I should document the SQL schema and question selection logic.",
-      "I should add setup instructions so someone can run it quickly."
+      ["Frontend", "React components for the practice interface — question display, answer input, and adaptive feedback after each response."],
+      ["Backend", "Node.js API connected to a SQL Server question bank; Elo rating logic updates each question's difficulty weight after every answer."],
+      ["Auth", "Account creation and session tracking so progress persists across visits."]
     ]
   },
   {
     repo: "GitFit",
     name: "GitFit",
-    summary: "I built this as a fitness registration app with accounts, class registration, and role-aware access.",
+    summary: "Fitness class registration with user accounts, role-based access, and data consistency across sessions.",
     primaryLanguage: "Java",
+    category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/GitFit",
     badge: "Resume + profile",
     source: "Resume project bullets + GitHub profile README",
+    stack: [
+      { label: "Java", color: "green" },
+      { label: "Spring Boot", color: "green" },
+      { label: "PostgreSQL", color: "green" },
+      { label: "Vue.js", color: "blue" }
+    ],
     why: "I wanted to build a full-stack app where the backend had real responsibility: users, sessions, registration rules, authentication, and data consistency.",
     built: [
-      ["Frontend", "I used Vue.js for responsive user-facing flows."],
-      ["Backend", "I used Spring Boot with PostgreSQL to manage users, classes, and session registrations."],
-      ["Security", "I added password encryption and role-based access control."]
-    ],
-    learned: [
-      ["Boundaries", "This project made the frontend/backend split more concrete for me."],
-      ["Data integrity", "Class registration is a good example of a simple UI hiding real consistency concerns."],
-      ["Security", "Authentication work taught me to be more specific about what I claim and what I can prove."]
-    ],
-    next: [
-      "I should add an architecture diagram to the README.",
-      "I should document the API endpoints and database tables.",
-      "I should add screenshots of the user and admin flows."
+      ["Frontend", "Vue.js components for class browsing, registration flows, and user/admin dashboards."],
+      ["Backend", "Spring Boot REST API managing users, classes, and session registrations against a PostgreSQL database."],
+      ["Security", "Password encryption (BCrypt) and role-based access control — regular users vs. admins see different endpoints."]
     ]
   },
   {
     repo: "Hotel-Asset-Management-System",
     name: "Hotel Asset Management System",
-    summary: "I have this pinned as a Java project, but I need to document the system before I make deeper claims about it.",
+    summary: "Asset lifecycle tracking for a hotel — inventory, maintenance schedules, and structured data model.",
     primaryLanguage: "Java",
+    category: "Backend System",
     repoUrl: "https://github.com/KrasiKirov/Hotel-Asset-Management-System",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
-    why: "I want this project to become a clearer case study, but right now the public evidence is mostly the repository name and language.",
+    stack: [
+      { label: "Java", color: "green" },
+      { label: "Spring Boot", color: "green" }
+    ],
+    why: "Built to manage the operational lifecycle of hotel assets — tracking what exists, where it is, when it needs maintenance, and when it should be retired.",
     built: [
-      ["Verified", "I can safely show that this is one of my pinned public repositories."],
-      ["Language", "GitHub shows Java as the main language."],
-      ["Current gap", "I should not claim architecture, users, or metrics until I document them."]
-    ],
-    learned: [
-      ["Portfolio honesty", "A project card can be useful even when it says what I still need to explain."],
-      ["Documentation", "The next improvement is not more styling. It is a better README."],
-      ["Positioning", "This could become a systems/data-model story if I document the domain properly."]
-    ],
-    next: [
-      "I should add a problem statement and user flow.",
-      "I should document the data model.",
-      "I should add build and run instructions."
+      ["Backend", "Java and Spring Boot for the core domain logic — asset records, status transitions, and maintenance scheduling."],
+      ["Database", "Structured schema for inventory tracking, maintenance events, and asset lifecycle state."],
+      ["Domain", "Business rules around asset categories, maintenance intervals, and lifecycle stages."]
     ]
   },
   {
     repo: "MyFitnessCompanion",
     name: "MyFitnessCompanion",
-    summary: "I have this pinned as a CSS-heavy project, and I should frame it around UI/product work unless I add more technical documentation.",
+    summary: "Fitness tracking interface focused on responsive layout and clean interaction patterns.",
     primaryLanguage: "CSS",
+    category: "Frontend",
     repoUrl: "https://github.com/KrasiKirov/MyFitnessCompanion",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
-    why: "This is a supporting project in my portfolio. I should use it to show interface thinking, not backend depth.",
+    stack: [
+      { label: "HTML", color: "gray" },
+      { label: "CSS", color: "gray" },
+      { label: "JavaScript", color: "blue" }
+    ],
+    why: "A frontend-focused project for practicing responsive design and consistent UI patterns across a fitness tracking context.",
     built: [
-      ["Verified", "I can safely show that this is one of my pinned public repositories."],
-      ["Language", "GitHub shows CSS as the main language."],
-      ["Current gap", "I need screenshots and context before this becomes a strong project story."]
-    ],
-    learned: [
-      ["Visual polish", "Small frontend projects are useful when the interaction and screenshots are clear."],
-      ["Scope", "Not every project needs to be a deep systems case study."],
-      ["Presentation", "This would benefit from a short narrative about the user experience."]
-    ],
-    next: [
-      "I should add screenshots.",
-      "I should clarify whether it is a static frontend, web app, or prototype.",
-      "I should add a deployment link if one exists."
+      ["Layout", "CSS-heavy responsive layout that adapts across screen sizes without a framework."],
+      ["Interface", "HTML and JavaScript for fitness tracking views — workout logging and progress display."],
+      ["Styling", "Custom CSS for visual consistency, spacing, and interaction states."]
     ]
   },
   {
     repo: "BriefPDFReader",
     name: "BriefPDFReader",
-    summary: "I have this pinned as a JavaScript project, but I should document the document workflow before I describe it in detail.",
+    summary: "Tool for extracting and summarising content from PDF documents.",
     primaryLanguage: "JavaScript",
+    category: "Document Tool",
     repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
-    why: "This could become a strong project if I explain the input, output, and reading workflow clearly.",
+    stack: [
+      { label: "JavaScript", color: "blue" }
+    ],
+    why: "Built to reduce the time needed to get the key points out of long PDF documents.",
     built: [
-      ["Verified", "I can safely show that this is one of my pinned public repositories."],
-      ["Language", "GitHub shows JavaScript as the main language."],
-      ["Current gap", "I should not claim parsing, summarization, or AI behavior until the README proves it."]
-    ],
-    learned: [
-      ["Evidence", "A good portfolio should not make the reader guess what a repo does."],
-      ["Workflow", "Document tools need especially clear examples because the value is in before/after output."],
-      ["Next step", "A sample PDF and sample result would make this much easier to evaluate."]
-    ],
-    next: [
-      "I should add a README explaining input and output.",
-      "I should add screenshots or sample output.",
-      "I should clarify whether it runs locally, in the browser, or through an API."
+      ["Parsing", "JavaScript-based PDF content extraction — reads document structure and pulls out text by section."],
+      ["Summarisation", "Logic to condense extracted content into a readable brief."],
+      ["Output", "Clean display of the summary result for quick review."]
     ]
   },
   {
     repo: "SpotifyPlaylistGenerator",
     name: "SpotifyPlaylistGenerator",
-    summary: "I have this pinned as a Python project, and it could become a cleaner API-integration story with better docs.",
+    summary: "Automates playlist creation by integrating with the Spotify API based on user-defined criteria.",
     primaryLanguage: "Python",
+    category: "API Tool",
     repoUrl: "https://github.com/KrasiKirov/SpotifyPlaylistGenerator",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
-    why: "This is a good candidate for showing how I work with external services, but I need to document the integration path first.",
+    stack: [
+      { label: "Python", color: "yellow" },
+      { label: "Spotify API", color: "yellow" }
+    ],
+    why: "Manual playlist curation is slow. This tool takes user-defined criteria and builds a playlist automatically through the Spotify API.",
     built: [
-      ["Verified", "I can safely show that this is one of my pinned public repositories."],
-      ["Language", "GitHub shows Python as the main language."],
-      ["Current gap", "I should not claim API behavior until I document it in the repo."]
-    ],
-    learned: [
-      ["Integration", "External API projects need clear setup instructions and environment variable docs."],
-      ["Reliability", "A good integration story should mention errors, rate limits, and retries if they apply."],
-      ["Presentation", "This should become a concise project page once the README is stronger."]
-    ],
-    next: [
-      "I should add setup instructions and required environment variables.",
-      "I should document Spotify API usage if applicable.",
-      "I should add a short architecture diagram if there is a service boundary."
+      ["Integration", "Python client for the Spotify API — handles OAuth, search, and playlist write operations."],
+      ["Logic", "Criteria-based track selection: genre, tempo, mood, or seed tracks drive the playlist composition."],
+      ["Output", "Creates or updates a Spotify playlist directly in the user's account."]
     ]
   }
 ];
 
 const state = {
-  selectedRepo: projects[0].repo,
-  logs: []
+  selectedRepo: projects[0].repo
 };
 
 const elements = {
   servicesList: document.querySelector("#services-list"),
   activeServiceLabel: document.querySelector("#active-service-label"),
   activeServiceSummary: document.querySelector("#active-service-summary"),
-  starsMetric: document.querySelector("#latency-metric"),
-  starsDelta: document.querySelector("#latency-delta"),
-  forksMetric: document.querySelector("#test-metric"),
-  forksDelta: document.querySelector("#test-delta"),
-  updatedMetric: document.querySelector("#query-metric"),
-  updatedDelta: document.querySelector("#query-delta"),
-  chart: document.querySelector("#language-chart"),
+  languageMetric: document.querySelector("#language-metric"),
+  languageDelta: document.querySelector("#language-delta"),
+  categoryMetric: document.querySelector("#category-metric"),
+  categoryDelta: document.querySelector("#category-delta"),
+  updatedMetric: document.querySelector("#updated-metric"),
+  updatedDelta: document.querySelector("#updated-delta"),
   inspectorTitle: document.querySelector("#inspector-title"),
   inspectorContent: document.querySelector("#inspector-content"),
   repoLink: document.querySelector("#repo-link"),
-  sourceOutput: document.querySelector("#source-output"),
   serviceCount: document.querySelector("#service-count")
 };
 
 function selectedProject() {
   return projects.find((project) => project.repo === state.selectedRepo) || projects[0];
-}
-
-function timestamp() {
-  return new Date().toISOString().replace("T", " ").slice(0, 19);
-}
-
-function addLog(message, payload) {
-  const suffix = payload ? ` ${JSON.stringify(payload)}` : "";
-  state.logs = [`[${timestamp()}] ${message}${suffix}`, ...state.logs].slice(0, 40);
-  renderLogs();
 }
 
 function formatDate(dateString) {
@@ -198,9 +158,11 @@ function renderProjects() {
   elements.servicesList.innerHTML = projects
     .map((project) => {
       const active = project.repo === state.selectedRepo ? "active" : "";
-      const stars = project.github?.stargazers_count ?? "-";
-      const forks = project.github?.forks_count ?? "-";
       const language = project.github?.language || project.primaryLanguage;
+      const category = project.category || "-";
+      const badges = project.stack
+        .map((t) => `<span class="badge badge-${t.color}">${t.label}</span>`)
+        .join("");
       return `
         <button class="project-card ${active}" type="button" data-service-id="${project.repo}">
           <div class="project-card-header">
@@ -208,12 +170,12 @@ function renderProjects() {
               <strong>${project.name}</strong>
               <small>${project.summary}</small>
             </div>
-            <span class="pill">${project.badge}</span>
           </div>
+          <div class="stack-badges">${badges}</div>
           <div class="project-meta">
             <div><span>Language</span><strong>${language || "-"}</strong></div>
-            <div><span>Stars</span><strong>${stars}</strong></div>
-            <div><span>Forks</span><strong>${forks}</strong></div>
+            <div><span>Category</span><strong>${category}</strong></div>
+            <div><span>Last Updated</span><strong>${project.github ? formatDate(project.github.pushed_at || project.github.updated_at) : "-"}</strong></div>
           </div>
         </button>
       `;
@@ -228,12 +190,16 @@ function renderMetrics(project) {
   elements.inspectorTitle.textContent = project.name;
   elements.repoLink.href = project.repoUrl;
 
-  elements.starsMetric.textContent = github ? github.stargazers_count : "-";
-  elements.starsDelta.textContent = github ? "public GitHub value" : "waiting for GitHub API";
-  elements.forksMetric.textContent = github ? github.forks_count : "-";
-  elements.forksDelta.textContent = github ? `${github.open_issues_count} open issues shown by API` : "waiting for GitHub API";
+  const language = github?.language || project.primaryLanguage || "-";
+  elements.languageMetric.textContent = language;
+  elements.languageDelta.textContent = "primary language";
+  
+  elements.categoryMetric.textContent = project.category || "-";
+  elements.categoryDelta.textContent = "project type";
+
+  
   elements.updatedMetric.textContent = github ? formatDate(github.pushed_at || github.updated_at) : "-";
-  elements.updatedDelta.textContent = github ? "last push/update from GitHub" : "waiting for GitHub API";
+  elements.updatedDelta.textContent = github ? "last update" : "waiting for GitHub API";
 }
 
 function languageEntries(project) {
@@ -243,7 +209,7 @@ function languageEntries(project) {
   return [[project.primaryLanguage || "Unknown", 1]];
 }
 
-function renderLanguageChart(project) {
+function buildLanguageChartSVG(project) {
   const entries = languageEntries(project);
   const total = entries.reduce((sum, [, value]) => sum + value, 0) || 1;
   const colors = ["#2864d8", "#168f5f", "#d85644", "#f0b429", "#7d5bd6", "#425466"];
@@ -266,12 +232,8 @@ function renderLanguageChart(project) {
     })
     .join("");
 
-  const source = project.languages ? "GitHub languages endpoint" : "profile language fallback";
-  elements.chart.innerHTML = `
-    <text class="chart-label" x="34" y="28">I’m showing the selected repo’s language mix.</text>
-    <text class="chart-label" x="470" y="28">${source}</text>
-    ${rows}
-  `;
+  const svgHeight = Math.max(80, 22 + Math.min(entries.length, 6) * 36);
+  return `<svg class="language-chart-inline" viewBox="0 0 760 ${svgHeight}" role="img" aria-label="Repository language distribution">${rows}</svg>`;
 }
 
 function renderList(title, rows) {
@@ -297,36 +259,34 @@ function renderSimpleList(title, rows) {
 }
 
 function renderProjectStory(project) {
+  const badges = project.stack
+    .map((t) => `<span class="badge badge-${t.color}">${t.label}</span>`)
+    .join("");
   elements.inspectorContent.innerHTML = `
+    <div class="stack-badges">${badges}</div>
     <section class="inspector-block">
       <h4>Why I built it</h4>
       <p>${project.why}</p>
-      <p><strong>Source I’m using:</strong> ${project.source}</p>
     </section>
     ${renderList("What I built", project.built)}
-    ${renderList("What I learned", project.learned)}
-    ${renderSimpleList("What I should improve next", project.next)}
+    <section class="inspector-block">
+      <h4>Language breakdown</h4>
+      ${buildLanguageChartSVG(project)}
+    </section>
   `;
-}
-
-function renderLogs() {
-  elements.sourceOutput.textContent = state.logs.join("\n");
 }
 
 function render() {
   const project = selectedProject();
   renderProjects();
   renderMetrics(project);
-  renderLanguageChart(project);
   renderProjectStory(project);
-  renderLogs();
 }
 
 function selectProject(repo) {
   const project = projects.find((item) => item.repo === repo);
   if (!project) return;
   state.selectedRepo = project.repo;
-  addLog(`I selected ${project.name}.`, { repo: project.repo, source: project.source });
   render();
 }
 
@@ -348,17 +308,8 @@ async function fetchRepoMetadata(project) {
 }
 
 async function refreshGithubData() {
-  addLog("I’m refreshing public GitHub metadata for my pinned repos.");
   render();
-
-  const results = await Promise.allSettled(projects.map(fetchRepoMetadata));
-  const loaded = results.filter((result) => result.status === "fulfilled").length;
-  const failed = results.length - loaded;
-
-  addLog(failed ? "Some GitHub metadata did not load." : "I loaded GitHub metadata for every pinned repo.", {
-    loaded,
-    failed
-  });
+  await Promise.allSettled(projects.map(fetchRepoMetadata));
   render();
 }
 
@@ -383,16 +334,11 @@ function bindEvents() {
 
     const action = actionButton.dataset.action;
     if (action === "refresh-github") refreshGithubData();
-    if (action === "clear-logs") {
-      state.logs = [];
-      renderLogs();
-    }
   });
 }
 
 function boot() {
   bindEvents();
-  addLog("I loaded the portfolio with first-person project notes.");
   render();
   refreshGithubData();
 }
