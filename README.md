@@ -15,7 +15,7 @@ Java · C# · Python · JavaScript · SQL · Spring · ASP.NET · React · Vue �
 
 ## Projects
 
-- [QuestionForger](https://github.com/KrasiKirov/Adaptive-Learning-App) — Adaptive learning app with Elo-rated questions, React + Node.js + SQL Server
+- [Loop](https://github.com/KrasiKirov/Loop) — Competitive DSA interview-prep app with auto-graded cards, a chess-style rating, and duels, React + Node/Express + PostgreSQL (Row-Level Security)
 - [GitFit](https://github.com/KrasiKirov/GitFit) — Fitness registration app, Vue.js + Spring Boot + PostgreSQL, with auth and role-based access
 
 ## Connect

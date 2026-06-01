@@ -1,125 +1,72 @@
 const projects = [
   {
-    repo: "Adaptive-Learning-App",
-    name: "QuestionForger",
-    summary: "Static flashcards don't adapt to difficulty — this platform uses Elo ratings to adjust questions in real time.",
+    repo: "Loop",
+    name: "Loop",
+    summary: "A competitive, retention-first web app that drills DSA interview patterns with auto-graded cards, a chess-style skill rating, and head-to-head duels.",
     primaryLanguage: "JavaScript",
     category: "Full-Stack App",
-    repoUrl: "https://github.com/KrasiKirov/Adaptive-Learning-App",
-    badge: "README",
-    source: "README + GitHub profile",
+    repoUrl: "https://github.com/KrasiKirov/Loop",
+    badge: "Pinned repo",
+    source: "GitHub pinned repository list",
     stack: [
       { label: "React", color: "blue" },
-      { label: "Node.js", color: "blue" },
-      { label: "SQL Server", color: "blue" }
+      { label: "Express", color: "yellow" },
+      { label: "PostgreSQL", color: "blue" },
+      { label: "JWT", color: "green" },
+      { label: "Vercel", color: "gray" }
     ],
-    why: "I wanted studying to feel more active than repeatedly reviewing static notes. The idea was to give students questions that adjust to their level and keep practice challenging without becoming discouraging.",
+    why: "Studying DSA from static notes doesn't build the fast pattern-recognition interviews demand. Loop drills patterns with quick auto-graded cards, a chess-style rating that adapts to your level, spaced repetition, and duels — so practice stays competitive and retention-first.",
     built: [
-      ["Frontend", "React components for the practice interface — question display, answer input, and adaptive feedback after each response."],
-      ["Backend", "Node.js API connected to a SQL Server question bank; Elo rating logic updates each question's difficulty weight after every answer."],
-      ["Auth", "Account creation and session tracking so progress persists across visits."]
-    ]
-  },
-  {
-    repo: "GitFit",
-    name: "GitFit",
-    summary: "Fitness class registration with user accounts, role-based access, and data consistency across sessions.",
-    primaryLanguage: "Java",
-    category: "Full-Stack App",
-    repoUrl: "https://github.com/KrasiKirov/GitFit",
-    badge: "Resume + profile",
-    source: "Resume project bullets + GitHub profile README",
-    stack: [
-      { label: "Java", color: "green" },
-      { label: "Spring Boot", color: "green" },
-      { label: "PostgreSQL", color: "green" },
-      { label: "Vue.js", color: "blue" }
-    ],
-    why: "I wanted to build a full-stack app where the backend had real responsibility: users, sessions, registration rules, authentication, and data consistency.",
-    built: [
-      ["Frontend", "Vue.js components for class browsing, registration flows, and user/admin dashboards."],
-      ["Backend", "Spring Boot REST API managing users, classes, and session registrations against a PostgreSQL database."],
-      ["Security", "Password encryption (BCrypt) and role-based access control — regular users vs. admins see different endpoints."]
-    ]
-  },
-  {
-    repo: "Hotel-Asset-Management-System",
-    name: "Hotel Asset Management System",
-    summary: "Asset lifecycle tracking for a hotel — inventory, maintenance schedules, and structured data model.",
-    primaryLanguage: "Java",
-    category: "Backend System",
-    repoUrl: "https://github.com/KrasiKirov/Hotel-Asset-Management-System",
-    badge: "Pinned repo",
-    source: "GitHub pinned repository list",
-    stack: [
-      { label: "Java", color: "green" },
-      { label: "Spring Boot", color: "green" }
-    ],
-    why: "Built to manage the operational lifecycle of hotel assets — tracking what exists, where it is, when it needs maintenance, and when it should be retired.",
-    built: [
-      ["Backend", "Java and Spring Boot for the core domain logic — asset records, status transitions, and maintenance scheduling."],
-      ["Database", "Structured schema for inventory tracking, maintenance events, and asset lifecycle state."],
-      ["Domain", "Business rules around asset categories, maintenance intervals, and lifecycle stages."]
-    ]
-  },
-  {
-    repo: "MyFitnessCompanion",
-    name: "MyFitnessCompanion",
-    summary: "Fitness tracking interface focused on responsive layout and clean interaction patterns.",
-    primaryLanguage: "CSS",
-    category: "Frontend",
-    repoUrl: "https://github.com/KrasiKirov/MyFitnessCompanion",
-    badge: "Pinned repo",
-    source: "GitHub pinned repository list",
-    stack: [
-      { label: "HTML", color: "gray" },
-      { label: "CSS", color: "gray" },
-      { label: "JavaScript", color: "blue" }
-    ],
-    why: "A frontend-focused project for practicing responsive design and consistent UI patterns across a fitness tracking context.",
-    built: [
-      ["Layout", "CSS-heavy responsive layout that adapts across screen sizes without a framework."],
-      ["Interface", "HTML and JavaScript for fitness tracking views — workout logging and progress display."],
-      ["Styling", "Custom CSS for visual consistency, spacing, and interaction states."]
-    ]
-  },
-  {
-    repo: "BriefPDFReader",
-    name: "BriefPDFReader",
-    summary: "Tool for extracting and summarising content from PDF documents.",
-    primaryLanguage: "JavaScript",
-    category: "Document Tool",
-    repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
-    badge: "Pinned repo",
-    source: "GitHub pinned repository list",
-    stack: [
-      { label: "JavaScript", color: "blue" }
-    ],
-    why: "Built to reduce the time needed to get the key points out of long PDF documents.",
-    built: [
-      ["Parsing", "JavaScript-based PDF content extraction — reads document structure and pulls out text by section."],
-      ["Summarisation", "Logic to condense extracted content into a readable brief."],
-      ["Output", "Clean display of the summary result for quick review."]
+      ["Frontend", "React (CRA) + React Router app with a pattern hub showing per-pattern mastery and rating, four fast card formats (identify the pattern, crux step, complexity, spot-the-bug), streaks, and an interview-date countdown."],
+      ["Backend & grading", "Node/Express API with server-authoritative grading. Answer keys never reach the browser before you answer, so scores can't be faked. First-attempt-only Elo via a uniqueness constraint, and duel resolution serialized with a row lock plus atomic claim so concurrent submits can't double-apply rating."],
+      ["Data & auth", "PostgreSQL with Row-Level Security isolating every user's attempts and duels at the database layer under a two-role least-privilege setup; JWT access tokens with rotating refresh tokens and reuse detection, rate limiting, a CORS allowlist, and schema validation on every request."]
     ]
   },
   {
     repo: "SpotifyPlaylistGenerator",
-    name: "SpotifyPlaylistGenerator",
-    summary: "Automates playlist creation by integrating with the Spotify API based on user-defined criteria.",
-    primaryLanguage: "Python",
-    category: "API Tool",
+    name: "The Listening Room",
+    summary: "A mobile app that turns natural-language mood descriptions into Spotify playlists using AI.",
+    primaryLanguage: "TypeScript",
+    category: "Mobile App",
     repoUrl: "https://github.com/KrasiKirov/SpotifyPlaylistGenerator",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     stack: [
-      { label: "Python", color: "yellow" },
-      { label: "Spotify API", color: "yellow" }
+      { label: "React Native", color: "blue" },
+      { label: "TypeScript", color: "blue" },
+      { label: "FastAPI", color: "yellow" },
+      { label: "OpenAI", color: "green" },
+      { label: "Spotify API", color: "green" },
+      { label: "Railway", color: "blue" }
     ],
-    why: "Manual playlist curation is slow. This tool takes user-defined criteria and builds a playlist automatically through the Spotify API.",
+    why: "Manual playlist curation is slow. Describe a mood or scenario in plain language and AI composes a tracklist, resolves each song on Spotify, and saves it as a private playlist.",
     built: [
-      ["Integration", "Python client for the Spotify API — handles OAuth, search, and playlist write operations."],
-      ["Logic", "Criteria-based track selection: genre, tempo, mood, or seed tracks drive the playlist composition."],
-      ["Output", "Creates or updates a Spotify playlist directly in the user's account."]
+      ["Mobile client", "React Native + Expo app with Spotify PKCE auth; access tokens live in secure storage and are never persisted server-side. Distributed as a standalone Android APK."],
+      ["AI generation", "FastAPI backend deployed on Railway prompts OpenAI (gpt-4.1-mini) for a JSON-structured tracklist from the user's description plus optional genre, decade, and mood filters."],
+      ["Resolve & save", "Matches generated tracks on Spotify, lets users preview and remove songs or rename the playlist, then writes it to their account."]
+    ]
+  },
+  {
+    repo: "BriefPDFReader",
+    name: "BriefPDF Reader",
+    summary: "Upload a PDF, choose a target length, and get a faithful AI summary rendered as clean Markdown.",
+    primaryLanguage: "JavaScript",
+    category: "Full-Stack App",
+    repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
+    badge: "Pinned repo",
+    source: "GitHub pinned repository list",
+    stack: [
+      { label: "React", color: "blue" },
+      { label: "Express", color: "yellow" },
+      { label: "OpenAI", color: "green" },
+      { label: "Vercel", color: "gray" },
+      { label: "Railway", color: "blue" }
+    ],
+    why: "Reading a long PDF end to end is slow when you only need the gist. Drop in a document, pick how many words you want back (10–2500), and get a length-controlled summary.",
+    built: [
+      ["Frontend", "React (CRA) single-page UI with react-markdown and axios, deployed on Vercel; uploads the PDF and target length, then renders the returned summary as formatted Markdown."],
+      ["Backend", "Express API on Railway (Docker) that extracts text with pdf.js-extract, counts and chunks tokens, and calls OpenAI (gpt-4.1-mini); a single pass for documents that fit the context window, recursive chunk-and-re-summarize for very large ones."],
+      ["Hardening", "Per-IP rate limiting, request timeouts with retries, 20 MB PDF-only upload validation, sanitized errors, and CORS; the OpenAI key stays server-side and is never exposed to the browser."]
     ]
   }
 ];
