@@ -8,6 +8,10 @@ const projects = [
     repoUrl: "https://github.com/KrasiKirov/Loop",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
+    images: [
+      { src: "assets/loop/hub.png", alt: "Loop pattern hub — pick a pattern, see mastery and rating, start drilling" },
+      { src: "assets/loop/drill.png", alt: "Loop drill card — four options with a live skill-rating meter" }
+    ],
     stack: [
       { label: "React", color: "blue" },
       { label: "Express", color: "yellow" },
@@ -15,7 +19,7 @@ const projects = [
       { label: "JWT", color: "green" },
       { label: "Vercel", color: "gray" }
     ],
-    why: "Studying DSA from static notes doesn't build the fast pattern-recognition interviews demand. Loop drills patterns with quick auto-graded cards, a chess-style rating that adapts to your level, spaced repetition, and duels — so practice stays competitive and retention-first.",
+    why: "Studying DSA from static notes doesn't build the fast pattern-recognition interviews demand. Loop drills patterns with quick auto-graded cards, a chess-style rating that adapts to your level, spaced repetition, and duels. Practice stays competitive and retention-first.",
     built: [
       ["Frontend", "React (CRA) + React Router app with a pattern hub showing per-pattern mastery and rating, four fast card formats (identify the pattern, crux step, complexity, spot-the-bug), streaks, and an interview-date countdown."],
       ["Backend & grading", "Node/Express API with server-authoritative grading. Answer keys never reach the browser before you answer, so scores can't be faked. First-attempt-only Elo via a uniqueness constraint, and duel resolution serialized with a row lock plus atomic claim so concurrent submits can't double-apply rating."],
@@ -31,6 +35,11 @@ const projects = [
     repoUrl: "https://github.com/KrasiKirov/SpotifyPlaylistGenerator",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
+    images: [
+      { src: "assets/listening-room/landing.png", alt: "The Listening Room — landing screen inviting you to pair with Spotify and compose a side" },
+      { src: "assets/listening-room/compose.png", alt: "The Listening Room — describe an evening in plain language to compose a playlist" },
+      { src: "assets/listening-room/tracklist.png", alt: "The Listening Room — preview and curate the AI-generated tracklist before saving" }
+    ],
     stack: [
       { label: "React Native", color: "blue" },
       { label: "TypeScript", color: "blue" },
@@ -55,6 +64,10 @@ const projects = [
     repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
+    images: [
+      { src: "assets/briefpdf/landing.png", alt: "BriefPDF Reader landing — an editorial document condenser; choose a PDF and set a target length, then condense" },
+      { src: "assets/briefpdf/result.png", alt: "BriefPDF Reader summary — the length-controlled output rendered as a clean, typeset Markdown excerpt" }
+    ],
     stack: [
       { label: "React", color: "blue" },
       { label: "Express", color: "yellow" },
@@ -88,7 +101,9 @@ const elements = {
   inspectorTitle: document.querySelector("#inspector-title"),
   inspectorContent: document.querySelector("#inspector-content"),
   repoLink: document.querySelector("#repo-link"),
-  serviceCount: document.querySelector("#service-count")
+  serviceCount: document.querySelector("#service-count"),
+  lightbox: document.querySelector("#lightbox"),
+  lightboxImage: document.querySelector("#lightbox-image")
 };
 
 function selectedProject() {
@@ -112,7 +127,7 @@ function renderProjects() {
         .join("");
       return `
         <button class="project-card ${active}" type="button" data-service-id="${project.repo}">
-          <div class="project-card-header">
+          <div class="project-card-header">\
             <div>
               <strong>${project.name}</strong>
               <small>${project.summary}</small>
@@ -205,12 +220,31 @@ function renderSimpleList(title, rows) {
   `;
 }
 
+function renderGallery(project) {
+  if (!project.images?.length) return "";
+  const shots = project.images
+    .map(
+      (image) => `
+        <button class="project-shot" type="button" data-lightbox-src="${image.src}" data-lightbox-alt="${image.alt}" aria-label="Enlarge screenshot: ${image.alt}">
+          <img src="${image.src}" alt="${image.alt}" loading="lazy" />
+        </button>`
+    )
+    .join("");
+  return `
+    <section class="inspector-block">
+      <h4>A look inside</h4>
+      <div class="project-shots">${shots}</div>
+    </section>
+  `;
+}
+
 function renderProjectStory(project) {
   const badges = project.stack
     .map((t) => `<span class="badge badge-${t.color}">${t.label}</span>`)
     .join("");
   elements.inspectorContent.innerHTML = `
     <div class="stack-badges">${badges}</div>
+    ${renderGallery(project)}
     <section class="inspector-block">
       <h4>Why I built it</h4>
       <p>${project.why}</p>
@@ -260,11 +294,38 @@ async function refreshGithubData() {
   render();
 }
 
+function openLightbox(src, alt) {
+  if (!elements.lightbox) return;
+  elements.lightboxImage.src = src;
+  elements.lightboxImage.alt = alt || "";
+  elements.lightbox.hidden = false;
+  document.body.classList.add("lightbox-open");
+}
+
+function closeLightbox() {
+  if (!elements.lightbox) return;
+  elements.lightbox.hidden = true;
+  elements.lightboxImage.src = "";
+  document.body.classList.remove("lightbox-open");
+}
+
 function bindEvents() {
   document.addEventListener("click", (event) => {
     const projectButton = event.target.closest("[data-service-id]");
     const actionButton = event.target.closest("[data-action]");
     const scrollButton = event.target.closest("[data-scroll-target]");
+    const shotButton = event.target.closest("[data-lightbox-src]");
+    const lightboxClose = event.target.closest("[data-lightbox-close]");
+
+    if (shotButton) {
+      openLightbox(shotButton.dataset.lightboxSrc, shotButton.dataset.lightboxAlt);
+      return;
+    }
+
+    if (lightboxClose || event.target === elements.lightbox) {
+      closeLightbox();
+      return;
+    }
 
     if (scrollButton) {
       const target = document.getElementById(scrollButton.dataset.scrollTarget);
@@ -281,6 +342,10 @@ function bindEvents() {
 
     const action = actionButton.dataset.action;
     if (action === "refresh-github") refreshGithubData();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeLightbox();
   });
 }
 
