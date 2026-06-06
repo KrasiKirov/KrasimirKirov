@@ -81,6 +81,29 @@ const projects = [
       ["Backend", "Express API on Railway (Docker) that extracts text with pdf.js-extract, counts and chunks tokens, and calls OpenAI (gpt-4.1-mini); a single pass for documents that fit the context window, recursive chunk-and-re-summarize for very large ones."],
       ["Hardening", "Per-IP rate limiting, request timeouts with retries, 20 MB PDF-only upload validation, sanitized errors, and CORS; the OpenAI key stays server-side and is never exposed to the browser."]
     ]
+  },
+  {
+    repo: "EMG_TQ_Modelling",
+    name: "EMG–TQ Modelling",
+    summary: "Models the relationship between EMG signals and joint torque using system identification and machine learning.",
+    primaryLanguage: "MATLAB",
+    category: "Research / ML",
+    repoUrl: "https://github.com/KrasiKirov/EMG_TQ_Modelling",
+    badge: "Pinned repo",
+    source: "GitHub pinned repository list",
+    images: [],
+    stack: [
+      { label: "MATLAB", color: "yellow" },
+      { label: "Python", color: "blue" },
+      { label: "C++", color: "gray" },
+      { label: "C", color: "gray" }
+    ],
+    why: "Predicting joint torque from surface EMG is a core problem in prosthetics and rehabilitation engineering. This project explores how system identification and AI/ML techniques can learn the nonlinear EMG–torque mapping from experimental data.",
+    built: [
+      ["System identification", "MATLAB-based pipeline for processing raw EMG and torque signals, extracting features, and fitting parametric models to capture the input–output dynamics of the neuromuscular system."],
+      ["ML modelling", "Python scripts training regression models to predict torque from EMG feature vectors, comparing classical system-ID approaches against learned models."],
+      ["C/C++ integration", "Low-level signal processing and real-time components in C and C++ for embedded or hardware-in-the-loop evaluation."]
+    ]
   }
 ];
 
