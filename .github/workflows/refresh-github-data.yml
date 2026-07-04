@@ -1,0 +1,49 @@
+name: Refresh GitHub data
+
+# Regenerates github-data.json (repo metadata, language breakdowns, public-repo
+# count) so the site never calls the GitHub API from the browser. Runs daily and
+# on push; commits the file back to the branch, which the Pages deploy picks up.
+
+on:
+  schedule:
+    - cron: "17 6 * * *" # daily ~06:17 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "github-data.json" # our own commit only touches this file → no loop
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-github-data
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build github-data.json
+        env:
+          # Built-in token: 5,000 req/hr, and reads this owner's public repos.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/build-github-data.mjs
+
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain github-data.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add github-data.json
+            git commit -m "chore: refresh github-data.json"
+            git push
+          else
+            echo "github-data.json unchanged — nothing to commit."
+          fi

@@ -4,28 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Krasimir Kirov | Software Engineering Portfolio</title>
+    <meta name="description" content="Krasimir Kirov — software engineer. An expedition log through backend, data, and cloud work across three continents: AWS Berlin, UKG, Intact, and Pomerleau." />
+    <meta name="theme-color" content="#ece3d1" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Krasimir Kirov" />
+    <meta property="og:title" content="Krasimir Kirov — Software Engineer" />
+    <meta property="og:description" content="Reliable backend, database, and cloud systems — an expedition across three continents (AWS Berlin, UKG, Intact, Pomerleau)." />
+    <meta property="og:url" content="https://krasikirov.github.io/KrasimirKirov/" />
+    <meta property="og:image" content="https://krasikirov.github.io/KrasimirKirov/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Krasimir Kirov — Software Engineer" />
+    <meta name="twitter:description" content="Reliable backend, database, and cloud systems — an expedition across three continents." />
+    <meta name="twitter:image" content="https://krasikirov.github.io/KrasimirKirov/og-image.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="app-shell">
       <header class="topbar">
         <a class="brand" href="./index.html" aria-label="Back to top">
           <span class="brand-mark">K</span>
           <span>
             <strong>Krasimir Kirov</strong>
-            <small>Software Engineering</small>
+            <small>Software Engineer</small>
           </span>
         </a>
 
         <nav class="nav-links" aria-label="Primary navigation">
-          <button type="button" data-scroll-target="projects">Projects</button>
           <button type="button" data-scroll-target="experience">Experience</button>
+          <button type="button" data-scroll-target="projects">Projects</button>
           <button type="button" data-scroll-target="contact">Contact</button>
         </nav>
 
@@ -35,65 +53,188 @@
         </div>
       </header>
 
-      <main>
-        <section class="hero" id="home" aria-labelledby="hero-title">
+      <aside class="passport" aria-hidden="true">
+        <div class="passport-book">
+          <div class="passport-cover">
+            <span class="pp-crest"></span>
+            <span class="pp-cover-title">Passport</span>
+          </div>
+          <div class="passport-page" data-leg="origin">
+            <span class="pp-top"><span class="pp-region">North America</span><span class="pp-no">Page 01</span></span>
+            <span class="pp-place">Montréal</span>
+            <span class="pp-fields">
+              <span class="pp-field"><em>Coordinates</em>45.50°N 73.57°W</span>
+              <span class="pp-field"><em>Purpose of visit</em>McGill · Software Eng.</span>
+            </span>
+            <span class="pp-stamp">Admitted</span>
+            <span class="pp-mrz">
+              <span>P&lt;CANKIROV&lt;&lt;KRASIMIR&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
+              <span>MONTREAL&lt;QC4550N07357W&lt;&lt;&lt;&lt;&lt;&lt;01</span>
+            </span>
+          </div>
+          <div class="passport-page" data-leg="production">
+            <span class="pp-top"><span class="pp-region">Europe</span><span class="pp-no">Page 02</span></span>
+            <span class="pp-place">Berlin</span>
+            <span class="pp-fields">
+              <span class="pp-field"><em>Coordinates</em>52.52°N 13.40°E</span>
+              <span class="pp-field"><em>Purpose of visit</em>AWS · Redshift</span>
+            </span>
+            <span class="pp-stamp">AWS · 2025</span>
+            <span class="pp-mrz">
+              <span>P&lt;DEUKIROV&lt;&lt;KRASIMIR&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
+              <span>BERLIN&lt;&lt;&lt;DE5252N01340E&lt;&lt;&lt;&lt;&lt;&lt;02</span>
+            </span>
+          </div>
+          <div class="passport-page" data-leg="projects">
+            <span class="pp-top"><span class="pp-region">South America</span><span class="pp-no">Page 03</span></span>
+            <span class="pp-place">Off the map</span>
+            <span class="pp-fields">
+              <span class="pp-field"><em>Coordinates</em>Solo expeditions</span>
+              <span class="pp-field"><em>Purpose of visit</em>Built &amp; shipped alone</span>
+            </span>
+            <span class="pp-stamp">Shipped</span>
+            <span class="pp-mrz">
+              <span>P&lt;XXXKIROV&lt;&lt;KRASIMIR&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
+              <span>OFFGRID&lt;&lt;BUILT&lt;AND&lt;SHIPPED&lt;&lt;&lt;03</span>
+            </span>
+          </div>
+          <div class="passport-page" data-leg="next">
+            <span class="pp-top"><span class="pp-region">Unmarked</span><span class="pp-no">Page 04</span></span>
+            <span class="pp-place">Next stop</span>
+            <span class="pp-fields">
+              <span class="pp-field"><em>Coordinates</em>Awaiting entry</span>
+              <span class="pp-field"><em>Purpose of visit</em>Open to offers</span>
+            </span>
+            <span class="pp-stamp">?</span>
+            <span class="pp-mrz">
+              <span>P&lt;&lt;&lt;&lt;KIROV&lt;&lt;KRASIMIR&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
+              <span>NEXT&lt;STOP&lt;AWAITING&lt;ENTRY&lt;&lt;&lt;04</span>
+            </span>
+          </div>
+        </div>
+        <span class="passport-label">Stamped as you travel ↓</span>
+      </aside>
+
+      <main id="main">
+        <section class="hero" id="home" aria-labelledby="hero-title" data-journey-stage="origin">
+          <canvas class="travel-scene" id="travel-scene" aria-hidden="true"></canvas>
+
           <div class="hero-copy">
-            <p class="eyebrow">Hi, I'm Krasimir.</p>
+            <p class="coordinate hero-coordinate">45.50° N · 73.57° W — Montréal, QC</p>
             <h1 id="hero-title">I build reliable backend, database, and cloud systems.</h1>
-            <p>
-              I'm studying Software Engineering at McGill, and I'm drawn to the parts of software where reliability,
-              data integrity, and clear system boundaries matter. I've worked on AWS Redshift observability, Kubernetes
-              production defects at UKG, cloud-backed internal tools at Pomerleau, and full-stack insurance platform features at Intact Insurance.
+            <p class="hero-lead">
+              I'm studying Software Engineering at McGill, drawn to the parts of software where reliability,
+              data integrity, and clear system boundaries matter. The map so far runs through AWS Redshift
+              observability in Berlin, Kubernetes production defects at UKG, cloud-backed internal tools at
+              Pomerleau, and full-stack insurance platform work at Intact.
             </p>
             <div class="hero-actions">
               <button class="primary-button" type="button" data-scroll-target="projects">See My Projects</button>
               <a class="secondary-button" href="./Resume.pdf" target="_blank" rel="noreferrer">Open Resume</a>
             </div>
-          </div>
-
-          <aside class="intro-panel" aria-label="Quick facts about me">
-            <span class="panel-label">Facts About me</span>
-            <ul class="focus-list">
+            <ul class="hero-notes">
               <li>
                 <strong>Most of my work happens at the backend layer.</strong>
-                <span>At AWS I wrote SQL diagnostics to detect Redshift planner health signals. At UKG I tracked down production defects and data integrity issues in Java on Kubernetes. That kind of work is what I'm after.</span>
+                <span>At AWS I wrote SQL diagnostics to detect Redshift planner health signals; at UKG I tracked down production defects and data-integrity issues in Java on Kubernetes.</span>
               </li>
               <li>
                 <strong>My resume numbers come from real deliverables.</strong>
-                <span>25% faster API response at Pomerleau, 4 critical defects resolved at UKG and a scheduling platform used by 2,500 organizations.</span>
+                <span>25% faster API response at Pomerleau, 4 critical defects resolved at UKG, and a scheduling platform used by 2,500 organizations.</span>
               </li>
               <li>
                 <strong>Five internships before graduating in December 2026.</strong>
-                <span>AWS in Berlin, UKG, Intact Insurance and Pomerleau in Montreal. I am actively looking for a backend, data, or database engineering role after I graduate.</span>
+                <span>AWS in Berlin, plus UKG, Intact Insurance, and Pomerleau in Montréal — and I'm looking for a backend, data, or database role next.</span>
               </li>
             </ul>
-          </aside>
-        </section>
-
-        <section class="proof-strip" aria-label="Portfolio proof points">
-          <article>
-            <span>GitHub</span>
-            <strong>21 repos</strong>
-            <small>shown on my public profile</small>
-          </article>
-          <article>
-            <span>Internship impact</span>
-            <strong>AWS, UKG, Intact Insurance, Pomerleau</strong>
-            <small>backend, database, cloud, observability, and production work</small>
-          </article>
-        </section>
-
-        <section class="experience-band" id="experience" aria-labelledby="experience-title">
-          <div class="section-heading">
-            <p class="eyebrow">Experience</p>
-            <h2 id="experience-title">Where I've learned the most so far</h2>
           </div>
-          <div class="experience-grid">
-            <article>
-              <span>AWS</span>
-              <strong>I worked on Redshift observability.</strong>
-              <p>I helped define planner health signals and built SQL diagnostics to make performance regressions easier to detect.</p>
+
+          <div class="journey-chapters" aria-label="Portfolio journey">
+            <article class="journey-step" data-journey-card="origin">
+              <span class="leg-continent">North America</span>
+              <span class="leg-index">01 / Montréal</span>
+              <strong>Software Engineering at McGill</strong>
+              <p>Backend, data systems, and reliability became the through-line.</p>
             </article>
+            <article class="journey-step" data-journey-card="berlin">
+              <span class="leg-continent">Europe</span>
+              <span class="leg-index">02 / Berlin</span>
+              <strong>AWS Redshift observability</strong>
+              <p>Planner health signals, SQL diagnostics, and regression detection.</p>
+            </article>
+            <article class="journey-step" data-journey-card="production">
+              <span class="leg-continent">North America</span>
+              <span class="leg-index">03 / Production</span>
+              <strong>UKG, Pomerleau, Intact</strong>
+              <p>Kubernetes defects, cloud tools, insurance platform features.</p>
+            </article>
+            <article class="journey-step" data-journey-card="projects">
+              <span class="leg-continent">South America</span>
+              <span class="leg-index">04 / Solo</span>
+              <strong>Repos I can walk through</strong>
+              <p>Full-stack apps, AI tools, research modelling, shipped details.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="proof-strip" id="highlights" aria-label="Portfolio at a glance" data-journey-stage="origin">
+          <article>
+            <strong>5</strong>
+            <span>Internships</span>
+            <small>backend, data &amp; cloud</small>
+          </article>
+          <article>
+            <strong>4</strong>
+            <span>Companies</span>
+            <small>AWS · UKG · Intact · Pomerleau</small>
+          </article>
+          <article>
+            <strong>2</strong>
+            <span>Continents</span>
+            <small>Berlin &amp; Montréal</small>
+          </article>
+          <article>
+            <strong id="repo-count">21</strong>
+            <span>GitHub repos</span>
+            <small>public projects &amp; experiments</small>
+          </article>
+        </section>
+
+        <div class="section-divider" aria-hidden="true"><span>N 52.52°</span></div>
+
+        <section class="experience-band" id="experience" aria-labelledby="experience-title" data-journey-stage="production">
+          <span class="section-stamp" aria-hidden="true">02</span>
+          <div class="section-heading">
+            <p class="eyebrow">Chapter 02 — The long-haul</p>
+            <h2 id="experience-title">Where I've learned the most so far</h2>
+            <p>Five internships, four companies, two continents. I've made landing somewhere unfamiliar my default starting condition — and delivering from there the habit.</p>
+          </div>
+
+          <article class="experience-feature" data-continent="europe">
+            <div class="feature-meta">
+              <span class="dateline">Berlin, Germany</span>
+              <span class="coordinate">52.52° N · 13.40° E</span>
+              <span class="stamp">AWS · 2025</span>
+            </div>
+            <div class="feature-body">
+              <p class="eyebrow">The transatlantic leg</p>
+              <h3>At AWS in Berlin, I worked on Redshift observability.</h3>
+              <p>
+                Berlin was the furthest I'd ever dropped into somewhere new and cold — and Redshift observability
+                felt the same: unfamiliar terrain to make legible. I helped define planner health signals and built
+                SQL diagnostics that catch performance regressions before they reach customers, turning noisy query
+                behaviour into signals an engineer can actually act on.
+              </p>
+              <div class="stack-badges">
+                <span class="badge badge-yellow">Redshift</span>
+                <span class="badge badge-blue">SQL</span>
+                <span class="badge badge-gray">Observability</span>
+                <span class="badge badge-green">Diagnostics</span>
+              </div>
+            </div>
+          </article>
+
+          <p class="row-label"><span class="coordinate">45.50° N · 73.57° W</span> Home base — Montréal</p>
+          <div class="experience-grid">
             <article>
               <span>UKG</span>
               <strong>I debugged production scheduling and data integrity issues.</strong>
@@ -102,7 +243,7 @@
             <article>
               <span>Pomerleau</span>
               <strong>I improved internal cloud tools.</strong>
-              <p>I worked with C#, Azure, SQL, EF Core, and CI/CD while improving response speed and data-fetching performance.</p>
+              <p>I worked with C#, Azure, SQL, EF Core, and CI/CD while improving response speed and data-fetching performance by roughly 25%.</p>
             </article>
             <article>
               <span>Intact Insurance</span>
@@ -112,10 +253,14 @@
           </div>
         </section>
 
-        <section class="project-section" id="projects" aria-labelledby="projects-title">
+        <div class="section-divider" aria-hidden="true"><span>S 15.79°</span></div>
+
+        <section class="project-section" id="projects" aria-labelledby="projects-title" data-journey-stage="projects">
+          <span class="section-stamp" aria-hidden="true">03</span>
           <div class="section-heading">
-            <p class="eyebrow">Projects</p>
-            <h2 id="projects-title">Work I can walk you through</h2>
+            <p class="eyebrow">Chapter 03 — Solo expeditions</p>
+            <h2 id="projects-title">What I build exploring on my own</h2>
+            <p>The trips I take alone teach me the most. So do the things I build alone — no team, no scaffolding, just me finding the route from idea to shipped.</p>
           </div>
 
           <div class="project-layout">
@@ -158,16 +303,29 @@
           </div>
         </section>
 
-        <section class="contact-section" id="contact" aria-labelledby="contact-title">
-          <div>
-            <p class="eyebrow">Contact</p>
-            <h2 id="contact-title">I'm looking for engineering work where backend depth, data systems, and product sense all matter.</h2>
+        <div class="section-divider" aria-hidden="true"><span>N ??.??°</span></div>
+
+        <section class="contact-section" id="contact" aria-labelledby="contact-title" data-journey-stage="next">
+          <div class="contact-copy">
+            <p class="eyebrow">Chapter 04 — Next destination</p>
+            <span class="availability-chip">Open to 2026 new-grad roles</span>
+            <h2 id="contact-title">I'm looking for a team where backend depth, data systems, and product sense all matter.</h2>
+            <p class="contact-note">
+              I'm graduating from McGill in December 2026 and I'm after backend, data, or database engineering
+              work — in Montréal, Berlin, or wherever the interesting problem is. The fastest way to reach me is email.
+            </p>
             <p class="contact-note">Email: <a href="mailto:krasimirkirov31@gmail.com?subject=Portfolio%20contact">krasimirkirov31@gmail.com</a></p>
           </div>
-          <div class="contact-actions">
-            <a class="primary-button" href="https://mail.google.com/mail/?view=cm&fs=1&to=krasimirkirov31%40gmail.com&su=Portfolio%20contact" target="_blank" rel="noreferrer">Email Me</a>
-            <a class="secondary-button" href="https://linkedin.com/in/krasimir-kirov" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a class="secondary-button" href="https://github.com/KrasiKirov" target="_blank" rel="noreferrer">GitHub</a>
+          <div class="contact-side">
+            <div class="compass" aria-hidden="true">
+              <span class="compass-needle"></span>
+              <span class="compass-n">N</span>
+            </div>
+            <div class="contact-actions">
+              <a class="primary-button" href="https://mail.google.com/mail/?view=cm&fs=1&to=krasimirkirov31%40gmail.com&su=Portfolio%20contact" target="_blank" rel="noreferrer">Email Me</a>
+              <a class="secondary-button" href="https://linkedin.com/in/krasimir-kirov" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="secondary-button" href="https://github.com/KrasiKirov" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
           </div>
         </section>
 
@@ -180,5 +338,6 @@
     </div>
 
     <script src="./app.js"></script>
+    <script type="module" src="./travel-scene.js"></script>
   </body>
 </html>

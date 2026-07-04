@@ -1,5 +1,30 @@
 const projects = [
   {
+    repo: "freshet",
+    name: "Freshet",
+    summary: "A freshness-first streaming-RAG system for on-call engineers: it ingests incident data through Kafka, indexes it within seconds, and answers questions with cited, recency-aware answers.",
+    primaryLanguage: "Python",
+    category: "Streaming RAG / Backend",
+    repoUrl: "https://github.com/KrasiKirov/freshet",
+    badge: "Pinned repo",
+    source: "GitHub pinned repository list",
+    images: [],
+    stack: [
+      { label: "Python", color: "blue" },
+      { label: "Kafka", color: "yellow" },
+      { label: "PostgreSQL", color: "blue" },
+      { label: "FastAPI", color: "green" },
+      { label: "Anthropic", color: "green" },
+      { label: "Docker", color: "gray" }
+    ],
+    why: "During an incident, on-call engineers waste most of their time reconstructing context — what changed, what's related, what fixed something similar — from data scattered across tools, under pressure. The information that matters most is the newest, which is exactly what a nightly-batch index misses. Freshet continuously ingests operational events and indexes them within seconds, answering questions like \"what's happening with scheduler-api?\" with cited, timestamped, recency-aware answers over live incidents.",
+    built: [
+      ["Streaming ingestion", "A Kafka pipeline ingests operational events (alerts, deploys, metrics, incident chat, postmortems), normalizes them, and indexes them into a Postgres vector store within seconds, so the freshest context is queryable almost immediately. A live demo polls real public status feeds (Cloudflare, GitHub, OpenAI) through the full local streaming stack."],
+      ["Hybrid retrieval & synthesis", "Dense (bge-base-en-v1.5) + lexical (Postgres full-text) retrieval with RRF fusion, cross-encoder reranking, citation verification, and abstention — hybrid wins recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark. Answers are LLM-written, grounded, and cited, with a keyless extractive fallback that stays grounded."],
+      ["Autonomous responder (Autopilot)", "A separate Kafka consumer reacts to incident lifecycle events: when a new incident opens it debounces, investigates with a tool-using agent, and posts a cited incident brief — cause, runbook, status — to stdout or Slack. Each incident is briefed exactly once via a durable claim, so redelivery and restarts never double-post."]
+    ]
+  },
+  {
     repo: "Loop",
     name: "Loop",
     summary: "A competitive, retention-first web app that drills DSA interview patterns with auto-graded cards, a chess-style skill rating, and head-to-head duels.",
@@ -111,6 +136,9 @@ const state = {
   selectedRepo: projects[0].repo
 };
 
+// "loading" until the GitHub API round-trips, then "done" (whether it succeeded or not).
+let githubStatus = "loading";
+
 const elements = {
   servicesList: document.querySelector("#services-list"),
   activeServiceLabel: document.querySelector("#active-service-label"),
@@ -138,6 +166,13 @@ function formatDate(dateString) {
   return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(new Date(dateString));
 }
 
+// Repo "last updated" value: real date, a loading shimmer, or a graceful fallback.
+function updatedText(project) {
+  if (project.github) return formatDate(project.github.pushed_at || project.github.updated_at);
+  if (githubStatus === "loading") return '<span class="skeleton skeleton-inline"></span>';
+  return "—";
+}
+
 function renderProjects() {
   elements.serviceCount.textContent = `${projects.length} linked`;
   elements.servicesList.innerHTML = projects
@@ -150,7 +185,7 @@ function renderProjects() {
         .join("");
       return `
         <button class="project-card ${active}" type="button" data-service-id="${project.repo}">
-          <div class="project-card-header">\
+          <div class="project-card-header">
             <div>
               <strong>${project.name}</strong>
               <small>${project.summary}</small>
@@ -160,7 +195,7 @@ function renderProjects() {
           <div class="project-meta">
             <div><span>Language</span><strong>${language || "-"}</strong></div>
             <div><span>Category</span><strong>${category}</strong></div>
-            <div><span>Last Updated</span><strong>${project.github ? formatDate(project.github.pushed_at || project.github.updated_at) : "-"}</strong></div>
+            <div><span>Last Updated</span><strong>${updatedText(project)}</strong></div>
           </div>
         </button>
       `;
@@ -183,8 +218,19 @@ function renderMetrics(project) {
   elements.categoryDelta.textContent = "project type";
 
   
-  elements.updatedMetric.textContent = github ? formatDate(github.pushed_at || github.updated_at) : "-";
-  elements.updatedDelta.textContent = github ? "last update" : "waiting for GitHub API";
+  if (github) {
+    elements.updatedMetric.textContent = formatDate(github.pushed_at || github.updated_at);
+    elements.updatedMetric.classList.remove("skeleton");
+    elements.updatedDelta.textContent = "last update";
+  } else if (githubStatus === "loading") {
+    elements.updatedMetric.textContent = "";
+    elements.updatedMetric.classList.add("skeleton");
+    elements.updatedDelta.textContent = "checking GitHub…";
+  } else {
+    elements.updatedMetric.textContent = "—";
+    elements.updatedMetric.classList.remove("skeleton");
+    elements.updatedDelta.textContent = "GitHub unavailable";
+  }
 }
 
 function languageEntries(project) {
@@ -197,7 +243,7 @@ function languageEntries(project) {
 function buildLanguageChartSVG(project) {
   const entries = languageEntries(project);
   const total = entries.reduce((sum, [, value]) => sum + value, 0) || 1;
-  const colors = ["#2864d8", "#168f5f", "#d85644", "#f0b429", "#7d5bd6", "#425466"];
+  const colors = ["#1a6b91", "#c9552f", "#2c7a49", "#d99a24", "#5a8fa6", "#45535e"];
   let y = 58;
 
   const rows = entries
@@ -208,7 +254,7 @@ function buildLanguageChartSVG(project) {
       const color = colors[index % colors.length];
       const row = `
         <text class="chart-label" x="34" y="${y - 8}">${language}</text>
-        <rect x="210" y="${y - 24}" width="460" height="18" rx="4" fill="#e7edf3" />
+        <rect x="210" y="${y - 24}" width="460" height="18" rx="4" fill="#e3dccb" />
         <rect x="210" y="${y - 24}" width="${width}" height="18" rx="4" fill="${color}" />
         <text class="chart-label" x="690" y="${y - 9}">${pct}%</text>
       `;
@@ -294,26 +340,38 @@ function selectProject(repo) {
   render();
 }
 
-async function fetchRepoMetadata(project) {
-  const repoResponse = await fetch(`https://api.github.com/repos/KrasiKirov/${project.repo}`);
-  if (!repoResponse.ok) throw new Error(`${project.repo}: ${repoResponse.status}`);
-  const repo = await repoResponse.json();
-
-  let languages = null;
-  if (repo.languages_url) {
-    const languageResponse = await fetch(repo.languages_url);
-    if (languageResponse.ok) {
-      languages = await languageResponse.json();
+function applyGithubData(data) {
+  if (data && typeof data.publicRepos === "number") {
+    const el = document.querySelector("#repo-count");
+    if (el) el.textContent = String(data.publicRepos);
+  }
+  const repos = (data && data.repos) || {};
+  for (const project of projects) {
+    const entry = repos[project.repo];
+    if (!entry) continue;
+    project.github = {
+      pushed_at: entry.pushed_at,
+      updated_at: entry.updated_at,
+      language: entry.language
+    };
+    if (entry.languages && Object.keys(entry.languages).length) {
+      project.languages = entry.languages;
     }
   }
-
-  project.github = repo;
-  project.languages = languages;
 }
 
+// Read the precomputed snapshot (built by CI) — one same-origin request, no GitHub
+// API calls from the browser, so no rate limits and instant load.
 async function refreshGithubData() {
+  githubStatus = "loading";
   render();
-  await Promise.allSettled(projects.map(fetchRepoMetadata));
+  try {
+    const response = await fetch("./github-data.json", { cache: "no-cache" });
+    if (response.ok) applyGithubData(await response.json());
+  } catch {
+    // snapshot missing/unreachable — render fallbacks ("—", static repo count) handle it
+  }
+  githubStatus = "done";
   render();
 }
 
