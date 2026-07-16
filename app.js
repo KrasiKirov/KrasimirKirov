@@ -394,7 +394,6 @@ function bindEvents() {
   document.addEventListener("click", (event) => {
     const projectButton = event.target.closest("[data-service-id]");
     const actionButton = event.target.closest("[data-action]");
-    const scrollButton = event.target.closest("[data-scroll-target]");
     const shotButton = event.target.closest("[data-lightbox-src]");
     const lightboxClose = event.target.closest("[data-lightbox-close]");
 
@@ -406,13 +405,6 @@ function bindEvents() {
     if (lightboxClose || event.target === elements.lightbox) {
       closeLightbox();
       return;
-    }
-
-    if (scrollButton) {
-      const target = document.getElementById(scrollButton.dataset.scrollTarget);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
     }
 
     if (projectButton) {

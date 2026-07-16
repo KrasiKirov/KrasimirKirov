@@ -195,7 +195,9 @@ h3 {
 .brand small { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; }
 
 .nav-links { gap: 4px; color: var(--ink-2); }
-.nav-links button {
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
   min-height: 36px;
   padding: 8px 12px;
   border: 0;
@@ -203,9 +205,10 @@ h3 {
   background: transparent;
   color: inherit;
   font-weight: 600;
+  text-decoration: none;
   transition: background 150ms ease, color 150ms ease;
 }
-.nav-links button:hover { background: rgba(26, 107, 145, 0.12); color: var(--na); }
+.nav-links a:hover { background: rgba(26, 107, 145, 0.12); color: var(--na); }
 
 .topbar-actions { justify-content: flex-end; gap: 10px; min-width: 210px; }
 
@@ -1069,6 +1072,8 @@ button:focus-visible,
   .primary-button, .secondary-button { width: 100%; }
   .compact { width: auto; }
   .section-divider::after { right: 2%; }
+  /* the wrapped topbar is ~250px tall at this width */
+  .proof-strip, .project-section, .experience-band, .contact-section { scroll-margin-top: 250px; }
 }
 
 @media (max-width: 480px) {
