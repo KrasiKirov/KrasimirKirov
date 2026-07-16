@@ -338,6 +338,7 @@ function selectProject(repo) {
   if (!project) return;
   state.selectedRepo = project.repo;
   render();
+  history.replaceState(null, "", `#projects/${project.repo}`);
 }
 
 function applyGithubData(data) {
@@ -422,8 +423,20 @@ function bindEvents() {
   });
 }
 
+// Deep links: #projects/<repo> preselects that project and scrolls to it.
+function applyDeepLink() {
+  const match = location.hash.match(/^#projects\/(.+)$/i);
+  if (!match) return;
+  const wanted = decodeURIComponent(match[1]).toLowerCase();
+  const hit = projects.find((project) => project.repo.toLowerCase() === wanted);
+  if (!hit) return;
+  state.selectedRepo = hit.repo;
+  requestAnimationFrame(() => document.getElementById("projects")?.scrollIntoView());
+}
+
 function boot() {
   bindEvents();
+  applyDeepLink();
   render();
   refreshGithubData();
 }
