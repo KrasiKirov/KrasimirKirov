@@ -8,7 +8,15 @@ const projects = [
     repoUrl: "https://github.com/KrasiKirov/freshet",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
-    images: [],
+    images: [
+      { src: "assets/freshet/live-demo.gif", alt: "Freshet live demo — real public status-feed incidents ingested through Kafka and answered with cited, recency-aware answers" },
+      { src: "assets/freshet/architecture.svg", alt: "Freshet architecture — Kafka ingestion into Postgres with pgvector, hybrid retrieval for cited answers, and the Autopilot agent posting cited Slack briefs" }
+    ],
+    numbers: [
+      ["recall@5", "0.81 with hybrid retrieval on a 160-query benchmark — dense + lexical arms fused with RRF, then cross-encoder reranked"],
+      ["nDCG@5", "0.63 — hybrid decisively beats either retrieval arm on ranking quality"],
+      ["Freshness", "events are queryable within seconds of ingestion; the live demo polls real Cloudflare, GitHub, and OpenAI status feeds"]
+    ],
     stack: [
       { label: "Python", color: "blue" },
       { label: "Kafka", color: "yellow" },
@@ -31,6 +39,7 @@ const projects = [
     primaryLanguage: "JavaScript",
     category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/Loop",
+    liveUrl: "https://loop-dsa.vercel.app",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
@@ -87,6 +96,7 @@ const projects = [
     primaryLanguage: "JavaScript",
     category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
+    liveUrl: "https://brief-pdf-reader.vercel.app",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
@@ -152,6 +162,7 @@ const elements = {
   inspectorTitle: document.querySelector("#inspector-title"),
   inspectorContent: document.querySelector("#inspector-content"),
   repoLink: document.querySelector("#repo-link"),
+  liveLink: document.querySelector("#live-link"),
   serviceCount: document.querySelector("#service-count"),
   lightbox: document.querySelector("#lightbox"),
   lightboxImage: document.querySelector("#lightbox-image")
@@ -209,6 +220,8 @@ function renderMetrics(project) {
   elements.activeServiceSummary.textContent = project.summary;
   elements.inspectorTitle.textContent = project.name;
   elements.repoLink.href = project.repoUrl;
+  elements.liveLink.hidden = !project.liveUrl;
+  if (project.liveUrl) elements.liveLink.href = project.liveUrl;
 
   const language = github?.language || project.primaryLanguage || "-";
   elements.languageMetric.textContent = language;
@@ -319,6 +332,7 @@ function renderProjectStory(project) {
       <p>${project.why}</p>
     </section>
     ${renderList("What I built", project.built)}
+    ${project.numbers ? renderList("Numbers that back it", project.numbers) : ""}
     <section class="inspector-block">
       <h4>Language breakdown</h4>
       ${buildLanguageChartSVG(project)}

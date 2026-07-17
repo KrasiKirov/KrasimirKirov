@@ -1,0 +1,62 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Freshet architecture: operational events flow through Kafka and a normalizer into Postgres with pgvector, feeding hybrid retrieval for cited answers and the Autopilot incident responder for Slack briefs">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#45535e" />
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #f7f1e3; stroke-width: 1.5; rx: 10; }
+    .t { font-family: "Space Mono", ui-monospace, monospace; font-size: 13px; font-weight: 700; fill: #1e2833; }
+    .s { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; fill: #45535e; }
+    .row { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; fill: #c9552f; }
+    .wire { stroke: #45535e; stroke-width: 1.5; fill: none; }
+  </style>
+  <rect x="0" y="0" width="760" height="340" fill="#f2ecdd" stroke="#d9d0bb" />
+
+  <text class="row" x="14" y="24">01 — INGEST</text>
+  <rect class="box" x="14" y="34" width="162" height="52" rx="10" stroke="#45535e" />
+  <text class="t" x="26" y="56">Ops events</text>
+  <text class="s" x="26" y="74">alerts · deploys · status feeds</text>
+  <line class="wire" x1="176" y1="60" x2="206" y2="60" marker-end="url(#arrow)" />
+  <rect class="box" x="208" y="34" width="92" height="52" rx="10" stroke="#d99a24" />
+  <text class="t" x="230" y="56">Kafka</text>
+  <text class="s" x="222" y="74">streaming</text>
+  <line class="wire" x1="300" y1="60" x2="330" y2="60" marker-end="url(#arrow)" />
+  <rect class="box" x="332" y="34" width="126" height="52" rx="10" stroke="#45535e" />
+  <text class="t" x="344" y="56">Normalizer</text>
+  <text class="s" x="344" y="74">one event schema</text>
+  <line class="wire" x1="458" y1="60" x2="488" y2="60" marker-end="url(#arrow)" />
+  <rect class="box" x="490" y="34" width="256" height="52" rx="10" stroke="#1a6b91" />
+  <text class="t" x="502" y="56">Postgres + pgvector</text>
+  <text class="s" x="502" y="74">indexed within seconds of ingestion</text>
+
+  <text class="row" x="14" y="136">02 — ASK</text>
+  <rect class="box" x="14" y="146" width="162" height="52" rx="10" stroke="#45535e" />
+  <text class="t" x="26" y="168">Question</text>
+  <text class="s" x="26" y="186">"what's happening?"</text>
+  <line class="wire" x1="176" y1="172" x2="206" y2="172" marker-end="url(#arrow)" />
+  <rect class="box" x="208" y="146" width="272" height="52" rx="10" stroke="#1a6b91" />
+  <text class="t" x="220" y="168">Hybrid retrieval</text>
+  <text class="s" x="220" y="186">dense + lexical · RRF fusion · rerank</text>
+  <line class="wire" x1="480" y1="172" x2="510" y2="172" marker-end="url(#arrow)" />
+  <rect class="box" x="512" y="146" width="220" height="52" rx="10" stroke="#2c7a49" />
+  <text class="t" x="524" y="168">Cited answer</text>
+  <text class="s" x="524" y="186">grounded · timestamped · recent</text>
+
+  <path class="wire" d="M 560 86 L 560 116 L 400 116 L 400 142" marker-end="url(#arrow)" />
+
+  <text class="row" x="14" y="248">03 — AUTOPILOT</text>
+  <rect class="box" x="14" y="258" width="162" height="52" rx="10" stroke="#45535e" />
+  <text class="t" x="26" y="280">Incident opens</text>
+  <text class="s" x="26" y="298">lifecycle event on Kafka</text>
+  <line class="wire" x1="176" y1="284" x2="206" y2="284" marker-end="url(#arrow)" />
+  <rect class="box" x="208" y="258" width="272" height="52" rx="10" stroke="#c9552f" />
+  <text class="t" x="220" y="280">Autopilot agent</text>
+  <text class="s" x="220" y="298">debounce · investigate · durable claim</text>
+  <line class="wire" x1="480" y1="284" x2="510" y2="284" marker-end="url(#arrow)" />
+  <rect class="box" x="512" y="258" width="220" height="52" rx="10" stroke="#2c7a49" />
+  <text class="t" x="524" y="280">Slack brief</text>
+  <text class="s" x="524" y="298">cause · runbook · cited, once</text>
+
+  <path class="wire" d="M 744 86 L 744 232 L 440 232 L 440 254" marker-end="url(#arrow)" />
+</svg>
