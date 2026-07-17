@@ -356,6 +356,11 @@ function selectProject(repo) {
   state.selectedRepo = project.repo;
   render();
   history.replaceState(null, "", `#projects/${project.repo}`);
+  // On mobile the detail panel sits below the card list, so make the jump to
+  // it visible instead of leaving the reader wondering what changed.
+  if (window.matchMedia("(max-width: 1020px)").matches) {
+    document.querySelector(".project-story-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
 
 function applyGithubData(data) {
