@@ -149,6 +149,9 @@ const state = {
 // "loading" until the GitHub API round-trips, then "done" (whether it succeeded or not).
 let githubStatus = "loading";
 
+// Public-repo total for the "5 of N repos" framing; overwritten from the snapshot.
+let publicRepos = 24;
+
 const elements = {
   servicesList: document.querySelector("#services-list"),
   activeServiceLabel: document.querySelector("#active-service-label"),
@@ -185,7 +188,7 @@ function updatedText(project) {
 }
 
 function renderProjects() {
-  elements.serviceCount.textContent = `${projects.length} linked`;
+  elements.serviceCount.textContent = `${projects.length} of ${publicRepos} repos`;
   elements.servicesList.innerHTML = projects
     .map((project) => {
       const active = project.repo === state.selectedRepo ? "active" : "";
@@ -357,8 +360,7 @@ function selectProject(repo) {
 
 function applyGithubData(data) {
   if (data && typeof data.publicRepos === "number") {
-    const el = document.querySelector("#repo-count");
-    if (el) el.textContent = String(data.publicRepos);
+    publicRepos = data.publicRepos;
   }
   const repos = (data && data.repos) || {};
   for (const project of projects) {
