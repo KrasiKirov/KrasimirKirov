@@ -43,6 +43,7 @@
   --grain-blend: multiply;
   --grain-opacity: 0.55;
   --surface-ghost: rgba(251, 247, 238, 0.7);
+  --glass: rgba(251, 247, 238, 0.82); /* frosted card over the globe */
 
   --font-display: "Fraunces", "Georgia", "Times New Roman", serif;
   --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -83,6 +84,7 @@
   --grain-blend: screen;
   --grain-opacity: 0.28;
   --surface-ghost: rgba(233, 222, 201, 0.07);
+  --glass: rgba(26, 35, 43, 0.78);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -112,6 +114,7 @@
     --grain-blend: screen;
     --grain-opacity: 0.28;
     --surface-ghost: rgba(233, 222, 201, 0.07);
+    --glass: rgba(26, 35, 43, 0.78);
   }
 }
 
@@ -537,7 +540,7 @@ h3 {
   background:
     linear-gradient(90deg, rgba(26, 107, 145, 0.14) 1px, transparent 1px),
     linear-gradient(rgba(26, 107, 145, 0.1) 1px, transparent 1px),
-    linear-gradient(180deg, transparent, rgba(236, 227, 209, 0.92));
+    linear-gradient(180deg, transparent, color-mix(in srgb, var(--paper) 92%, transparent));
   background-size: 54px 54px, 54px 54px, auto;
 }
 .hero::after {
@@ -605,7 +608,7 @@ h3 {
   border: 1px solid var(--hair);
   border-top: 3px solid var(--accent);
   border-radius: var(--radius-sm);
-  background: rgba(251, 247, 238, 0.82);
+  background: var(--glass);
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(8px);
   transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
