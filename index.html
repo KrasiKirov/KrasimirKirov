@@ -3,6 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Set the theme before first paint to avoid a flash. Saved choice wins;
+      // otherwise follow the OS preference.
+      (function () {
+        try {
+          var saved = localStorage.getItem("theme");
+          var dark = saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
     <title>Krasimir Kirov | Software Engineering Portfolio</title>
     <meta name="description" content="Krasimir Kirov — software engineer. An expedition log through backend, data, and cloud work across two continents: AWS Berlin, UKG, Intact, and Pomerleau." />
     <meta name="theme-color" content="#ece3d1" />
@@ -64,6 +75,7 @@
         </nav>
 
         <div class="topbar-actions">
+          <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false"><span class="theme-toggle-icon" aria-hidden="true"></span></button>
           <a class="secondary-button compact" href="https://github.com/KrasiKirov" target="_blank" rel="noreferrer">GitHub</a>
           <a class="primary-button compact" href="https://mail.google.com/mail/?view=cm&fs=1&to=krasimirkirov31%40gmail.com&su=Portfolio%20contact" target="_blank" rel="noreferrer">Email Me</a>
         </div>

@@ -503,8 +503,29 @@ function initCountUp() {
   observer.observe(strip);
 }
 
+// Dark-mode toggle. The pre-paint script in <head> already set data-theme;
+// here we just sync the button and let clicks flip + persist it.
+function initThemeToggle() {
+  const toggle = document.querySelector("#theme-toggle");
+  if (!toggle) return;
+  const sync = () => {
+    const dark = document.documentElement.dataset.theme === "dark";
+    toggle.setAttribute("aria-pressed", String(dark));
+  };
+  sync();
+  toggle.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme !== "dark";
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    try {
+      localStorage.setItem("theme", dark ? "dark" : "light");
+    } catch (e) {}
+    sync();
+  });
+}
+
 function boot() {
   bindEvents();
+  initThemeToggle();
   if (applyDeepLink()) scrollToProjects();
   render();
   initCountUp();
