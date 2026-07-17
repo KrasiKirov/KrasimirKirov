@@ -22,6 +22,7 @@
   --eu: #c9552f;   /* Europe — terracotta */
   --sa: #2c7a49;   /* South America — fern */
   --gold: #d99a24; /* stamp / sun */
+  --gold-ink: #8a6410; /* readable gold text on paper */
 
   /* semantic */
   --accent: var(--na);
@@ -710,16 +711,65 @@ h3 {
   background: var(--panel);
   box-shadow: var(--shadow-card);
 }
-.experience-grid span { color: var(--na); }
+.experience-grid .exp-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--na);
+}
+.experience-grid .exp-dateline {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
 .experience-grid strong {
   display: block;
-  margin: 12px 0 8px;
+  margin: 10px 0 8px;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 18px;
   line-height: 1.2;
 }
 .experience-grid p { color: var(--ink-2); line-height: 1.62; font-size: 14.5px; }
+.experience-grid .exp-metric {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--na) 12%, transparent);
+  color: var(--na);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+/* current role — accent only, same size as the others */
+.experience-grid article.is-now {
+  border-left-color: var(--gold);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 9%, var(--panel)), var(--panel));
+}
+.experience-grid .is-now .exp-head,
+.experience-grid .is-now .exp-metric { color: var(--gold-ink); }
+.experience-grid .is-now .exp-metric { background: color-mix(in srgb, var(--gold) 22%, transparent); }
+.now-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 70%, transparent);
+  animation: nowPulse 2s ease-out infinite;
+}
+@keyframes nowPulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 60%, transparent); }
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
 
 /* ---------- projects (solo expeditions) ---------- */
 .project-section {
@@ -1085,6 +1135,7 @@ button:focus-visible,
   .passport-page { transition: none; }
   .skeleton { animation: none; }
   .availability-chip::before { animation: none; }
+  .now-dot { animation: none; }
 }
 
 /* ---------- responsive ---------- */
