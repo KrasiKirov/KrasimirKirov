@@ -1352,3 +1352,26 @@ button:focus-visible,
   .topbar-actions { width: 100%; }
   .topbar-actions .compact { flex: 1; }
 }
+
+/* ---------- print ---------- */
+@media print {
+  :root { color-scheme: light; }
+  body { background: #fff !important; color: #000; }
+  body::before,
+  .travel-scene,
+  .passport,
+  .compass,
+  .topbar-actions,
+  .nav-links,
+  .section-divider,
+  .section-stamp,
+  .journey-chapters { display: none !important; }
+  .app-shell { max-width: none; }
+  .hero { min-height: auto; margin: 0; padding: 0 0 20px; }
+  .hero, .project-layout, .contact-section,
+  .experience-feature, .experience-grid, .toolkit-groups { display: block; }
+  .experience-grid article, .proof-strip article { break-inside: avoid; }
+  .primary-button, .secondary-button, .theme-toggle { display: none !important; }
+  a { color: #000; text-decoration: underline; }
+  .project-story-panel, .project-list-panel { border: 1px solid #999; box-shadow: none; }
+}
