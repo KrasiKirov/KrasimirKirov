@@ -466,10 +466,46 @@ function scrollToProjects() {
   else window.addEventListener("load", settle, { once: true });
 }
 
+// Animate the proof-strip stats from 0 to their value the first time they
+// scroll into view. Reduced-motion users just get the final numbers.
+function initCountUp() {
+  const strip = document.querySelector(".proof-strip");
+  if (!strip) return;
+  const stats = [...strip.querySelectorAll("[data-count]")];
+  if (!stats.length) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const run = (el) => {
+    const target = parseFloat(el.dataset.count);
+    const decimals = parseInt(el.dataset.decimals || "0", 10);
+    const duration = 900;
+    const start = performance.now();
+    const tick = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      el.textContent = (target * eased).toFixed(decimals);
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toFixed(decimals);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      stats.forEach(run);
+      observer.disconnect();
+    });
+  }, { threshold: 0.4 });
+  observer.observe(strip);
+}
+
 function boot() {
   bindEvents();
   if (applyDeepLink()) scrollToProjects();
   render();
+  initCountUp();
   refreshGithubData();
   window.addEventListener("hashchange", () => {
     if (applyDeepLink()) {
