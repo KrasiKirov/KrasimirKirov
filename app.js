@@ -100,8 +100,8 @@ const projects = [
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
-      { src: "assets/briefpdf/landing.png", alt: "BriefPDF Reader landing — an editorial document condenser; choose a PDF and set a target length, then condense" },
-      { src: "assets/briefpdf/result.png", alt: "BriefPDF Reader summary — the length-controlled output rendered as a clean, typeset Markdown excerpt" }
+      { src: "assets/briefpdf/landing.jpg", alt: "BriefPDF Reader landing — an editorial document condenser; choose a PDF and set a target length, then condense" },
+      { src: "assets/briefpdf/result.jpg", alt: "BriefPDF Reader summary — the length-controlled output rendered as a clean, typeset Markdown excerpt" }
     ],
     stack: [
       { label: "React", color: "blue" },
