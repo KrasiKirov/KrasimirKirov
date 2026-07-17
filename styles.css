@@ -611,6 +611,51 @@ h3 {
   padding: 78px clamp(22px, 5vw, 96px);
 }
 
+/* slim education credential — sits above the AWS feature, deliberately lighter */
+.education-card {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 26px);
+  margin-bottom: 20px;
+  padding: 16px clamp(16px, 2.4vw, 24px);
+  border: 1px solid var(--hair);
+  border-left: 3px solid var(--na);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+}
+.edu-mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  border: 1.5px solid var(--na);
+  color: var(--na);
+  background: color-mix(in srgb, var(--na) 8%, transparent);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+}
+.edu-body { flex: 1 1 auto; min-width: 0; }
+.edu-school {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--na);
+}
+.edu-body strong {
+  display: block;
+  margin: 3px 0 4px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.15;
+}
+.edu-body p { margin: 0; color: var(--ink-2); font-size: 13.5px; line-height: 1.55; }
+.edu-honors { flex: none; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+
 .experience-feature {
   --accent: var(--eu);
   display: grid;
@@ -1069,6 +1114,8 @@ button:focus-visible,
   .hero-notes li { padding: 12px 0 12px 20px; }
   .hero-lead { font-size: 16.5px; }
   .journey-chapters { grid-template-columns: 1fr; }
+  .education-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .edu-honors { justify-content: flex-start; }
   .section-stamp { display: none; }
   .repo-facts, .project-meta { grid-template-columns: 1fr; }
   .story-header { flex-direction: column; align-items: flex-start; }
