@@ -1064,8 +1064,10 @@ button:focus-visible,
   .topbar { top: 8px; width: calc(100% - 24px); margin-top: 14px; flex-wrap: wrap; align-items: flex-start; border-radius: 18px; }
   .brand, .topbar-actions { min-width: auto; }
   .nav-links { order: 3; width: 100%; flex-wrap: wrap; }
-  .hero { margin-top: -168px; padding: 300px 16px 34px; }
-  .travel-scene { height: 600px; }
+  .hero { margin-top: -168px; padding: 236px 16px 28px; }
+  .travel-scene { height: 470px; }
+  .hero-notes li { padding: 12px 0 12px 20px; }
+  .hero-lead { font-size: 16.5px; }
   .journey-chapters { grid-template-columns: 1fr; }
   .section-stamp { display: none; }
   .repo-facts, .project-meta { grid-template-columns: 1fr; }
