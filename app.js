@@ -440,19 +440,43 @@ function bindEvents() {
 // Deep links: #projects/<repo> preselects that project and scrolls to it.
 function applyDeepLink() {
   const match = location.hash.match(/^#projects\/(.+)$/i);
-  if (!match) return;
+  if (!match) return false;
   const wanted = decodeURIComponent(match[1]).toLowerCase();
   const hit = projects.find((project) => project.repo.toLowerCase() === wanted);
-  if (!hit) return;
+  if (!hit) return false;
   state.selectedRepo = hit.repo;
-  requestAnimationFrame(() => document.getElementById("projects")?.scrollIntoView());
+  return true;
+}
+
+function scrollToProjects() {
+  // Instant jump (smooth scrolling gets interrupted by layout shifts while the
+  // page is still loading). Scroll restoration must be off, or the browser's
+  // deferred restore overrides this after load.
+  history.scrollRestoration = "manual";
+  const scroll = () => document.getElementById("projects")?.scrollIntoView({ behavior: "instant" });
+  // setTimeout, not requestAnimationFrame: rAF never fires in a background tab.
+  // Re-anchor after load (and once more shortly after) so late layout shifts
+  // from image loads can't leave the section misaligned.
+  setTimeout(scroll, 0);
+  const settle = () => {
+    setTimeout(scroll, 0);
+    setTimeout(scroll, 250);
+  };
+  if (document.readyState === "complete") settle();
+  else window.addEventListener("load", settle, { once: true });
 }
 
 function boot() {
   bindEvents();
-  applyDeepLink();
+  if (applyDeepLink()) scrollToProjects();
   render();
   refreshGithubData();
+  window.addEventListener("hashchange", () => {
+    if (applyDeepLink()) {
+      render();
+      scrollToProjects();
+    }
+  });
 }
 
 boot();
