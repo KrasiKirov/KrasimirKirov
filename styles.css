@@ -520,9 +520,18 @@ h3 {
   z-index: 0;
   width: 100%;
   height: 100%;
+  /* Soft globe "poster" so the hero is never blank while three.js loads.
+     The WebGL canvas is transparent and draws over this; the poster is
+     soft-edged so any peek behind the loaded globe is harmless. */
   background:
-    radial-gradient(70% 60% at 62% 42%, rgba(26, 107, 145, 0.10), transparent 60%),
-    linear-gradient(180deg, transparent 55%, rgba(236, 227, 209, 0.9));
+    linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--paper) 90%, transparent) 100%),
+    radial-gradient(circle at 60% 41%,
+      rgba(116, 192, 236, 0.30) 0%,
+      rgba(63, 131, 168, 0.42) 20%,
+      rgba(39, 87, 116, 0.34) 42%,
+      rgba(27, 62, 83, 0.20) 56%,
+      transparent 66%),
+    radial-gradient(70% 60% at 62% 42%, rgba(26, 107, 145, 0.10), transparent 60%);
 }
 .travel-scene[data-scene="unavailable"] {
   background:
