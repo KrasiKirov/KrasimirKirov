@@ -8,7 +8,7 @@ async function bootTravelScene(targetCanvas) {
   let THREE;
 
   try {
-    THREE = await import("https://unpkg.com/three@0.161.0/build/three.module.js");
+    THREE = await import("./vendor/three.module.min.js");
   } catch (error) {
     targetCanvas.dataset.scene = "unavailable";
     return;
@@ -44,10 +44,9 @@ async function bootTravelScene(targetCanvas) {
 
   const radius = 2.05;
 
-  // Real Earth, textured at runtime from the same CDN that serves three.js.
+  // Real Earth, textured from files vendored into the repo (no CDN dependency).
   const textureLoader = new THREE.TextureLoader();
-  textureLoader.setCrossOrigin("anonymous");
-  const textureBase = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r161/examples/textures/planets/";
+  const textureBase = "./assets/planets/";
 
   const earthMaterial = new THREE.MeshPhongMaterial({
     color: 0x27384a,
@@ -168,7 +167,15 @@ async function bootTravelScene(targetCanvas) {
   const clock = new THREE.Clock();
   let frameId = 0;
 
+  // Only render while the canvas is actually on screen — no wasted battery
+  // once the reader scrolls past the hero.
+  let sceneVisible = true;
+
   function animate() {
+    if (!sceneVisible) {
+      frameId = 0;
+      return;
+    }
     const dt = Math.min(clock.getDelta(), 0.05);
     // Steady self-rotation, independent of scroll position.
     if (!prefersReducedMotion.matches) {
@@ -178,6 +185,15 @@ async function bootTravelScene(targetCanvas) {
     frameId = window.requestAnimationFrame(animate);
   }
 
+  const visibility = new IntersectionObserver(([entry]) => {
+    sceneVisible = entry.isIntersecting;
+    if (sceneVisible && frameId === 0) {
+      clock.getDelta();
+      frameId = window.requestAnimationFrame(animate);
+    }
+  });
+  visibility.observe(targetCanvas);
+
   updateStageFromScroll();
   window.addEventListener("scroll", updateStageFromScroll, { passive: true });
   window.addEventListener("resize", updateStageFromScroll);
@@ -185,6 +201,7 @@ async function bootTravelScene(targetCanvas) {
 
   window.addEventListener("pagehide", () => {
     window.cancelAnimationFrame(frameId);
+    visibility.disconnect();
     resizeObserver.disconnect();
     window.removeEventListener("scroll", updateStageFromScroll);
     window.removeEventListener("resize", updateStageFromScroll);
