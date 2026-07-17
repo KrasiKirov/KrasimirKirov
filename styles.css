@@ -771,6 +771,43 @@ h3 {
   100% { box-shadow: 0 0 0 0 transparent; }
 }
 
+/* ---------- field kit (skills strip) ---------- */
+.toolkit {
+  padding: 40px clamp(22px, 5vw, 96px) 8px;
+}
+.toolkit > .eyebrow { margin: 0 0 20px; }
+.toolkit-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(24px, 4vw, 64px);
+  row-gap: 0;
+  margin: 0;
+}
+.toolkit-groups > div {
+  display: grid;
+  grid-template-columns: minmax(110px, 150px) 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-top: 1px solid var(--hair);
+}
+.toolkit-groups dt {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--na);
+}
+.toolkit-groups dd {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.eligibility { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+
 /* ---------- projects (solo expeditions) ---------- */
 .project-section {
   --accent: var(--sa);
@@ -1149,6 +1186,7 @@ button:focus-visible,
   .travel-scene { height: 560px; }
   .journey-chapters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .proof-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .toolkit-groups { grid-template-columns: 1fr; column-gap: 0; }
   .experience-grid { grid-template-columns: 1fr; }
   .experience-feature { grid-template-columns: 1fr; }
   .feature-meta { flex-direction: row; flex-wrap: wrap; align-items: center; padding-right: 0; padding-bottom: 16px; border-right: 0; border-bottom: 1.5px dashed var(--hair); }
