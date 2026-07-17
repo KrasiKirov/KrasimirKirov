@@ -747,6 +747,7 @@ h3 {
 .project-meta strong { margin: 4px 0 0; font-family: var(--font-mono); font-size: 13.5px; }
 
 .story-header { justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+.story-actions { display: flex; align-items: center; gap: 10px; }
 .story-header h3 { margin: 0; font-size: clamp(30px, 3vw, 46px); }
 .story-summary { max-width: 70ch; font-size: 17px; line-height: 1.6; }
 
@@ -1069,6 +1070,8 @@ button:focus-visible,
   .section-stamp { display: none; }
   .repo-facts, .project-meta { grid-template-columns: 1fr; }
   .story-header { flex-direction: column; align-items: flex-start; }
+  .story-actions { width: 100%; }
+  .story-actions .compact { flex: 1; justify-content: center; }
   .primary-button, .secondary-button { width: 100%; }
   .compact { width: auto; }
   .section-divider::after { right: 2%; }
