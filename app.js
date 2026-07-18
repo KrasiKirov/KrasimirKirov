@@ -6,6 +6,21 @@ const projects = [
     primaryLanguage: "Python",
     category: "Streaming RAG / Backend",
     repoUrl: "https://github.com/KrasiKirov/freshet",
+    flagship: true,
+    coords: "63.42° N · 19.09° W",
+    role: "Solo",
+    status: "Benchmarked · live demo",
+    keyMetric: "0.81 recall@5",
+    uses: "python kafka postgresql pgvector fastapi rag anthropic docker sql",
+    elevator: "Freshness-first streaming RAG that answers on-call questions over live incidents in seconds.",
+    problem:
+      "During an incident, on-call engineers burn their first minutes reconstructing context — what changed, what's related, what fixed something similar — from data scattered across tools. The information that matters most is the newest, which is exactly what a nightly-batch index misses.",
+    approach:
+      "A Kafka pipeline ingests operational events (alerts, deploys, metrics, incident chat, postmortems), normalizes them, and indexes them into Postgres/pgvector within seconds. Queries run hybrid retrieval — dense bge-base embeddings plus Postgres full-text, fused with RRF and cross-encoder reranked — and answers come back LLM-written, grounded and cited. A separate Autopilot consumer reacts to incident lifecycle events and posts a cited brief on its own.",
+    outcome:
+      "Hybrid retrieval reaches recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark, beating either retrieval arm alone. A live demo drives the full local streaming stack against real Cloudflare, GitHub, and OpenAI status feeds, and each incident is briefed exactly once via a durable claim, so redelivery and restarts never double-post.",
+    hardPart:
+      "Making retrieval trustworthy rather than merely plausible: RRF-fused dense + lexical retrieval, cross-encoder reranking, citation verification, and abstention — so it answers with sources or admits it doesn't know, instead of hallucinating in the middle of an incident.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
@@ -40,6 +55,20 @@ const projects = [
     category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/Loop",
     liveUrl: "https://loop-dsa.vercel.app",
+    coords: "46.20° N · 6.14° E",
+    role: "Solo",
+    status: "Live",
+    keyMetric: "RLS + concurrency-safe Elo",
+    uses: "react node postgresql javascript sql",
+    elevator: "Competitive DSA interview prep with a chess-style rating and cheat-proof grading.",
+    problem:
+      "Studying DSA from static notes doesn't build the fast pattern recognition interviews actually test.",
+    approach:
+      "A React pattern hub with four quick card formats — identify the pattern, crux step, complexity, spot-the-bug — plus spaced repetition, streaks, and head-to-head duels. A Node/Express API grades server-side, and PostgreSQL Row-Level Security isolates every user's attempts and duels at the database layer under a two-role least-privilege setup.",
+    outcome:
+      "Deployed and playable: answer keys never reach the browser before you answer, so scores can't be faked, and concurrent duel submits can't double-apply a rating change.",
+    hardPart:
+      "Keeping the rating honest under concurrency: first-attempt-only Elo enforced by a uniqueness constraint, and duel resolution serialized with a row lock plus an atomic claim, so two simultaneous submits can never apply the same rating change twice.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
@@ -67,6 +96,20 @@ const projects = [
     primaryLanguage: "TypeScript",
     category: "Mobile App",
     repoUrl: "https://github.com/KrasiKirov/SpotifyPlaylistGenerator",
+    coords: "40.71° N · 74.01° W",
+    role: "Solo",
+    status: "Android APK",
+    keyMetric: "Mood → playlist",
+    uses: "typescript react fastapi openai python",
+    elevator: "Describe an evening in plain language; get a Spotify playlist composed for it.",
+    problem:
+      "Manual playlist curation is slow, and a mood is hard to express as a search query.",
+    approach:
+      "A React Native + Expo app authenticates with Spotify via PKCE, keeping access tokens in device secure storage. A FastAPI backend on Railway prompts OpenAI for a JSON-structured tracklist from the user's description plus optional genre, decade, and mood filters, then resolves each generated track against the Spotify catalog.",
+    outcome:
+      "Shipped as a standalone Android APK: users preview, remove, or rename before it writes a private playlist straight to their account.",
+    hardPart:
+      "Handling mobile auth properly: PKCE with access tokens living only in device secure storage and never persisted server-side, plus structured-JSON prompting so the songs the model invents reliably resolve to real catalog entries.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
@@ -97,6 +140,20 @@ const projects = [
     category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
     liveUrl: "https://brief-pdf-reader.vercel.app",
+    coords: "51.51° N · 0.13° W",
+    role: "Solo",
+    status: "Live",
+    keyMetric: "10–2,500 word control",
+    uses: "react node openai javascript",
+    elevator: "Drop in a PDF, set a word budget, get a faithful summary back.",
+    problem:
+      "Reading a long PDF end to end is slow when you only need the gist — and most summarizers ignore how long you actually want the result to be.",
+    approach:
+      "A React SPA uploads the document and a target length. An Express API on Railway extracts text with pdf.js-extract, counts and chunks tokens, and calls OpenAI — a single pass when the document fits the context window, recursive chunk-and-re-summarize when it doesn't.",
+    outcome:
+      "Deployed and length-controlled from 10 to 2,500 words, with per-IP rate limiting, request timeouts and retries, 20 MB PDF-only validation, and the API key kept server-side.",
+    hardPart:
+      "Staying faithful past the context window: recursively chunking and re-summarizing large documents so the final summary still reflects the whole PDF, not just the first slice that happened to fit.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
@@ -124,6 +181,20 @@ const projects = [
     primaryLanguage: "MATLAB",
     category: "Research / ML",
     repoUrl: "https://github.com/KrasiKirov/EMG_TQ_Modelling",
+    coords: "45.50° N · 73.58° W",
+    role: "Research",
+    status: "Research",
+    keyMetric: "System-ID vs ML",
+    uses: "python c",
+    elevator: "Predicting joint torque from EMG signals with system identification and machine learning.",
+    problem:
+      "Predicting joint torque from surface EMG is a core problem in prosthetics and rehabilitation engineering — and the EMG-to-torque relationship is nonlinear and noisy.",
+    approach:
+      "A MATLAB pipeline processes raw EMG and torque signals, extracts features, and fits parametric models to the neuromuscular input–output dynamics. Python scripts train regression models on the same feature vectors, and C/C++ components handle low-level signal processing for embedded or hardware-in-the-loop evaluation.",
+    outcome:
+      "A side-by-side comparison of classical system identification against learned regressors on real experimental data.",
+    hardPart:
+      "Separating what the nonlinear neuromuscular dynamics actually explain from what a model is merely memorising — by holding classical system identification and learned regressors to the same experimental data and features.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [],
