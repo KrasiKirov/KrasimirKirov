@@ -424,6 +424,8 @@ function renderProjects() {
   renderFlagship(flagship);
   renderFleet(projects.filter((project) => project !== flagship));
   renderFieldStations();
+  // re-wire: every render replaces these nodes, taking their listeners with them
+  initStationLink();
 }
 
 function render() {
@@ -664,9 +666,9 @@ function boot() {
   bindEvents();
   initThemeToggle();
   render();
-  // these run after render so the freshly painted project cards are wired
+  // the tool tokens are static markup, so this wires once; the station links
+  // re-wire inside renderProjects because those nodes are replaced each render
   initToolCrossLink();
-  initStationLink();
   const target = deepLinkTarget();
   if (target) scrollToProject(target);
   initCountUp();
