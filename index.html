@@ -249,7 +249,7 @@
             </div>
           </article>
 
-          <article class="experience-feature" data-continent="europe">
+          <article class="experience-feature" data-continent="europe" data-uses="aws redshift sql">
             <div class="feature-meta">
               <span class="dateline">Berlin, Germany</span>
               <span class="coordinate">52.52° N · 13.40° E</span>
@@ -273,21 +273,21 @@
 
           <p class="row-label"><span class="coordinate">45.50° N · 73.57° W</span> Home base — Montréal</p>
           <div class="experience-grid">
-            <article class="is-now">
+            <article class="is-now" data-uses="java angular">
               <span class="exp-head">Intact Insurance<span class="now-tag">Current</span></span>
               <span class="exp-dateline">May 2026 – present · Montréal</span>
               <strong>I'm building insurance platform features used by 35,000+ agents and brokers.</strong>
               <p>Full-stack Java and Angular on Personal Lines Requests, fixing production defects across interdependent services via root-cause analysis.</p>
               <span class="exp-metric">35,000+ agents &amp; brokers</span>
             </article>
-            <article>
+            <article data-uses="java kubernetes sql">
               <span class="exp-head">UKG</span>
               <span class="exp-dateline">May – Aug 2025 · Montréal</span>
               <strong>I debugged production scheduling and data-integrity issues.</strong>
               <p>Java on Kubernetes: resolved critical defects including data-integrity failures in the scheduling engine, validated with automated tests and API checks.</p>
               <span class="exp-metric">2,500+ orgs · 4 defects resolved</span>
             </article>
-            <article>
+            <article data-uses="csharp azure sql efcore cicd">
               <span class="exp-head">Pomerleau</span>
               <span class="exp-dateline">May – Aug 2023 · Apr – Sep 2024 · Montréal</span>
               <strong>I improved internal cloud tools across two terms.</strong>
@@ -298,25 +298,64 @@
         </section>
 
         <section class="toolkit" aria-labelledby="toolkit-title" data-journey-stage="production">
-          <h2 id="toolkit-title" class="eyebrow">Field kit</h2>
+          <div class="toolkit-head">
+            <h2 id="toolkit-title" class="eyebrow">Field kit</h2>
+            <span class="toolkit-ref" aria-hidden="true">Manifest · KK · 2027</span>
+            <span class="toolkit-stamp" aria-hidden="true">Checked</span>
+          </div>
           <dl class="toolkit-groups">
             <div>
               <dt>Languages</dt>
-              <dd>Java · Python · C# · JavaScript · TypeScript · SQL · C</dd>
+              <dd>
+                <span class="tool tool-primary" data-tool="java">Java</span>
+                <span class="tool tool-primary" data-tool="python">Python</span>
+                <span class="tool" data-tool="csharp">C#</span>
+                <span class="tool" data-tool="javascript">JavaScript</span>
+                <span class="tool" data-tool="typescript">TypeScript</span>
+                <span class="tool tool-primary" data-tool="sql">SQL</span>
+                <span class="tool" data-tool="c">C</span>
+              </dd>
             </div>
             <div>
               <dt>Cloud &amp; DevOps</dt>
-              <dd>AWS · Azure · Kubernetes · Docker · Kafka · Jenkins · CI/CD · Git</dd>
+              <dd>
+                <span class="tool tool-primary" data-tool="aws">AWS</span>
+                <span class="tool" data-tool="azure">Azure</span>
+                <span class="tool tool-primary" data-tool="kubernetes">Kubernetes</span>
+                <span class="tool" data-tool="docker">Docker</span>
+                <span class="tool tool-primary" data-tool="kafka">Kafka</span>
+                <span class="tool" data-tool="jenkins">Jenkins</span>
+                <span class="tool" data-tool="cicd">CI/CD</span>
+                <span class="tool" data-tool="git">Git</span>
+              </dd>
             </div>
             <div>
               <dt>Backend &amp; Data</dt>
-              <dd>Spring Boot · ASP.NET · Node/Express · FastAPI · PostgreSQL · Redshift · SQL Server · EF Core</dd>
+              <dd>
+                <span class="tool" data-tool="spring">Spring Boot</span>
+                <span class="tool" data-tool="aspnet">ASP.NET</span>
+                <span class="tool" data-tool="node">Node/Express</span>
+                <span class="tool" data-tool="fastapi">FastAPI</span>
+                <span class="tool tool-primary" data-tool="postgresql">PostgreSQL</span>
+                <span class="tool" data-tool="redshift">Redshift</span>
+                <span class="tool" data-tool="sqlserver">SQL Server</span>
+                <span class="tool" data-tool="efcore">EF Core</span>
+              </dd>
             </div>
             <div>
               <dt>Frontend &amp; AI</dt>
-              <dd>React · Angular · Vue · RAG · pgvector · OpenAI / Anthropic APIs</dd>
+              <dd>
+                <span class="tool tool-primary" data-tool="react">React</span>
+                <span class="tool" data-tool="angular">Angular</span>
+                <span class="tool" data-tool="vue">Vue</span>
+                <span class="tool" data-tool="rag">RAG</span>
+                <span class="tool" data-tool="pgvector">pgvector</span>
+                <span class="tool" data-tool="openai">OpenAI</span>
+                <span class="tool" data-tool="anthropic">Anthropic</span>
+              </dd>
             </div>
           </dl>
+          <p class="toolkit-hint">Hover a tool to trace where I've used it.</p>
         </section>
 
         <div class="section-divider" aria-hidden="true"><span>N 50.09°</span></div>

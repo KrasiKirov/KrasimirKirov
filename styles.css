@@ -935,27 +935,60 @@ h3 {
   transform: translateY(-1px);
 }
 
-/* ---------- field kit (skills strip) ---------- */
+/* ---------- field kit (skills manifest) ---------- */
 .toolkit {
-  padding: 44px clamp(22px, 5vw, 96px) 12px;
+  margin: 44px clamp(22px, 5vw, 96px) 12px;
+  padding: clamp(20px, 3vw, 32px) clamp(20px, 3vw, 36px) clamp(16px, 2.4vw, 26px);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  position: relative;
 }
-.toolkit > .eyebrow { margin: 0 0 4px; }
+.toolkit-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 6px;
+  padding-bottom: 16px;
+  border-bottom: 1.5px solid var(--hair);
+}
+.toolkit-head .eyebrow { margin: 0; }
+.toolkit-ref {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.toolkit-stamp {
+  margin-left: auto;
+  padding: 5px 11px;
+  border: 1.5px solid var(--sa);
+  border-radius: 4px;
+  color: var(--sa);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+}
 .toolkit-groups {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: clamp(28px, 5vw, 72px);
   row-gap: 0;
   margin: 0;
-  border-bottom: 1px solid var(--hair);
 }
 .toolkit-groups > div {
   display: grid;
-  grid-template-columns: minmax(112px, 150px) 1fr;
+  grid-template-columns: minmax(104px, 132px) 1fr;
   gap: 18px;
   align-items: baseline;
-  padding: 16px 0;
+  padding: 15px 0;
   border-top: 1px solid var(--hair);
 }
+.toolkit-groups > div:first-child,
+.toolkit-groups > div:nth-child(2) { border-top: 0; }
 .toolkit-groups dt {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -966,10 +999,65 @@ h3 {
 }
 .toolkit-groups dd {
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+/* every tool is its own token so it can be emphasised + cross-linked */
+.tool {
+  position: relative;
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+  cursor: default;
+  transition: color 140ms ease, opacity 140ms ease;
+}
+.tool::after {
+  content: "·";
+  margin-left: 12px;
+  color: var(--muted);
+  opacity: 0.5;
+}
+.tool:last-child::after { content: ""; margin: 0; }
+/* tier B — primary tools rise in the display serif */
+.tool-primary {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.01em;
   color: var(--ink);
-  font-size: 15px;
-  line-height: 1.7;
-  letter-spacing: 0.005em;
+}
+.toolkit-hint {
+  margin: 16px 0 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* tier C — tracing a tool to where it was actually used */
+.tool:hover, .tool:focus-visible { color: var(--na); outline: none; }
+.tool-active { color: var(--na) !important; }
+.tool-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 12px;
+  bottom: -3px;
+  height: 1.5px;
+  background: var(--na);
+}
+.tool:last-child.tool-active::before { right: 0; }
+/* dim everything that doesn't use the traced tool */
+body.tool-tracing [data-uses] { opacity: 0.34; transition: opacity 160ms ease, box-shadow 160ms ease; }
+body.tool-tracing [data-uses].tool-highlight {
+  opacity: 1;
+  box-shadow: 0 0 0 1.5px var(--na), var(--shadow-card);
+}
+@media (prefers-reduced-motion: reduce) {
+  body.tool-tracing [data-uses] { transition: none; }
 }
 
 /* work authorization in the border-control stamp vocabulary */

@@ -508,6 +508,38 @@ function initCountUp() {
   observer.observe(strip);
 }
 
+// Field-kit cross-link: pointing at a tool traces where it was actually used,
+// highlighting the matching experience and project cards.
+function initToolCrossLink() {
+  const tools = [...document.querySelectorAll(".tool[data-tool]")];
+  if (!tools.length) return;
+
+  const clear = () => {
+    document.querySelectorAll(".tool-highlight").forEach((el) => el.classList.remove("tool-highlight"));
+    document.querySelectorAll(".tool-active").forEach((el) => el.classList.remove("tool-active"));
+    document.body.classList.remove("tool-tracing");
+  };
+
+  const trace = (tool) => {
+    clear();
+    const slug = tool.dataset.tool;
+    const matches = document.querySelectorAll(`[data-uses~="${slug}"]`);
+    if (!matches.length) return;
+    tool.classList.add("tool-active");
+    matches.forEach((el) => el.classList.add("tool-highlight"));
+    document.body.classList.add("tool-tracing");
+  };
+
+  tools.forEach((tool) => {
+    // focusable so the trace is reachable by keyboard too
+    tool.tabIndex = 0;
+    tool.addEventListener("mouseenter", () => trace(tool));
+    tool.addEventListener("focus", () => trace(tool));
+    tool.addEventListener("mouseleave", clear);
+    tool.addEventListener("blur", clear);
+  });
+}
+
 // Dark-mode toggle. The pre-paint script in <head> already set data-theme;
 // here we just sync the button and let clicks flip + persist it.
 function initThemeToggle() {
@@ -531,6 +563,7 @@ function initThemeToggle() {
 function boot() {
   bindEvents();
   initThemeToggle();
+  initToolCrossLink();
   if (applyDeepLink()) scrollToProjects();
   render();
   initCountUp();
