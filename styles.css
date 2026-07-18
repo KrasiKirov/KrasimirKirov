@@ -422,6 +422,15 @@ h3 {
 }
 
 .passport-page {
+  /* the passport is a physical paper object — always light, in both themes.
+     Pin its tokens so ink/muted/accents never flip to the dark palette. */
+  --ink: #1f2a32;
+  --ink-2: #45535e;
+  --muted: #55626a;
+  --na: #1a6b91;
+  --eu: #c9552f;
+  --sa: #2c7a49;
+  --gold: #d99a24;
   position: absolute;
   inset: 9px 9px 9px 13px;
   display: flex;
