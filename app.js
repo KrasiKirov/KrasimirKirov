@@ -7,7 +7,7 @@ const projects = [
     category: "Streaming RAG / Backend",
     repoUrl: "https://github.com/KrasiKirov/freshet",
     flagship: true,
-    coords: "63.42° N · 19.09° W",
+    period: "Built 2026",
     role: "Solo",
     status: "Benchmarked · live demo",
     keyMetric: "0.81 recall@5",
@@ -55,7 +55,7 @@ const projects = [
     category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/Loop",
     liveUrl: "https://loop-dsa.vercel.app",
-    coords: "46.20° N · 6.14° E",
+    period: "Built 2026",
     role: "Solo",
     status: "Live",
     keyMetric: "RLS + concurrency-safe Elo",
@@ -97,7 +97,7 @@ const projects = [
     primaryLanguage: "TypeScript",
     category: "Mobile App",
     repoUrl: "https://github.com/KrasiKirov/SpotifyPlaylistGenerator",
-    coords: "40.71° N · 74.01° W",
+    period: "Built 2023",
     role: "Solo",
     status: "Android APK",
     keyMetric: "Mood → playlist",
@@ -141,7 +141,7 @@ const projects = [
     category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
     liveUrl: "https://brief-pdf-reader.vercel.app",
-    coords: "51.51° N · 0.13° W",
+    period: "Built 2023",
     role: "Solo",
     status: "Live",
     keyMetric: "10–2,500 word control",
@@ -183,7 +183,7 @@ const projects = [
     primaryLanguage: "MATLAB",
     category: "Research / ML",
     repoUrl: "https://github.com/KrasiKirov/EMG_TQ_Modelling",
-    coords: "45.50° N · 73.58° W",
+    period: "Built 2026",
     role: "Research",
     status: "Research",
     keyMetric: "System-ID vs ML",
@@ -275,40 +275,6 @@ function projectId(project) {
   return `project-${project.repo.toLowerCase()}`;
 }
 
-function languageEntries(project) {
-  if (project.languages && Object.keys(project.languages).length) {
-    return Object.entries(project.languages);
-  }
-  return [[project.primaryLanguage || "Unknown", 1]];
-}
-
-function buildLanguageChartSVG(project) {
-  const entries = languageEntries(project);
-  const total = entries.reduce((sum, [, value]) => sum + value, 0) || 1;
-  const colors = ["#1a6b91", "#c9552f", "#2c7a49", "#d99a24", "#5a8fa6", "#45535e"];
-  let y = 58;
-
-  const rows = entries
-    .slice(0, 6)
-    .map(([language, value], index) => {
-      const pct = Math.round((value / total) * 1000) / 10;
-      const width = Math.max(10, (value / total) * 460);
-      const color = colors[index % colors.length];
-      const row = `
-        <text class="chart-label" x="34" y="${y - 8}">${language}</text>
-        <rect x="210" y="${y - 24}" width="460" height="18" rx="4" fill="#e3dccb" />
-        <rect x="210" y="${y - 24}" width="${width}" height="18" rx="4" fill="${color}" />
-        <text class="chart-label" x="690" y="${y - 9}">${pct}%</text>
-      `;
-      y += 36;
-      return row;
-    })
-    .join("");
-
-  const svgHeight = Math.max(80, 22 + Math.min(entries.length, 6) * 36);
-  return `<svg class="language-chart-inline" viewBox="0 0 760 ${svgHeight}" role="img" aria-label="Repository language distribution">${rows}</svg>`;
-}
-
 function renderList(title, rows) {
   return `
     <section class="inspector-block">
@@ -344,7 +310,7 @@ function renderFlagship(project) {
     <article class="flagship" id="${projectId(project)}" data-uses="${project.uses}" data-label="${project.name}">
       <div class="flagship-head">
         <div class="flagship-title">
-          <span class="fr-coords">${project.coords}</span>
+          <span class="fr-coords">${project.period}</span>
           <h3>${project.name}</h3>
           <p class="fr-elevator">${project.elevator}</p>
         </div>
@@ -364,10 +330,6 @@ function renderFlagship(project) {
           ${hardPartBlock(project)}
           ${renderGallery(project)}
           ${project.numbers ? renderList("Numbers that back it", project.numbers) : ""}
-          <section class="inspector-block">
-            <h4>Language breakdown</h4>
-            ${buildLanguageChartSVG(project)}
-          </section>
         </div>
       </div>
     </article>`;
@@ -379,7 +341,7 @@ function renderFleet(list) {
       (project) => `
     <article class="field-report" id="${projectId(project)}" data-uses="${project.uses}" data-label="${project.name}">
       <div class="fr-top">
-        <span class="fr-coords">${project.coords}</span>
+        <span class="fr-coords">${project.period}</span>
         <span class="fr-status">${project.status}</span>
       </div>
       <h4>${project.name}</h4>
@@ -388,7 +350,7 @@ function renderFleet(list) {
       ${hardPartBlock(project, true)}
       <span class="fr-metric">${project.keyMetric}</span>
       <details class="fr-more">
-        <summary>Full field report</summary>
+        <summary>Problem, approach &amp; outcome</summary>
         <div class="fr-more-body">
           ${fieldReportBlocks(project)}
           ${renderGallery(project)}
@@ -410,7 +372,7 @@ function renderFieldStations() {
       <button class="station" type="button" data-station="${projectId(project)}" style="--i:${index}">
         <span class="station-pin" aria-hidden="true"></span>
         <span class="station-name">${project.name}</span>
-        <span class="station-coords">${project.coords}</span>
+        <span class="station-coords">${project.period}</span>
       </button>`
     )
     .join("");
