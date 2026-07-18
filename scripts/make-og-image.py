@@ -128,7 +128,7 @@ d.text((PAD, 322), "Software Engineering @ McGill — five internships", font=bo
 d.text((PAD, 356), "across two continents.", font=body(27), fill=INK2)
 
 # --- company row ---
-d.text((PAD, 424), "AWS BERLIN · UKG · INTACT · POMERLEAU", font=mono_b(20), fill=NA)
+d.text((PAD, 424), "AWS · UKG · INTACT · POMERLEAU", font=mono_b(20), fill=NA)
 
 # --- bottom rule + footer ---
 d.line([(PAD, 486), (W - PAD, 486)], fill=INK + (48,), width=1)
