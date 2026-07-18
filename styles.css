@@ -1017,14 +1017,6 @@ h3 {
   opacity: 0.5;
 }
 .tool:last-child::after { content: ""; margin: 0; }
-/* tier B — primary tools rise in the display serif */
-.tool-primary {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 19px;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-}
 .toolkit-hint {
   margin: 16px 0 0;
   font-family: var(--font-mono);
@@ -1033,9 +1025,9 @@ h3 {
   color: var(--muted);
 }
 
-/* tier C — tracing a tool to where it was actually used */
-.tool:hover, .tool:focus-visible { color: var(--na); outline: none; }
-.tool-active { color: var(--na) !important; }
+/* pointing at a tool names where it was used, in a bubble above it */
+.tool { cursor: help; }
+.tool:hover, .tool:focus-visible, .tool-active { color: var(--na); outline: none; }
 .tool-active::before {
   content: "";
   position: absolute;
@@ -1046,14 +1038,59 @@ h3 {
   background: var(--na);
 }
 .tool:last-child.tool-active::before { right: 0; }
-/* dim everything that doesn't use the traced tool */
-body.tool-tracing [data-uses] { opacity: 0.34; transition: opacity 160ms ease, box-shadow 160ms ease; }
-body.tool-tracing [data-uses].tool-highlight {
-  opacity: 1;
-  box-shadow: 0 0 0 1.5px var(--na), var(--shadow-card);
+
+.tool-bubble {
+  position: absolute;
+  z-index: 60;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  max-width: 300px;
+  padding: 9px 12px;
+  border: 1px solid var(--na);
+  border-radius: var(--radius-sm);
+  background: var(--panel-2);
+  box-shadow: var(--shadow-card);
+  pointer-events: none;
 }
-@media (prefers-reduced-motion: reduce) {
-  body.tool-tracing [data-uses] { transition: none; }
+.tool-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  transform: rotate(45deg);
+  border-right: 1px solid var(--na);
+  border-bottom: 1px solid var(--na);
+  background: var(--panel-2);
+}
+.tool-bubble.below::after {
+  bottom: auto;
+  top: -5px;
+  border: 0;
+  border-left: 1px solid var(--na);
+  border-top: 1px solid var(--na);
+}
+.tb-label {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.tb-place {
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--na) 14%, transparent);
+  color: var(--na);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
 }
 
 /* work authorization in the border-control stamp vocabulary */
@@ -1073,9 +1110,11 @@ body.tool-tracing [data-uses].tool-highlight {
 }
 .work-detail {
   color: var(--ink-2);
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  letter-spacing: 0.02em;
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
 }
 
 /* ---------- projects (solo expeditions) ---------- */

@@ -341,7 +341,7 @@ function renderGallery(project) {
 function renderFlagship(project) {
   const language = project.github?.language || project.primaryLanguage || "-";
   elements.flagshipSlot.innerHTML = `
-    <article class="flagship" id="${projectId(project)}" data-uses="${project.uses}">
+    <article class="flagship" id="${projectId(project)}" data-uses="${project.uses}" data-label="${project.name}">
       <div class="flagship-head">
         <div class="flagship-title">
           <span class="fr-coords">${project.coords}</span>
@@ -377,7 +377,7 @@ function renderFleet(list) {
   elements.fleetSlot.innerHTML = list
     .map(
       (project) => `
-    <article class="field-report" id="${projectId(project)}" data-uses="${project.uses}">
+    <article class="field-report" id="${projectId(project)}" data-uses="${project.uses}" data-label="${project.name}">
       <div class="fr-top">
         <span class="fr-coords">${project.coords}</span>
         <span class="fr-status">${project.status}</span>
@@ -587,36 +587,59 @@ function initCountUp() {
   observer.observe(strip);
 }
 
-// Field-kit cross-link: pointing at a tool traces where it was actually used,
-// highlighting the matching experience and project cards.
+// Field-kit: pointing at a tool shows a bubble naming where it was used.
 function initToolCrossLink() {
   const tools = [...document.querySelectorAll(".tool[data-tool]")];
   if (!tools.length) return;
 
-  const clear = () => {
-    document.querySelectorAll(".tool-highlight").forEach((el) => el.classList.remove("tool-highlight"));
+  let bubble = document.querySelector(".tool-bubble");
+  if (!bubble) {
+    bubble = document.createElement("div");
+    bubble.className = "tool-bubble";
+    bubble.setAttribute("role", "tooltip");
+    bubble.hidden = true;
+    document.body.appendChild(bubble);
+  }
+
+  const hide = () => {
+    bubble.hidden = true;
     document.querySelectorAll(".tool-active").forEach((el) => el.classList.remove("tool-active"));
-    document.body.classList.remove("tool-tracing");
   };
 
-  const trace = (tool) => {
-    clear();
+  const show = (tool) => {
     const slug = tool.dataset.tool;
-    const matches = document.querySelectorAll(`[data-uses~="${slug}"]`);
-    if (!matches.length) return;
+    const places = [...document.querySelectorAll(`[data-uses~="${slug}"]`)]
+      .map((el) => el.dataset.label)
+      .filter(Boolean);
+    if (!places.length) return;
+
+    bubble.innerHTML =
+      `<span class="tb-label">Used at</span>` +
+      places.map((p) => `<span class="tb-place">${p}</span>`).join("");
+    bubble.hidden = false;
     tool.classList.add("tool-active");
-    matches.forEach((el) => el.classList.add("tool-highlight"));
-    document.body.classList.add("tool-tracing");
+
+    // position centred above the token, clamped to the viewport
+    const r = tool.getBoundingClientRect();
+    const b = bubble.getBoundingClientRect();
+    const margin = 10;
+    let left = r.left + r.width / 2 - b.width / 2;
+    left = Math.max(margin, Math.min(left, window.innerWidth - b.width - margin));
+    let top = r.top - b.height - 10;
+    bubble.classList.toggle("below", top < margin);
+    if (top < margin) top = r.bottom + 10;
+    bubble.style.left = `${left + window.scrollX}px`;
+    bubble.style.top = `${top + window.scrollY}px`;
   };
 
   tools.forEach((tool) => {
-    // focusable so the trace is reachable by keyboard too
     tool.tabIndex = 0;
-    tool.addEventListener("mouseenter", () => trace(tool));
-    tool.addEventListener("focus", () => trace(tool));
-    tool.addEventListener("mouseleave", clear);
-    tool.addEventListener("blur", clear);
+    tool.addEventListener("mouseenter", () => show(tool));
+    tool.addEventListener("focus", () => show(tool));
+    tool.addEventListener("mouseleave", hide);
+    tool.addEventListener("blur", hide);
   });
+  window.addEventListener("scroll", hide, { passive: true });
 }
 
 // Hovering a field-station pin lifts its project card, and vice versa.
