@@ -570,14 +570,21 @@ function initToolCrossLink() {
 
   const show = (tool) => {
     const slug = tool.dataset.tool;
+    // places that exist as cards on this page …
     const places = [...document.querySelectorAll(`[data-uses~="${slug}"]`)]
       .map((el) => el.dataset.label)
       .filter(Boolean);
-    if (!places.length) return;
+    // … plus any that don't (coursework, older repos, "everywhere")
+    const extra = (tool.dataset.places || "")
+      .split("|")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const all = places.concat(extra);
+    if (!all.length) return;
 
     bubble.innerHTML =
       `<span class="tb-label">Used at</span>` +
-      places.map((p) => `<span class="tb-place">${p}</span>`).join("");
+      all.map((p) => `<span class="tb-place">${p}</span>`).join("");
     bubble.hidden = false;
     tool.classList.add("tool-active");
 
