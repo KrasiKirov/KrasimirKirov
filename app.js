@@ -592,13 +592,17 @@ function initToolCrossLink() {
     const r = tool.getBoundingClientRect();
     const b = bubble.getBoundingClientRect();
     const margin = 10;
-    let left = r.left + r.width / 2 - b.width / 2;
+    const centre = r.left + r.width / 2;
+    let left = centre - b.width / 2;
     left = Math.max(margin, Math.min(left, window.innerWidth - b.width - margin));
-    let top = r.top - b.height - 10;
+    let top = r.top - b.height - 9;
     bubble.classList.toggle("below", top < margin);
-    if (top < margin) top = r.bottom + 10;
+    if (top < margin) top = r.bottom + 9;
     bubble.style.left = `${left + window.scrollX}px`;
     bubble.style.top = `${top + window.scrollY}px`;
+    // keep the arrow pointing at the token even after clamping
+    const arrowX = Math.max(12, Math.min(centre - left, b.width - 12));
+    bubble.style.setProperty("--arrow-x", `${arrowX}px`);
   };
 
   tools.forEach((tool) => {
