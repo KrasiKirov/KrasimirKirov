@@ -1,5 +1,6 @@
 """Render the portfolio OG image (1200x630) in the site's expedition aesthetic."""
 from PIL import Image, ImageDraw, ImageFont
+import numpy as np
 import math, os
 
 S = os.path.dirname(os.path.abspath(__file__))
@@ -62,35 +63,65 @@ wash(1180, 40, 380, EU, 22)
 wash(980, 660, 460, SA, 22)
 d = ImageDraw.Draw(img, "RGBA")
 
-# --- globe: a soft sphere on the right, mirroring the hero poster ---
-GX, GY, GR = 940, 315, 232
-sphere = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-sd = ImageDraw.Draw(sphere)
-steps = 150
-for i in range(steps, 0, -1):
-    rr = GR * i / steps
-    t = i / steps
-    # ocean core -> lighter limb
-    base = (39, 87, 116)
-    lim  = (116, 192, 236)
-    c = tuple(int(base[k] + (lim[k] - base[k]) * (t ** 2.2)) for k in range(3))
-    a = int(210 * (1 - t ** 3.2) + 30)
-    sd.ellipse([GX - rr, GY - rr, GX + rr, GY + rr], fill=c + (min(a, 235),))
-# atmosphere halo
-for i in range(28):
-    rr = GR + i * 2.6
-    a = int(30 * (1 - i / 28))
-    sd.ellipse([GX - rr, GY - rr, GX + rr, GY + rr], outline=(116, 192, 236, a), width=3)
-# graticule
-for k in range(-2, 3):
-    ry = GR * math.cos(k * 0.42)
-    off = GR * math.sin(k * 0.42)
-    sd.ellipse([GX - GR, GY + off - ry * 0.30, GX + GR, GY + off + ry * 0.30],
-               outline=(255, 255, 255, 22), width=1)
-for k in range(6):
-    rx = GR * abs(math.cos(k * math.pi / 6))
-    sd.ellipse([GX - rx, GY - GR, GX + rx, GY + GR], outline=(255, 255, 255, 19), width=1)
-img = Image.alpha_composite(img.convert("RGBA"), sphere).convert("RGB")
+# --- globe: the real Earth, orthographically projected from the site's own
+# vendored texture. Centred on the mid-Atlantic so North America and Europe
+# are both in view — the "two continents" the copy talks about.
+GX, GY, GR = 1058, 306, 254   # bleeds off the right edge, clear of the name
+EARTH_TEX = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "assets", "planets", "earth_atmos_2048.jpg",
+)
+if not os.path.exists(EARTH_TEX):
+    EARTH_TEX = "/Users/krasi/Documents/GitHub/KrasimirKirov/assets/planets/earth_atmos_2048.jpg"
+
+def render_earth(size, lat0_deg, lon0_deg, tex_path, ss=3):
+    """Orthographic projection of an equirectangular Earth onto a sphere."""
+    tex = np.asarray(Image.open(tex_path).convert("RGB")).astype(np.float32)
+    th, tw = tex.shape[:2]
+    n = size * ss
+    yy, xx = np.mgrid[0:n, 0:n]
+    c = (n - 1) / 2.0
+    nx = (xx - c) / c
+    ny = -(yy - c) / c            # screen y is down; flip so +y is north
+    r2 = nx ** 2 + ny ** 2
+    nz = np.sqrt(np.clip(1.0 - r2, 0, 1))
+
+    lat0, lon0 = math.radians(lat0_deg), math.radians(lon0_deg)
+    ca, sa = math.cos(-lat0), math.sin(-lat0)
+    x1, y1, z1 = nx, ny * ca - nz * sa, ny * sa + nz * ca      # tilt to latitude
+    cb, sb = math.cos(lon0), math.sin(lon0)
+    xw, yw, zw = x1 * cb + z1 * sb, y1, -x1 * sb + z1 * cb     # spin to longitude
+
+    lat = np.arcsin(np.clip(yw, -1, 1))
+    lon = np.arctan2(xw, zw)
+    u = np.clip((((lon + math.pi) / (2 * math.pi)) * (tw - 1)).astype(np.int32), 0, tw - 1)
+    v = np.clip((((math.pi / 2 - lat) / math.pi) * (th - 1)).astype(np.int32), 0, th - 1)
+    rgb = tex[v, u]
+
+    # key light from the upper left, matching the hero's lighting
+    L = np.array([-0.42, 0.34, 0.84]); L /= np.linalg.norm(L)
+    ndotl = np.clip(nx * L[0] + ny * L[1] + nz * L[2], 0, 1)
+    rgb = rgb * (0.34 + 0.86 * ndotl)[..., None]
+
+    # atmospheric limb
+    rim = np.clip((np.sqrt(np.clip(r2, 0, 1)) - 0.82) / 0.18, 0, 1)[..., None]
+    rgb = rgb * (1 - rim * 0.5) + np.array([116, 192, 236], np.float32) * (rim * 0.5)
+
+    alpha = np.clip((1.0 - np.sqrt(np.clip(r2, 0, 4))) * (n / 2.0), 0, 1) * 255
+    out = np.dstack([np.clip(rgb, 0, 255).astype(np.uint8), alpha.astype(np.uint8)])
+    return Image.fromarray(out, "RGBA").resize((size, size), Image.LANCZOS)
+
+glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+gd = ImageDraw.Draw(glow)
+for i in range(34):
+    rr = GR + i * 3.0
+    gd.ellipse([GX - rr, GY - rr, GX + rr, GY + rr],
+               outline=(116, 192, 236, int(26 * (1 - i / 34))), width=3)
+img = Image.alpha_composite(img.convert("RGBA"), glow)
+
+earth = render_earth(GR * 2, 38.0, -42.0, EARTH_TEX)
+img.paste(earth, (GX - GR, GY - GR), earth)
+img = img.convert("RGB")
 d = ImageDraw.Draw(img, "RGBA")
 
 # left scrim so copy stays crisp over the globe
@@ -98,10 +129,10 @@ scrim = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 sc = ImageDraw.Draw(scrim)
 for x in range(W):
     t = x / W
-    if t < 0.42:
+    if t < 0.36:
         a = 255
-    elif t < 0.74:
-        a = int(255 * (1 - (t - 0.42) / 0.32))
+    elif t < 0.64:
+        a = int(255 * (1 - (t - 0.36) / 0.28))
     else:
         a = 0
     if a:
@@ -130,25 +161,30 @@ d.text((PAD, 356), "across two continents.", font=body(27), fill=INK2)
 # --- company row ---
 d.text((PAD, 424), "AWS · UKG · INTACT · POMERLEAU", font=mono_b(20), fill=NA)
 
-# --- bottom rule + footer ---
-d.line([(PAD, 486), (W - PAD, 486)], fill=INK + (48,), width=1)
-d.text((PAD, 512), "krasikirov.github.io/KrasimirKirov", font=mono(21), fill=INK2)
+# --- bottom rule + footer (rule stops short of the globe) ---
+d.line([(PAD, 474), (786, 474)], fill=INK + (48,), width=1)
+URL = "krasikirov.github.io/KrasimirKirov"
+f_url = mono(21)
+d.text((PAD, 508), URL, font=f_url, fill=INK2)
+url_right = PAD + (d.textbbox((0, 0), URL, font=f_url)[2])
 
 # --- "open to 2027" stamp, rotated like the passport stamps ---
-st_w, st_h = 340, 74
+st_w, st_h = 250, 62
 stamp = Image.new("RGBA", (st_w, st_h), (0, 0, 0, 0))
 sdw = ImageDraw.Draw(stamp)
-sdw.rounded_rectangle([2, 2, st_w - 3, st_h - 3], radius=8, outline=EU + (235,), width=3)
-f_st = mono_b(23)
+sdw.rounded_rectangle([2, 2, st_w - 3, st_h - 3], radius=7, outline=EU + (235,), width=3)
+f_st = mono_b(18)
 txt = "OPEN TO 2027"
 tb = sdw.textbbox((0, 0), txt, font=f_st)
-sdw.text(((st_w - (tb[2] - tb[0])) / 2, 12), txt, font=f_st, fill=EU + (235,))
-f_st2 = mono(15)
+sdw.text(((st_w - (tb[2] - tb[0])) / 2, 11), txt, font=f_st, fill=EU + (235,))
+f_st2 = mono(11)
 txt2 = "NEW-GRAD ROLES"
 tb2 = sdw.textbbox((0, 0), txt2, font=f_st2)
-sdw.text(((st_w - (tb2[2] - tb2[0])) / 2, 45), txt2, font=f_st2, fill=EU + (215,))
+sdw.text(((st_w - (tb2[2] - tb2[0])) / 2, 38), txt2, font=f_st2, fill=EU + (215,))
 stamp = stamp.rotate(4.5, resample=Image.BICUBIC, expand=True)
-img.paste(stamp, (W - PAD - stamp.width - 14, 458), stamp)
+# sits on the paper beside the URL — clear of both the text and the Earth
+stamp_x = max(url_right + 30, 790 - stamp.width)
+img.paste(stamp, (int(stamp_x), 496), stamp)
 
 # --- corner ticks (field-notes framing) ---
 def tick(x, y, dx, dy):
