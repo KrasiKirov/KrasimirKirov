@@ -72,6 +72,7 @@ const projects = [
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
+      { src: "assets/loop/architecture.svg", alt: "Loop architecture — server-authoritative grading into PostgreSQL with Row-Level Security, and duel submits serialised by a row lock and atomic claim before the Elo update" },
       { src: "assets/loop/hub.png", alt: "Loop pattern hub — pick a pattern, see mastery and rating, start drilling" },
       { src: "assets/loop/drill.png", alt: "Loop drill card — four options with a live skill-rating meter" }
     ],
@@ -157,6 +158,7 @@ const projects = [
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
+      { src: "assets/briefpdf/architecture.svg", alt: "BriefPDF Reader architecture — extract and chunk tokens, then summarise in a single pass or recursively chunk-and-re-summarise when the document exceeds the context window" },
       { src: "assets/briefpdf/landing.jpg", alt: "BriefPDF Reader landing — an editorial document condenser; choose a PDF and set a target length, then condense" },
       { src: "assets/briefpdf/result.jpg", alt: "BriefPDF Reader summary — the length-controlled output rendered as a clean, typeset Markdown excerpt" }
     ],

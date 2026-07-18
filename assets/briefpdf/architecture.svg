@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BriefPDF Reader architecture: a React client uploads a PDF and a word budget to an Express API, which extracts text, counts and chunks tokens, then either summarises in a single pass when the document fits the context window or recursively chunks and re-summarises when it does not">
+  <defs>
+    <marker id="pdfArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#45535e" />
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #f7f1e3; stroke-width: 1.5; }
+    .t { font-family: "Space Mono", ui-monospace, monospace; font-size: 13px; font-weight: 700; fill: #1e2833; }
+    .s { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; fill: #45535e; }
+    .row { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; fill: #c9552f; }
+    .wire { stroke: #45535e; stroke-width: 1.5; fill: none; }
+    .cond { font-family: "Space Mono", ui-monospace, monospace; font-size: 9.5px; fill: #45535e; font-weight: 700; }
+  </style>
+  <rect x="0" y="0" width="760" height="300" fill="#f2ecdd" stroke="#d9d0bb" />
+
+  <text class="row" x="14" y="26">01 — INTAKE</text>
+  <rect class="box" x="14" y="38" width="186" height="54" rx="10" stroke="#45535e" />
+  <text class="t" x="26" y="60">PDF + word budget</text>
+  <text class="s" x="26" y="78">10 – 2,500 words</text>
+
+  <line class="wire" x1="200" y1="65" x2="234" y2="65" marker-end="url(#pdfArrow)" />
+
+  <rect class="box" x="236" y="38" width="232" height="54" rx="10" stroke="#45535e" />
+  <text class="t" x="248" y="60">Express API</text>
+  <text class="s" x="248" y="78">pdf.js-extract · token count &amp; chunk</text>
+
+  <line class="wire" x1="468" y1="65" x2="502" y2="65" marker-end="url(#pdfArrow)" />
+
+  <rect class="box" x="504" y="38" width="242" height="54" rx="10" stroke="#45535e" />
+  <text class="t" x="516" y="60">Fits context window?</text>
+  <text class="s" x="516" y="78">branch on token count</text>
+
+  <text class="row" x="14" y="146">02 — SUMMARISE</text>
+
+  <path class="wire" d="M 625 92 L 625 116 L 300 116 L 300 158" marker-end="url(#pdfArrow)" />
+  <text class="cond" x="306" y="134">yes</text>
+  <rect class="box" x="150" y="160" width="300" height="52" rx="10" stroke="#2c7a49" />
+  <text class="t" x="162" y="182">Single pass</text>
+  <text class="s" x="162" y="200">one OpenAI call, length-controlled</text>
+
+  <path class="wire" d="M 625 92 L 625 116 L 640 116 L 640 158" marker-end="url(#pdfArrow)" />
+  <text class="cond" x="648" y="134">no</text>
+  <rect class="box" x="470" y="160" width="276" height="52" rx="10" stroke="#c9552f" />
+  <text class="t" x="482" y="182">Chunk → re-summarise</text>
+  <text class="s" x="482" y="200">recursive, until it fits</text>
+
+  <path class="wire" d="M 300 212 L 300 238 L 380 238" marker-end="url(#pdfArrow)" />
+  <path class="wire" d="M 608 212 L 608 238 L 528 238" marker-end="url(#pdfArrow)" />
+  <rect class="box" x="382" y="216" width="146" height="46" rx="10" stroke="#2c7a49" />
+  <text class="t" x="394" y="238">Markdown</text>
+  <text class="s" x="394" y="254">faithful · budgeted</text>
+</svg>

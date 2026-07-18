@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Loop architecture: the React client posts answers to a server-authoritative Express API, which grades against keys the browser never sees and writes to PostgreSQL under Row-Level Security; duel submits are serialised with a row lock and atomic claim before the Elo update">
+  <defs>
+    <marker id="loopArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#45535e" />
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #f7f1e3; stroke-width: 1.5; }
+    .t { font-family: "Space Mono", ui-monospace, monospace; font-size: 13px; font-weight: 700; fill: #1e2833; }
+    .s { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; fill: #45535e; }
+    .row { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; fill: #1a6b91; }
+    .wire { stroke: #45535e; stroke-width: 1.5; fill: none; }
+    .guard { font-family: "Space Mono", ui-monospace, monospace; font-size: 9.5px; fill: #2c7a49; font-weight: 700; }
+  </style>
+  <rect x="0" y="0" width="760" height="300" fill="#f2ecdd" stroke="#d9d0bb" />
+
+  <text class="row" x="14" y="26">01 — ANSWER A CARD</text>
+  <rect class="box" x="14" y="38" width="168" height="54" rx="10" stroke="#45535e" />
+  <text class="t" x="26" y="60">React client</text>
+  <text class="s" x="26" y="78">pattern hub · drill cards</text>
+
+  <line class="wire" x1="182" y1="65" x2="216" y2="65" marker-end="url(#loopArrow)" />
+  <text class="s" x="186" y="56">answer</text>
+
+  <rect class="box" x="218" y="38" width="228" height="54" rx="10" stroke="#1a6b91" />
+  <text class="t" x="230" y="60">Express API</text>
+  <text class="s" x="230" y="78">server-authoritative grading</text>
+
+  <line class="wire" x1="446" y1="65" x2="480" y2="65" marker-end="url(#loopArrow)" />
+
+  <rect class="box" x="482" y="38" width="264" height="54" rx="10" stroke="#1a6b91" />
+  <text class="t" x="494" y="60">PostgreSQL + RLS</text>
+  <text class="s" x="494" y="78">per-user isolation · two-role least privilege</text>
+
+  <text class="guard" x="230" y="112">answer keys never reach the browser first → scores can't be faked</text>
+
+  <text class="row" x="14" y="158">02 — DUEL SUBMIT (CONCURRENT)</text>
+  <rect class="box" x="14" y="170" width="168" height="54" rx="10" stroke="#45535e" />
+  <text class="t" x="26" y="192">Two players</text>
+  <text class="s" x="26" y="210">submit at the same time</text>
+
+  <line class="wire" x1="182" y1="197" x2="216" y2="197" marker-end="url(#loopArrow)" />
+
+  <rect class="box" x="218" y="170" width="228" height="54" rx="10" stroke="#c9552f" />
+  <text class="t" x="230" y="192">Row lock + atomic claim</text>
+  <text class="s" x="230" y="210">duel resolution serialised</text>
+
+  <line class="wire" x1="446" y1="197" x2="480" y2="197" marker-end="url(#loopArrow)" />
+
+  <rect class="box" x="482" y="170" width="264" height="54" rx="10" stroke="#2c7a49" />
+  <text class="t" x="494" y="192">Elo applied once</text>
+  <text class="s" x="494" y="210">first-attempt-only via uniqueness constraint</text>
+
+  <text class="guard" x="230" y="244">no double-apply, even under simultaneous submits</text>
+</svg>
