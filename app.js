@@ -400,11 +400,30 @@ function renderFleet(list) {
     .join("");
 }
 
+// A slim "field stations" strip: one pin per repo, cross-highlighting its card.
+function renderFieldStations() {
+  const strip = document.querySelector("#field-stations");
+  if (!strip) return;
+  strip.innerHTML = projects
+    .map(
+      (project, index) => `
+      <button class="station" type="button" data-station="${projectId(project)}" style="--i:${index}">
+        <span class="station-pin" aria-hidden="true"></span>
+        <span class="station-name">${project.name}</span>
+        <span class="station-coords">${project.coords}</span>
+      </button>`
+    )
+    .join("");
+  strip.removeAttribute("aria-hidden");
+  strip.setAttribute("aria-label", "Jump to a project");
+}
+
 function renderProjects() {
   elements.serviceCount.textContent = `${projects.length} of ${publicRepos} repos`;
   const flagship = projects.find((project) => project.flagship) || projects[0];
   renderFlagship(flagship);
   renderFleet(projects.filter((project) => project !== flagship));
+  renderFieldStations();
 }
 
 function render() {
@@ -465,6 +484,17 @@ function bindEvents() {
     const actionButton = event.target.closest("[data-action]");
     const shotButton = event.target.closest("[data-lightbox-src]");
     const lightboxClose = event.target.closest("[data-lightbox-close]");
+    const station = event.target.closest("[data-station]");
+
+    if (station) {
+      const card = document.getElementById(station.dataset.station);
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", block: "start" });
+        card.classList.add("project-flash");
+        setTimeout(() => card.classList.remove("project-flash"), 1600);
+      }
+      return;
+    }
 
     if (shotButton) {
       openLightbox(shotButton.dataset.lightboxSrc, shotButton.dataset.lightboxAlt);
@@ -587,6 +617,29 @@ function initToolCrossLink() {
   });
 }
 
+// Hovering a field-station pin lifts its project card, and vice versa.
+function initStationLink() {
+  const stations = [...document.querySelectorAll("[data-station]")];
+  stations.forEach((station) => {
+    const card = document.getElementById(station.dataset.station);
+    if (!card) return;
+    const on = () => {
+      station.classList.add("station-active");
+      card.classList.add("station-target");
+    };
+    const off = () => {
+      station.classList.remove("station-active");
+      card.classList.remove("station-target");
+    };
+    station.addEventListener("mouseenter", on);
+    station.addEventListener("focus", on);
+    station.addEventListener("mouseleave", off);
+    station.addEventListener("blur", off);
+    card.addEventListener("mouseenter", on);
+    card.addEventListener("mouseleave", off);
+  });
+}
+
 // Dark-mode toggle. The pre-paint script in <head> already set data-theme;
 // here we just sync the button and let clicks flip + persist it.
 function initThemeToggle() {
@@ -611,8 +664,9 @@ function boot() {
   bindEvents();
   initThemeToggle();
   render();
-  // cross-link runs after render so the freshly painted project cards are wired
+  // these run after render so the freshly painted project cards are wired
   initToolCrossLink();
+  initStationLink();
   const target = deepLinkTarget();
   if (target) scrollToProject(target);
   initCountUp();
