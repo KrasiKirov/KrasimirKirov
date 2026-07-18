@@ -213,10 +213,6 @@ const projects = [
   }
 ];
 
-const state = {
-  selectedRepo: projects[0].repo
-};
-
 // "loading" until the GitHub API round-trips, then "done" (whether it succeeded or not).
 let githubStatus = "loading";
 
@@ -224,27 +220,12 @@ let githubStatus = "loading";
 let publicRepos = 24;
 
 const elements = {
-  servicesList: document.querySelector("#services-list"),
-  activeServiceLabel: document.querySelector("#active-service-label"),
-  activeServiceSummary: document.querySelector("#active-service-summary"),
-  languageMetric: document.querySelector("#language-metric"),
-  languageDelta: document.querySelector("#language-delta"),
-  categoryMetric: document.querySelector("#category-metric"),
-  categoryDelta: document.querySelector("#category-delta"),
-  updatedMetric: document.querySelector("#updated-metric"),
-  updatedDelta: document.querySelector("#updated-delta"),
-  inspectorTitle: document.querySelector("#inspector-title"),
-  inspectorContent: document.querySelector("#inspector-content"),
-  repoLink: document.querySelector("#repo-link"),
-  liveLink: document.querySelector("#live-link"),
+  flagshipSlot: document.querySelector("#flagship-slot"),
+  fleetSlot: document.querySelector("#fleet-slot"),
   serviceCount: document.querySelector("#service-count"),
   lightbox: document.querySelector("#lightbox"),
   lightboxImage: document.querySelector("#lightbox-image")
 };
-
-function selectedProject() {
-  return projects.find((project) => project.repo === state.selectedRepo) || projects[0];
-}
 
 function formatDate(dateString) {
   if (!dateString) return "-";
@@ -258,66 +239,38 @@ function updatedText(project) {
   return "—";
 }
 
-function renderProjects() {
-  elements.serviceCount.textContent = `${projects.length} of ${publicRepos} repos`;
-  elements.servicesList.innerHTML = projects
-    .map((project) => {
-      const active = project.repo === state.selectedRepo ? "active" : "";
-      const language = project.github?.language || project.primaryLanguage;
-      const category = project.category || "-";
-      const badges = project.stack
-        .map((t) => `<span class="badge badge-${t.color}">${t.label}</span>`)
-        .join("");
-      return `
-        <button class="project-card ${active}" type="button" data-service-id="${project.repo}">
-          <div class="project-card-header">
-            <div>
-              <strong>${project.name}</strong>
-              <small>${project.summary}</small>
-            </div>
-          </div>
-          <div class="stack-badges">${badges}</div>
-          <div class="project-meta">
-            <div><span>Language</span><strong>${language || "-"}</strong></div>
-            <div><span>Category</span><strong>${category}</strong></div>
-            <div><span>Last Updated</span><strong>${updatedText(project)}</strong></div>
-          </div>
-        </button>
-      `;
-    })
-    .join("");
+function stackTokens(project) {
+  return project.stack.map((t) => `<span class="badge badge-${t.color}">${t.label}</span>`).join("");
 }
 
-function renderMetrics(project) {
-  const github = project.github;
-  elements.activeServiceLabel.textContent = project.repo;
-  elements.activeServiceSummary.textContent = project.summary;
-  elements.inspectorTitle.textContent = project.name;
-  elements.repoLink.href = project.repoUrl;
-  elements.liveLink.hidden = !project.liveUrl;
-  if (project.liveUrl) elements.liveLink.href = project.liveUrl;
+function specRow(label, value) {
+  return `<div><span>${label}</span><strong>${value}</strong></div>`;
+}
 
-  const language = github?.language || project.primaryLanguage || "-";
-  elements.languageMetric.textContent = language;
-  elements.languageDelta.textContent = "primary language";
-  
-  elements.categoryMetric.textContent = project.category || "-";
-  elements.categoryDelta.textContent = "project type";
+function projectActions(project) {
+  const live = project.liveUrl
+    ? `<a class="primary-button compact" href="${project.liveUrl}" target="_blank" rel="noreferrer">Live Demo</a>`
+    : "";
+  return `<div class="story-actions">${live}<a class="secondary-button compact" href="${project.repoUrl}" target="_blank" rel="noreferrer">Open Repo</a></div>`;
+}
 
-  
-  if (github) {
-    elements.updatedMetric.textContent = formatDate(github.pushed_at || github.updated_at);
-    elements.updatedMetric.classList.remove("skeleton");
-    elements.updatedDelta.textContent = "last update";
-  } else if (githubStatus === "loading") {
-    elements.updatedMetric.textContent = "";
-    elements.updatedMetric.classList.add("skeleton");
-    elements.updatedDelta.textContent = "checking GitHub…";
-  } else {
-    elements.updatedMetric.textContent = "—";
-    elements.updatedMetric.classList.remove("skeleton");
-    elements.updatedDelta.textContent = "GitHub unavailable";
-  }
+function hardPartBlock(project, small) {
+  return `
+    <div class="hard-part${small ? " hard-part-sm" : ""}">
+      <span class="hp-label">The hard part</span>
+      <p>${project.hardPart}</p>
+    </div>`;
+}
+
+function fieldReportBlocks(project) {
+  return `
+    <section class="fr-block"><h4>Problem</h4><p>${project.problem}</p></section>
+    <section class="fr-block"><h4>Approach</h4><p>${project.approach}</p></section>
+    <section class="fr-block"><h4>Outcome</h4><p>${project.outcome}</p></section>`;
+}
+
+function projectId(project) {
+  return `project-${project.repo.toLowerCase()}`;
 }
 
 function languageEntries(project) {
@@ -365,17 +318,6 @@ function renderList(title, rows) {
   `;
 }
 
-function renderSimpleList(title, rows) {
-  return `
-    <section class="inspector-block">
-      <h4>${title}</h4>
-      <ul class="inspector-list">
-        ${rows.map((text) => `<li><span>Next</span><strong>${text}</strong></li>`).join("")}
-      </ul>
-    </section>
-  `;
-}
-
 function renderGallery(project) {
   if (!project.images?.length) return "";
   const shots = project.images
@@ -394,44 +336,77 @@ function renderGallery(project) {
   `;
 }
 
-function renderProjectStory(project) {
-  const badges = project.stack
-    .map((t) => `<span class="badge badge-${t.color}">${t.label}</span>`)
+function renderFlagship(project) {
+  const language = project.github?.language || project.primaryLanguage || "-";
+  elements.flagshipSlot.innerHTML = `
+    <article class="flagship" id="${projectId(project)}" data-uses="${project.uses}">
+      <div class="flagship-head">
+        <div class="flagship-title">
+          <span class="fr-coords">${project.coords}</span>
+          <h3>${project.name}</h3>
+          <p class="fr-elevator">${project.elevator}</p>
+        </div>
+        ${projectActions(project)}
+      </div>
+      <div class="flagship-body">
+        <aside class="spec-sheet">
+          ${specRow("Role", project.role)}
+          ${specRow("Status", project.status)}
+          ${specRow("Key metric", project.keyMetric)}
+          ${specRow("Language", language)}
+          ${specRow("Updated", updatedText(project))}
+          <div class="spec-stack">${stackTokens(project)}</div>
+        </aside>
+        <div class="flagship-report">
+          ${fieldReportBlocks(project)}
+          ${hardPartBlock(project)}
+          ${renderGallery(project)}
+          ${project.numbers ? renderList("Numbers that back it", project.numbers) : ""}
+          <section class="inspector-block">
+            <h4>Language breakdown</h4>
+            ${buildLanguageChartSVG(project)}
+          </section>
+        </div>
+      </div>
+    </article>`;
+}
+
+function renderFleet(list) {
+  elements.fleetSlot.innerHTML = list
+    .map(
+      (project) => `
+    <article class="field-report" id="${projectId(project)}" data-uses="${project.uses}">
+      <div class="fr-top">
+        <span class="fr-coords">${project.coords}</span>
+        <span class="fr-status">${project.status}</span>
+      </div>
+      <h4>${project.name}</h4>
+      <p class="fr-elevator">${project.elevator}</p>
+      <div class="stack-badges">${stackTokens(project)}</div>
+      ${hardPartBlock(project, true)}
+      <span class="fr-metric">${project.keyMetric}</span>
+      <details class="fr-more">
+        <summary>Full field report</summary>
+        <div class="fr-more-body">
+          ${fieldReportBlocks(project)}
+          ${renderGallery(project)}
+        </div>
+      </details>
+      ${projectActions(project)}
+    </article>`
+    )
     .join("");
-  elements.inspectorContent.innerHTML = `
-    <div class="stack-badges">${badges}</div>
-    ${renderGallery(project)}
-    <section class="inspector-block">
-      <h4>Why I built it</h4>
-      <p>${project.why}</p>
-    </section>
-    ${renderList("What I built", project.built)}
-    ${project.numbers ? renderList("Numbers that back it", project.numbers) : ""}
-    <section class="inspector-block">
-      <h4>Language breakdown</h4>
-      ${buildLanguageChartSVG(project)}
-    </section>
-  `;
+}
+
+function renderProjects() {
+  elements.serviceCount.textContent = `${projects.length} of ${publicRepos} repos`;
+  const flagship = projects.find((project) => project.flagship) || projects[0];
+  renderFlagship(flagship);
+  renderFleet(projects.filter((project) => project !== flagship));
 }
 
 function render() {
-  const project = selectedProject();
   renderProjects();
-  renderMetrics(project);
-  renderProjectStory(project);
-}
-
-function selectProject(repo) {
-  const project = projects.find((item) => item.repo === repo);
-  if (!project) return;
-  state.selectedRepo = project.repo;
-  render();
-  history.replaceState(null, "", `#projects/${project.repo}`);
-  // On mobile the detail panel sits below the card list, so make the jump to
-  // it visible instead of leaving the reader wondering what changed.
-  if (window.matchMedia("(max-width: 1020px)").matches) {
-    document.querySelector(".project-story-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
 }
 
 function applyGithubData(data) {
@@ -485,7 +460,6 @@ function closeLightbox() {
 
 function bindEvents() {
   document.addEventListener("click", (event) => {
-    const projectButton = event.target.closest("[data-service-id]");
     const actionButton = event.target.closest("[data-action]");
     const shotButton = event.target.closest("[data-lightbox-src]");
     const lightboxClose = event.target.closest("[data-lightbox-close]");
@@ -500,10 +474,6 @@ function bindEvents() {
       return;
     }
 
-    if (projectButton) {
-      selectProject(projectButton.dataset.serviceId);
-    }
-
     if (!actionButton) return;
 
     const action = actionButton.dataset.action;
@@ -515,23 +485,27 @@ function bindEvents() {
   });
 }
 
-// Deep links: #projects/<repo> preselects that project and scrolls to it.
-function applyDeepLink() {
+// Deep links: #projects/<repo> jumps to that project's card and flags it.
+function deepLinkTarget() {
   const match = location.hash.match(/^#projects\/(.+)$/i);
-  if (!match) return false;
+  if (!match) return null;
   const wanted = decodeURIComponent(match[1]).toLowerCase();
-  const hit = projects.find((project) => project.repo.toLowerCase() === wanted);
-  if (!hit) return false;
-  state.selectedRepo = hit.repo;
-  return true;
+  return projects.find((project) => project.repo.toLowerCase() === wanted) || null;
 }
 
-function scrollToProjects() {
+function scrollToProject(project) {
   // Instant jump (smooth scrolling gets interrupted by layout shifts while the
   // page is still loading). Scroll restoration must be off, or the browser's
   // deferred restore overrides this after load.
   history.scrollRestoration = "manual";
-  const scroll = () => document.getElementById("projects")?.scrollIntoView({ behavior: "instant" });
+  const scroll = () => {
+    const card = project ? document.getElementById(projectId(project)) : null;
+    (card || document.getElementById("projects"))?.scrollIntoView({ behavior: "instant" });
+    if (card) {
+      card.classList.add("project-flash");
+      setTimeout(() => card.classList.remove("project-flash"), 1600);
+    }
+  };
   // setTimeout, not requestAnimationFrame: rAF never fires in a background tab.
   // Re-anchor after load (and once more shortly after) so late layout shifts
   // from image loads can't leave the section misaligned.
@@ -634,16 +608,16 @@ function initThemeToggle() {
 function boot() {
   bindEvents();
   initThemeToggle();
-  initToolCrossLink();
-  if (applyDeepLink()) scrollToProjects();
   render();
+  // cross-link runs after render so the freshly painted project cards are wired
+  initToolCrossLink();
+  const target = deepLinkTarget();
+  if (target) scrollToProject(target);
   initCountUp();
   refreshGithubData();
   window.addEventListener("hashchange", () => {
-    if (applyDeepLink()) {
-      render();
-      scrollToProjects();
-    }
+    const next = deepLinkTarget();
+    if (next) scrollToProject(next);
   });
 }
 
