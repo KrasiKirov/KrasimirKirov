@@ -154,12 +154,14 @@ d.line([(PAD, 246), (PAD + 300, 246)], fill=INK + (90,), width=2)
 # --- role line ---
 d.text((PAD, 268), "Backend · Data · Cloud", font=body(38, "SemiBold"), fill=INK)
 
-# --- supporting line ---
-d.text((PAD, 322), "Software Engineering @ McGill — five internships", font=body(27), fill=INK2)
-d.text((PAD, 356), "across two continents.", font=body(27), fill=INK2)
+# --- supporting line (tightened to buy room for the company row) ---
+d.text((PAD, 318), "Software Engineering @ McGill — five internships", font=body(25), fill=INK2)
+d.text((PAD, 349), "across two continents.", font=body(25), fill=INK2)
 
 # --- company row ---
-d.text((PAD, 424), "AWS · UKG · INTACT · POMERLEAU", font=mono_b(20), fill=NA)
+# the row a recruiter scans first in a feed — sized to survive a thumbnail
+d.text((PAD, 400), "INTERNSHIPS AT", font=mono(14), fill=MUTED)
+d.text((PAD, 424), "AWS · UKG · INTACT · POMERLEAU", font=mono_b(29), fill=NA)
 
 # --- bottom rule + footer (rule stops short of the globe) ---
 d.line([(PAD, 474), (786, 474)], fill=INK + (48,), width=1)
