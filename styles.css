@@ -732,50 +732,80 @@ h3 {
   padding: 78px clamp(22px, 5vw, 96px);
 }
 
-/* slim education credential — sits above the AWS feature, deliberately lighter */
+/* education credential — editorial band above the AWS feature, deliberately lighter */
 .education-card {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 2.4vw, 26px);
-  margin-bottom: 20px;
-  padding: 16px clamp(16px, 2.4vw, 24px);
+  gap: clamp(20px, 4vw, 52px);
+  margin-bottom: 22px;
+  padding: 20px clamp(18px, 2.6vw, 30px);
   border: 1px solid var(--hair);
-  border-left: 3px solid var(--na);
+  border-left: 2px solid var(--na);
   border-radius: var(--radius-sm);
   background: var(--panel);
 }
-.edu-mark {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 10px;
-  border: 1.5px solid var(--na);
-  color: var(--na);
-  background: color-mix(in srgb, var(--na) 8%, transparent);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 15px;
-}
 .edu-body { flex: 1 1 auto; min-width: 0; }
-.edu-school {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.edu-label {
+  display: block;
+  margin-bottom: 9px;
   color: var(--na);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 .edu-body strong {
   display: block;
-  margin: 3px 0 4px;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 19px;
-  line-height: 1.15;
+  font-size: clamp(19px, 2.1vw, 23px);
+  line-height: 1.16;
+  letter-spacing: -0.01em;
 }
-.edu-body p { margin: 0; color: var(--ink-2); font-size: 13.5px; line-height: 1.55; }
-.edu-honors { flex: none; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.edu-body p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+}
+.edu-honors { flex: none; display: flex; align-items: center; gap: clamp(20px, 3vw, 38px); }
+/* GPA as a big serif figure, echoing the proof-strip numbers */
+.edu-gpa { display: flex; flex-direction: column; align-items: flex-end; line-height: 1; }
+.edu-gpa em {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(34px, 4vw, 44px);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.edu-gpa span {
+  margin-top: 5px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+/* scholarship as an award stamp, in the passport-stamp vocabulary */
+.edu-award {
+  flex: none;
+  padding: 8px 12px;
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  color: var(--gold-ink);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  transform: rotate(-2.5deg);
+}
 
 .experience-feature {
   --accent: var(--eu);
@@ -858,75 +888,102 @@ h3 {
   line-height: 1.2;
 }
 .experience-grid p { color: var(--ink-2); line-height: 1.62; font-size: 14.5px; }
+/* headline metric as a measured "field reading" under a hairline — no pill */
 .experience-grid .exp-metric {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--na) 12%, transparent);
+  display: block;
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--hair);
   color: var(--na);
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 700;
+  letter-spacing: 0.03em;
 }
-/* current role — accent only, same size as the others */
+/* current role — gold accent only, same footprint as the others */
 .experience-grid article.is-now {
   border-left-color: var(--gold);
   background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 9%, var(--panel)), var(--panel));
 }
-.experience-grid .is-now .exp-head,
-.experience-grid .is-now .exp-metric { color: var(--gold-ink); }
-.experience-grid .is-now .exp-metric { background: color-mix(in srgb, var(--gold) 22%, transparent); }
-.now-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 70%, transparent);
-  animation: nowPulse 2s ease-out infinite;
+.experience-grid .is-now .exp-metric {
+  color: var(--gold-ink);
+  border-top-color: color-mix(in srgb, var(--gold) 34%, var(--hair));
 }
-@keyframes nowPulse {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 60%, transparent); }
-  70% { box-shadow: 0 0 0 7px transparent; }
-  100% { box-shadow: 0 0 0 0 transparent; }
+.experience-grid .is-now .exp-head { color: var(--gold-ink); }
+/* small static "Current" stamp — no trendy pulse */
+.experience-grid .now-tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  border-radius: 3px;
+  color: var(--gold-ink);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  transform: translateY(-1px);
 }
 
 /* ---------- field kit (skills strip) ---------- */
 .toolkit {
-  padding: 40px clamp(22px, 5vw, 96px) 8px;
+  padding: 44px clamp(22px, 5vw, 96px) 12px;
 }
-.toolkit > .eyebrow { margin: 0 0 20px; }
+.toolkit > .eyebrow { margin: 0 0 4px; }
 .toolkit-groups {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(24px, 4vw, 64px);
+  column-gap: clamp(28px, 5vw, 72px);
   row-gap: 0;
   margin: 0;
+  border-bottom: 1px solid var(--hair);
 }
 .toolkit-groups > div {
   display: grid;
-  grid-template-columns: minmax(110px, 150px) 1fr;
-  gap: 16px;
+  grid-template-columns: minmax(112px, 150px) 1fr;
+  gap: 18px;
   align-items: baseline;
-  padding: 14px 0;
+  padding: 16px 0;
   border-top: 1px solid var(--hair);
 }
 .toolkit-groups dt {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--na);
 }
 .toolkit-groups dd {
   margin: 0;
-  color: var(--ink-2);
-  font-size: 14.5px;
-  line-height: 1.6;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.7;
+  letter-spacing: 0.005em;
 }
 
-.eligibility { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+/* work authorization in the border-control stamp vocabulary */
+.eligibility { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; margin: 4px 0 22px; }
+.work-stamp {
+  flex: none;
+  padding: 6px 11px;
+  border: 1.5px solid var(--sa);
+  border-radius: 4px;
+  color: var(--sa);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transform: rotate(-2.5deg);
+}
+.work-detail {
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+}
 
 /* ---------- projects (solo expeditions) ---------- */
 .project-section {
@@ -1302,7 +1359,6 @@ button:focus-visible,
   .passport-page { transition: none; }
   .skeleton { animation: none; }
   .availability-chip::before { animation: none; }
-  .now-dot { animation: none; }
 }
 
 /* ---------- responsive ---------- */
@@ -1333,8 +1389,9 @@ button:focus-visible,
   .hero-notes li { padding: 12px 0 12px 20px; }
   .hero-lead { font-size: 16.5px; }
   .journey-chapters { grid-template-columns: 1fr; }
-  .education-card { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .edu-honors { justify-content: flex-start; }
+  .education-card { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .edu-honors { justify-content: flex-start; gap: 24px; align-self: stretch; }
+  .edu-gpa { align-items: flex-start; }
   .section-stamp { display: none; }
   .repo-facts, .project-meta { grid-template-columns: 1fr; }
   .story-header { flex-direction: column; align-items: flex-start; }
