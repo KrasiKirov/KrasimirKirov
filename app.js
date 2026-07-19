@@ -251,9 +251,9 @@ function projectActions(project) {
   return `<div class="story-actions">${live}<a class="secondary-button compact" href="${project.repoUrl}" target="_blank" rel="noreferrer">Open Repo</a></div>`;
 }
 
-function hardPartBlock(project, small) {
+function hardPartBlock(project) {
   return `
-    <div class="hard-part${small ? " hard-part-sm" : ""}">
+    <div class="hard-part">
       <span class="hp-label">The hard part</span>
       <p>${project.hardPart}</p>
     </div>`;
