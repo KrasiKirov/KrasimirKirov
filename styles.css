@@ -1139,7 +1139,7 @@ h3 {
   transform: rotate(-2.5deg);
 }
 .work-detail {
-  color: var(--ink-2);
+  color: rgba(244, 239, 227, 0.92);
   font-family: var(--font-body);
   font-size: 15.5px;
   font-weight: 500;
@@ -1445,6 +1445,16 @@ h3 {
 
 /* ---------- contact (next destination) ---------- */
 .contact-section {
+  /* This panel stays dark in both themes, so pin its tokens — otherwise
+     light-mode ink lands as dark text on a dark background. */
+  --ink: #e9dec9;
+  --ink-2: #b7c0c6;
+  --muted: #8a969d;
+  --na: #4aa8cf;
+  --eu: #e57a54;
+  --sa: #5cc98a;
+  --gold: #e8b24a;
+  --gold-ink: #e8b24a;
   --accent: var(--gold);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
