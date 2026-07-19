@@ -199,7 +199,9 @@ const projects = [
       "Separating what the nonlinear neuromuscular dynamics actually explain from what a model is merely memorising — by holding classical system identification and learned regressors to the same experimental data and features.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
-    images: [],
+    images: [
+      { src: "assets/emg/architecture.svg", alt: "EMG–TQ modelling pipeline — raw EMG and torque signals filtered into features, then parametric system identification compared against learned regressors to predict joint torque" }
+    ],
     stack: [
       { label: "MATLAB", color: "yellow" },
       { label: "Python", color: "blue" },

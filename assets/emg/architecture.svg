@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="EMG–TQ modelling pipeline — raw EMG and torque signals are filtered into feature vectors, then parametric system identification is compared against learned regressors to predict joint torque">
+  <defs>
+    <marker id="emgArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#45535e" />
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #f7f1e3; stroke-width: 1.5; }
+    .t { font-family: "Space Mono", ui-monospace, monospace; font-size: 13px; font-weight: 700; fill: #1e2833; }
+    .s { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; fill: #45535e; }
+    .row { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; fill: #2c7a49; }
+    .wire { stroke: #45535e; stroke-width: 1.5; fill: none; }
+    .note { font-family: "Space Mono", ui-monospace, monospace; font-size: 9.5px; fill: #45535e; font-weight: 700; }
+  </style>
+  <rect x="0" y="0" width="760" height="300" fill="#f2ecdd" stroke="#d9d0bb" />
+
+  <text class="row" x="14" y="26">01 — SIGNAL</text>
+
+  <rect class="box" x="14" y="38" width="176" height="54" rx="10" stroke="#45535e" />
+  <text class="t" x="26" y="60">Raw EMG + torque</text>
+  <text class="s" x="26" y="78">experimental recordings</text>
+
+  <line class="wire" x1="190" y1="65" x2="224" y2="65" marker-end="url(#emgArrow)" />
+
+  <rect class="box" x="226" y="38" width="212" height="54" rx="10" stroke="#45535e" />
+  <text class="t" x="238" y="60">Filter + extract</text>
+  <text class="s" x="238" y="78">MATLAB · feature vectors</text>
+
+  <text class="row" x="14" y="140">02 — MODEL, TWO WAYS</text>
+
+  <path class="wire" d="M 332 92 L 332 116 L 150 116 L 150 152" marker-end="url(#emgArrow)" />
+  <rect class="box" x="14" y="154" width="272" height="56" rx="10" stroke="#1a6b91" />
+  <text class="t" x="26" y="177">System identification</text>
+  <text class="s" x="26" y="195">parametric models of the dynamics</text>
+
+  <path class="wire" d="M 332 92 L 332 116 L 520 116 L 520 152" marker-end="url(#emgArrow)" />
+  <rect class="box" x="384" y="154" width="272" height="56" rx="10" stroke="#c9552f" />
+  <text class="t" x="396" y="177">Learned regressors</text>
+  <text class="s" x="396" y="195">Python · trained on the same features</text>
+
+  <text class="row" x="14" y="248">03 — COMPARE</text>
+
+  <path class="wire" d="M 150 210 L 150 236 L 300 236" marker-end="url(#emgArrow)" />
+  <path class="wire" d="M 520 210 L 520 236 L 470 236" marker-end="url(#emgArrow)" />
+  <rect class="box" x="302" y="214" width="166" height="46" rx="10" stroke="#2c7a49" />
+  <text class="t" x="314" y="236">Torque predicted</text>
+  <text class="s" x="314" y="252">held to the same data</text>
+
+  <text class="note" x="14" y="286">C / C++ handles low-level signal processing for real-time and hardware-in-the-loop evaluation</text>
+</svg>
