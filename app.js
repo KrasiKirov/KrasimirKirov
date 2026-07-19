@@ -223,9 +223,10 @@ let githubStatus = "loading";
 // Public-repo total for the "5 of N repos" framing; overwritten from the snapshot.
 let publicRepos = 24;
 
+// Which project the console has on stage.
+let selectedRepo = projects[0].repo;
+
 const elements = {
-  flagshipSlot: document.querySelector("#flagship-slot"),
-  fleetSlot: document.querySelector("#fleet-slot"),
   serviceCount: document.querySelector("#service-count"),
   lightbox: document.querySelector("#lightbox"),
   lightboxImage: document.querySelector("#lightbox-image")
@@ -243,14 +244,6 @@ function updatedText(project) {
   return "—";
 }
 
-function stackTokens(project) {
-  return project.stack.map((t) => `<span class="badge badge-${t.color}">${t.label}</span>`).join("");
-}
-
-function specRow(label, value) {
-  return `<div><span>${label}</span><strong>${value}</strong></div>`;
-}
-
 function projectActions(project) {
   const live = project.liveUrl
     ? `<a class="primary-button compact" href="${project.liveUrl}" target="_blank" rel="noreferrer">Live Demo</a>`
@@ -266,134 +259,92 @@ function hardPartBlock(project, small) {
     </div>`;
 }
 
-function fieldReportBlocks(project) {
-  return `
-    <section class="fr-block"><h4>Problem</h4><p>${project.problem}</p></section>
-    <section class="fr-block"><h4>Approach</h4><p>${project.approach}</p></section>
-    <section class="fr-block"><h4>Outcome</h4><p>${project.outcome}</p></section>`;
-}
-
 function projectId(project) {
   return `project-${project.repo.toLowerCase()}`;
 }
 
-function renderList(title, rows) {
-  return `
-    <section class="inspector-block">
-      <h4>${title}</h4>
-      <ul class="inspector-list">
-        ${rows.map(([label, text]) => `<li><span>${label}</span><strong>${text}</strong></li>`).join("")}
-      </ul>
-    </section>
-  `;
-}
-
-function renderGallery(project) {
+function mediaViewer(project) {
   if (!project.images?.length) return "";
-  const shots = project.images
-    .map(
-      (image) => `
-        <button class="project-shot" type="button" data-lightbox-src="${image.src}" data-lightbox-alt="${image.alt}" aria-label="Enlarge screenshot: ${image.alt}">
-          <img src="${image.src}" alt="${image.alt}" loading="lazy" />
-        </button>`
-    )
-    .join("");
+  const main = project.images[0];
+  const thumbs = project.images.length > 1
+    ? `<div class="media-thumbs">${project.images
+        .map((im, i) => `<button class="media-thumb${i === 0 ? " active" : ""}" type="button" data-media="${i}" aria-label="View ${im.alt}"><img src="${im.src}" alt="" loading="lazy" /></button>`)
+        .join("")}</div>`
+    : "";
   return `
-    <section class="inspector-block">
-      <h4>A look inside</h4>
-      <div class="project-shots">${shots}</div>
-    </section>
-  `;
+      <div class="media-viewer">
+        <button class="media-main" type="button" data-lightbox-src="${main.src}" data-lightbox-alt="${main.alt}" aria-label="Enlarge: ${main.alt}">
+          <img id="media-main-img" src="${main.src}" alt="${main.alt}" />
+        </button>
+        ${thumbs}
+      </div>`;
 }
 
-function renderFlagship(project) {
-  const language = project.github?.language || project.primaryLanguage || "-";
-  elements.flagshipSlot.innerHTML = `
-    <article class="flagship" id="${projectId(project)}" data-uses="${project.uses}" data-label="${project.name}">
-      <div class="flagship-head">
-        <div class="flagship-title">
-          <span class="fr-coords">${project.period}</span>
-          <h3>${project.name}</h3>
-          <p class="fr-elevator">${project.elevator}</p>
-        </div>
-        ${projectActions(project)}
+function renderRail() {
+  document.querySelector("#console-rail").innerHTML = projects
+    .map((project) => {
+      const on = project.repo === selectedRepo;
+      return `
+      <button class="rail-tab${on ? " active" : ""}" type="button" role="tab"
+        id="tab-${project.repo.toLowerCase()}" aria-selected="${on}" aria-controls="console-stage"
+        tabindex="${on ? "0" : "-1"}" data-select="${project.repo}"
+        data-uses="${project.uses}" data-label="${project.name}">
+        <span class="rail-top"><span class="rail-name">${project.name}</span><span class="rail-status">${project.status}</span></span>
+        <span class="rail-line">${project.elevator}</span>
+        <span class="rail-period">${project.period}</span>
+      </button>`;
+    })
+    .join("");
+}
+
+function renderStage() {
+  const project = projects.find((item) => item.repo === selectedRepo) || projects[0];
+  const instruments = [
+    ["Role", project.role],
+    ["Status", project.status],
+    ["Key metric", project.keyMetric],
+    ["Built", project.period.replace("Built ", "")],
+    ["Updated", updatedText(project)]
+  ]
+    .map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`)
+    .join("");
+  const proof = project.numbers
+    ? `<div class="proof-row">${project.numbers
+        .map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`)
+        .join("")}</div>`
+    : "";
+  document.querySelector("#console-stage").innerHTML = `
+    <article class="stage-inner" id="${projectId(project)}" role="tabpanel"
+      aria-labelledby="tab-${project.repo.toLowerCase()}" tabindex="0">
+      ${mediaViewer(project)}
+      <div class="instrument-strip">${instruments}${projectActions(project)}</div>
+      ${hardPartBlock(project)}
+      <div class="pao">
+        <section><h4>Problem</h4><p>${project.problem}</p></section>
+        <section><h4>Approach</h4><p>${project.approach}</p></section>
+        <section><h4>Outcome</h4><p>${project.outcome}</p></section>
       </div>
-      <div class="flagship-body">
-        <aside class="spec-sheet">
-          ${specRow("Role", project.role)}
-          ${specRow("Status", project.status)}
-          ${specRow("Key metric", project.keyMetric)}
-          ${specRow("Language", language)}
-          ${specRow("Updated", updatedText(project))}
-          <div class="spec-stack">${stackTokens(project)}</div>
-        </aside>
-        <div class="flagship-report">
-          ${fieldReportBlocks(project)}
-          ${hardPartBlock(project)}
-          ${renderGallery(project)}
-          ${project.numbers ? renderList("Numbers that back it", project.numbers) : ""}
-        </div>
-      </div>
+      ${proof}
     </article>`;
 }
 
-function renderFleet(list) {
-  elements.fleetSlot.innerHTML = list
-    .map(
-      (project) => `
-    <article class="field-report" id="${projectId(project)}" data-uses="${project.uses}" data-label="${project.name}">
-      <div class="fr-top">
-        <span class="fr-coords">${project.period}</span>
-        <span class="fr-status">${project.status}</span>
-      </div>
-      <h4>${project.name}</h4>
-      <p class="fr-elevator">${project.elevator}</p>
-      <div class="stack-badges">${stackTokens(project)}</div>
-      ${hardPartBlock(project, true)}
-      <span class="fr-metric">${project.keyMetric}</span>
-      <details class="fr-more">
-        <summary>Problem, approach &amp; outcome</summary>
-        <div class="fr-more-body">
-          ${fieldReportBlocks(project)}
-          ${renderGallery(project)}
-        </div>
-      </details>
-      ${projectActions(project)}
-    </article>`
-    )
-    .join("");
-}
-
-// A slim "field stations" strip: one pin per repo, cross-highlighting its card.
-function renderFieldStations() {
-  const strip = document.querySelector("#field-stations");
-  if (!strip) return;
-  strip.innerHTML = projects
-    .map(
-      (project, index) => `
-      <button class="station" type="button" data-station="${projectId(project)}" style="--i:${index}">
-        <span class="station-pin" aria-hidden="true"></span>
-        <span class="station-name">${project.name}</span>
-        <span class="station-coords">${project.period}</span>
-      </button>`
-    )
-    .join("");
-  strip.removeAttribute("aria-hidden");
-  strip.setAttribute("aria-label", "Jump to a project");
-}
-
 function renderProjects() {
-  elements.serviceCount.textContent = `${projects.length} of ${publicRepos} repos`;
-  const flagship = projects.find((project) => project.flagship) || projects[0];
-  renderFlagship(flagship);
-  renderFleet(projects.filter((project) => project !== flagship));
-  renderFieldStations();
-  // re-wire: every render replaces these nodes, taking their listeners with them
-  initStationLink();
+  document.querySelector("#service-count").textContent = `${projects.length} of ${publicRepos} repos`;
+  renderRail();
+  renderStage();
 }
 
 function render() {
   renderProjects();
+}
+
+function selectProject(repo, focusTab) {
+  const project = projects.find((item) => item.repo === repo);
+  if (!project) return;
+  selectedRepo = project.repo;
+  renderProjects();
+  history.replaceState(null, "", `#projects/${project.repo}`);
+  if (focusTab) document.querySelector(`#tab-${project.repo.toLowerCase()}`)?.focus();
 }
 
 function applyGithubData(data) {
@@ -450,14 +401,26 @@ function bindEvents() {
     const actionButton = event.target.closest("[data-action]");
     const shotButton = event.target.closest("[data-lightbox-src]");
     const lightboxClose = event.target.closest("[data-lightbox-close]");
-    const station = event.target.closest("[data-station]");
+    const tab = event.target.closest("[data-select]");
+    const thumb = event.target.closest("[data-media]");
 
-    if (station) {
-      const card = document.getElementById(station.dataset.station);
-      if (card) {
-        card.scrollIntoView({ behavior: "smooth", block: "start" });
-        card.classList.add("project-flash");
-        setTimeout(() => card.classList.remove("project-flash"), 1600);
+    if (tab) {
+      selectProject(tab.dataset.select);
+      return;
+    }
+
+    // swap the stage's main image without re-rendering the whole stage
+    if (thumb) {
+      const project = projects.find((item) => item.repo === selectedRepo);
+      const image = project?.images?.[Number(thumb.dataset.media)];
+      const main = document.querySelector(".media-main");
+      const img = document.querySelector("#media-main-img");
+      if (image && main && img) {
+        img.src = image.src;
+        img.alt = image.alt;
+        main.dataset.lightboxSrc = image.src;
+        main.dataset.lightboxAlt = image.alt;
+        document.querySelectorAll(".media-thumb").forEach((t) => t.classList.toggle("active", t === thumb));
       }
       return;
     }
@@ -481,6 +444,20 @@ function bindEvents() {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeLightbox();
   });
+
+  // standard tablist keyboard behaviour on the project rail
+  document.querySelector("#console-rail")?.addEventListener("keydown", (event) => {
+    const keys = ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Home", "End"];
+    if (!keys.includes(event.key)) return;
+    event.preventDefault();
+    const i = projects.findIndex((item) => item.repo === selectedRepo);
+    let n = i;
+    if (event.key === "ArrowDown" || event.key === "ArrowRight") n = (i + 1) % projects.length;
+    if (event.key === "ArrowUp" || event.key === "ArrowLeft") n = (i - 1 + projects.length) % projects.length;
+    if (event.key === "Home") n = 0;
+    if (event.key === "End") n = projects.length - 1;
+    selectProject(projects[n].repo, true);
+  });
 }
 
 // Deep links: #projects/<repo> jumps to that project's card and flags it.
@@ -497,12 +474,8 @@ function scrollToProject(project) {
   // deferred restore overrides this after load.
   history.scrollRestoration = "manual";
   const scroll = () => {
-    const card = project ? document.getElementById(projectId(project)) : null;
-    (card || document.getElementById("projects"))?.scrollIntoView({ behavior: "instant" });
-    if (card) {
-      card.classList.add("project-flash");
-      setTimeout(() => card.classList.remove("project-flash"), 1600);
-    }
+    const console_ = document.querySelector(".console");
+    (console_ || document.getElementById("projects"))?.scrollIntoView({ behavior: "instant" });
   };
   // setTimeout, not requestAnimationFrame: rAF never fires in a background tab.
   // Re-anchor after load (and once more shortly after) so late layout shifts
@@ -617,29 +590,6 @@ function initToolCrossLink() {
   window.addEventListener("scroll", hide, { passive: true });
 }
 
-// Hovering a field-station pin lifts its project card, and vice versa.
-function initStationLink() {
-  const stations = [...document.querySelectorAll("[data-station]")];
-  stations.forEach((station) => {
-    const card = document.getElementById(station.dataset.station);
-    if (!card) return;
-    const on = () => {
-      station.classList.add("station-active");
-      card.classList.add("station-target");
-    };
-    const off = () => {
-      station.classList.remove("station-active");
-      card.classList.remove("station-target");
-    };
-    station.addEventListener("mouseenter", on);
-    station.addEventListener("focus", on);
-    station.addEventListener("mouseleave", off);
-    station.addEventListener("blur", off);
-    card.addEventListener("mouseenter", on);
-    card.addEventListener("mouseleave", off);
-  });
-}
-
 // Dark-mode toggle. The pre-paint script in <head> already set data-theme;
 // here we just sync the button and let clicks flip + persist it.
 function initThemeToggle() {
@@ -663,17 +613,20 @@ function initThemeToggle() {
 function boot() {
   bindEvents();
   initThemeToggle();
-  render();
-  // the tool tokens are static markup, so this wires once; the station links
-  // re-wire inside renderProjects because those nodes are replaced each render
-  initToolCrossLink();
   const target = deepLinkTarget();
+  if (target) selectedRepo = target.repo;
+  render();
+  // the tool tokens are static markup, so this wires once
+  initToolCrossLink();
   if (target) scrollToProject(target);
   initCountUp();
   refreshGithubData();
   window.addEventListener("hashchange", () => {
     const next = deepLinkTarget();
-    if (next) scrollToProject(next);
+    if (next) {
+      selectProject(next.repo);
+      scrollToProject(next);
+    }
   });
 }
 
