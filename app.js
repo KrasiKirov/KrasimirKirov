@@ -524,6 +524,15 @@ function initCountUp() {
   observer.observe(strip);
 }
 
+// Group counts are derived, so editing the kit can never desync them.
+function labelGaugeCounts() {
+  document.querySelectorAll(".gauge").forEach((gauge) => {
+    const count = gauge.querySelectorAll(".tool").length;
+    const slot = gauge.querySelector(".gauge-count");
+    if (slot) slot.textContent = String(count).padStart(2, "0");
+  });
+}
+
 // Field-kit: pointing at a tool shows a bubble naming where it was used.
 function initToolCrossLink() {
   const tools = [...document.querySelectorAll(".tool[data-tool]")];
@@ -618,6 +627,7 @@ function boot() {
   render();
   // the tool tokens are static markup, so this wires once
   initToolCrossLink();
+  labelGaugeCounts();
   if (target) scrollToProject(target);
   initCountUp();
   refreshGithubData();

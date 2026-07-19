@@ -940,6 +940,19 @@ h3 {
   background: var(--panel);
   position: relative;
 }
+.toolkit::before,
+.toolkit::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  border-top: 2px solid color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.toolkit::before { left: 10px; border-left: 2px solid color-mix(in srgb, var(--ink) 45%, transparent); }
+.toolkit::after { right: 10px; border-right: 2px solid color-mix(in srgb, var(--ink) 45%, transparent); }
+
 .toolkit-head {
   display: flex;
   align-items: baseline;
@@ -971,27 +984,38 @@ h3 {
 .toolkit-groups {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(28px, 5vw, 72px);
-  row-gap: 0;
+  gap: 14px;
   margin: 0;
 }
-.toolkit-groups > div {
-  display: grid;
-  grid-template-columns: minmax(104px, 132px) 1fr;
-  gap: 18px;
-  align-items: baseline;
-  padding: 15px 0;
-  border-top: 1px solid var(--hair);
+/* each group is its own gauge cluster, keyed to a continent accent */
+.gauge {
+  padding: 14px 16px;
+  border: 1px solid var(--hair);
+  border-top: 2px solid var(--gauge);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--gauge) 4%, transparent);
 }
-.toolkit-groups > div:first-child,
-.toolkit-groups > div:nth-child(2) { border-top: 0; }
+.gauge-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 11px;
+}
 .toolkit-groups dt {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--na);
+  color: var(--gauge);
+}
+.gauge-count {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--muted);
 }
 .toolkit-groups dd {
   margin: 0;
@@ -1634,7 +1658,7 @@ button:focus-visible,
   .travel-scene { height: 560px; }
   .journey-chapters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .proof-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .toolkit-groups { grid-template-columns: 1fr; column-gap: 0; }
+  .toolkit-groups { grid-template-columns: 1fr; }
   .experience-grid { grid-template-columns: 1fr; }
   .experience-feature { grid-template-columns: 1fr; }
   .feature-meta { flex-direction: row; flex-wrap: wrap; align-items: center; padding-right: 0; padding-bottom: 16px; border-right: 0; border-bottom: 1.5px dashed var(--hair); }
