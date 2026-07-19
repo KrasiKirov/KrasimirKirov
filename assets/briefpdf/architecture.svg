@@ -23,7 +23,7 @@
 
   <rect class="box" x="236" y="38" width="232" height="54" rx="10" stroke="#45535e" />
   <text class="t" x="248" y="60">Express API</text>
-  <text class="s" x="248" y="78">pdf.js-extract · token count &amp; chunk</text>
+  <text class="s" x="248" y="78">pdf.js-extract · chunk tokens</text>
 
   <line class="wire" x1="468" y1="65" x2="502" y2="65" marker-end="url(#pdfArrow)" />
 

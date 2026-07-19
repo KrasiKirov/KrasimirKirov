@@ -114,6 +114,7 @@ const projects = [
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
+      { src: "assets/listening-room/architecture.svg", alt: "The Listening Room architecture — React Native app with Spotify PKCE auth keeping tokens in device secure storage, a FastAPI backend prompting OpenAI for a JSON tracklist, and each track resolved against the Spotify catalog before saving a private playlist" },
       { src: "assets/listening-room/landing.png", alt: "The Listening Room — landing screen inviting you to pair with Spotify and compose a side" },
       { src: "assets/listening-room/compose.png", alt: "The Listening Room — describe an evening in plain language to compose a playlist" },
       { src: "assets/listening-room/tracklist.png", alt: "The Listening Room — preview and curate the AI-generated tracklist before saving" }

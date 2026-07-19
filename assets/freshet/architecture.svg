@@ -16,7 +16,7 @@
   <text class="row" x="14" y="24">01 — INGEST</text>
   <rect class="box" x="14" y="34" width="162" height="52" rx="10" stroke="#45535e" />
   <text class="t" x="26" y="56">Ops events</text>
-  <text class="s" x="26" y="74">alerts · deploys · status feeds</text>
+  <text class="s" x="26" y="74">alerts · deploys · chat</text>
   <line class="wire" x1="176" y1="60" x2="206" y2="60" marker-end="url(#arrow)" />
   <rect class="box" x="208" y="34" width="92" height="52" rx="10" stroke="#d99a24" />
   <text class="t" x="230" y="56">Kafka</text>
