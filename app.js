@@ -474,7 +474,7 @@ function initCountUp() {
 // Group counts are derived, so editing the kit can never desync them.
 function labelGaugeCounts() {
   document.querySelectorAll(".gauge").forEach((gauge) => {
-    const count = gauge.querySelectorAll(".tool").length;
+    const count = gauge.querySelectorAll(".tool, .course").length;
     const slot = gauge.querySelector(".gauge-count");
     if (slot) slot.textContent = String(count).padStart(2, "0");
   });

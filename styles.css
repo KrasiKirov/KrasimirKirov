@@ -958,6 +958,7 @@ h3 {
   gap: 14px;
   margin: 0;
 }
+.gauge-wide { grid-column: 1 / -1; }
 /* each group is its own gauge cluster, keyed to a continent accent */
 .gauge {
   padding: 14px 16px;
@@ -1007,6 +1008,12 @@ h3 {
   /* dotted underline signals "there's something to hover here" */
   border-bottom: 1px dotted color-mix(in srgb, var(--ink) 32%, transparent);
   transition: color 140ms ease, border-color 140ms ease;
+}
+.course {
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
 }
 .toolkit-hint {
   margin: 16px 0 0;
