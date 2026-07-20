@@ -1743,6 +1743,9 @@ button:focus-visible,
   .project-shot { height: 168px; }
   .topbar-actions { width: 100%; }
   .topbar-actions .compact { flex: 1; }
+  /* Resume matters more to a recruiter than GitHub, and GitHub is reachable
+     from every project's Open Repo button and the contact section. */
+  .nav-github { display: none; }
 }
 
 /* ---------- print ---------- */
