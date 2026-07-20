@@ -12,8 +12,9 @@
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DEST="$REPO/Resume.pdf"
-LIVE_URL="https://krasimirkirov.com/Resume.pdf"
+FILENAME="Kirov,Krasimir_Resume.pdf"
+DEST="$REPO/$FILENAME"
+LIVE_URL="https://krasimirkirov.com/$FILENAME"
 
 # Where your working copy lives. Change this line if you move it.
 DEFAULT_SRC="$HOME/Desktop/SE/Kirov,Krasimir_Resume.pdf"
@@ -59,12 +60,12 @@ ok "copied into the repo"
 
 # ---- commit + push ---------------------------------------------------------
 cd "$REPO"
-if git diff --quiet -- Resume.pdf && git diff --cached --quiet -- Resume.pdf; then
+if git diff --quiet -- "$FILENAME" && git diff --cached --quiet -- "$FILENAME"; then
   ok "git sees no change — nothing to push"
   exit 0
 fi
 
-git add Resume.pdf
+git add "$FILENAME"
 git commit -q -m "docs(resume): update resume"
 git pull --rebase -q
 git push -q

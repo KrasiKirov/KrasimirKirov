@@ -1,4 +1,0 @@
-# "inline" doesn't reliably drive the saved filename across browsers (many only
-# honor `filename` on `attachment`) - force the download name instead.
-/Resume.pdf
-  Content-Disposition: attachment; filename="Kirov,Krasimir_Resume.pdf"
