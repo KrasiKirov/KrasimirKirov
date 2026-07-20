@@ -2,9 +2,6 @@ const projects = [
   {
     repo: "freshet",
     name: "Freshet",
-    summary: "A freshness-first streaming-RAG system for on-call engineers: it ingests incident data through Kafka, indexes it within seconds, and answers questions with cited, recency-aware answers.",
-    primaryLanguage: "Python",
-    category: "Streaming RAG / Backend",
     repoUrl: "https://github.com/KrasiKirov/freshet",
     flagship: true,
     period: "Built 2026",
@@ -21,8 +18,6 @@ const projects = [
       "Hybrid retrieval reaches recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark, beating either retrieval arm alone. A live demo drives the full local streaming stack against real Cloudflare, GitHub, and OpenAI status feeds, and each incident is briefed exactly once via a durable claim, so redelivery and restarts never double-post.",
     hardPart:
       "Making retrieval trustworthy rather than merely plausible: RRF-fused dense + lexical retrieval, cross-encoder reranking, citation verification, and abstention, so it answers with sources or admits it doesn't know instead of hallucinating in the middle of an incident.",
-    badge: "Pinned repo",
-    source: "GitHub pinned repository list",
     images: [
       { src: "assets/freshet/live-demo.gif", alt: "Freshet live demo: real public status-feed incidents ingested through Kafka and answered with cited, recency-aware answers" },
       { src: "assets/freshet/architecture.svg", alt: "Freshet architecture: Kafka ingestion into Postgres with pgvector, hybrid retrieval for cited answers, and the Autopilot agent posting cited Slack briefs" }
@@ -39,20 +34,11 @@ const projects = [
       { label: "FastAPI", color: "green" },
       { label: "Anthropic", color: "green" },
       { label: "Docker", color: "gray" }
-    ],
-    why: "During an incident, on-call engineers waste most of their time reconstructing context: what changed, what's related, what fixed something similar, all from data scattered across tools, under pressure. The information that matters most is the newest, which is exactly what a nightly-batch index misses. Freshet continuously ingests operational events and indexes them within seconds, answering questions like \"what's happening with scheduler-api?\" with cited, timestamped, recency-aware answers over live incidents.",
-    built: [
-      ["Streaming ingestion", "A Kafka pipeline ingests operational events (alerts, deploys, metrics, incident chat, postmortems), normalizes them, and indexes them into a Postgres vector store within seconds, so the freshest context is queryable almost immediately. A live demo polls real public status feeds (Cloudflare, GitHub, OpenAI) through the full local streaming stack."],
-      ["Hybrid retrieval & synthesis", "Dense (bge-base-en-v1.5) + lexical (Postgres full-text) retrieval with RRF fusion, cross-encoder reranking, citation verification, and abstention; hybrid wins recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark. Answers are LLM-written, grounded, and cited, with a keyless extractive fallback that stays grounded."],
-      ["Autonomous responder (Autopilot)", "A separate Kafka consumer reacts to incident lifecycle events: when a new incident opens it debounces, investigates with a tool-using agent, and posts a cited incident brief (cause, runbook, status) to stdout or Slack. Each incident is briefed exactly once via a durable claim, so redelivery and restarts never double-post."]
     ]
   },
   {
     repo: "Loop",
     name: "Loop",
-    summary: "A competitive, retention-first web app that drills DSA interview patterns with auto-graded cards, a chess-style skill rating, and head-to-head duels.",
-    primaryLanguage: "JavaScript",
-    category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/Loop",
     liveUrl: "https://loop-dsa.vercel.app",
     period: "Built 2026",
@@ -69,8 +55,6 @@ const projects = [
       "Deployed and playable: answer keys never reach the browser before you answer, so scores can't be faked, and concurrent duel submits can't double-apply a rating change.",
     hardPart:
       "Keeping the rating honest under concurrency: first-attempt-only Elo enforced by a uniqueness constraint, and duel resolution serialized with a row lock plus an atomic claim, so two simultaneous submits can never apply the same rating change twice.",
-    badge: "Pinned repo",
-    source: "GitHub pinned repository list",
     images: [
       { src: "assets/loop/architecture.svg", alt: "Loop architecture: server-authoritative grading into PostgreSQL with Row-Level Security, and duel submits serialised by a row lock and atomic claim before the Elo update" },
       { src: "assets/loop/hub.png", alt: "Loop pattern hub: pick a pattern, see mastery and rating, start drilling" },
@@ -82,20 +66,11 @@ const projects = [
       { label: "PostgreSQL", color: "blue" },
       { label: "JWT", color: "green" },
       { label: "Vercel", color: "gray" }
-    ],
-    why: "Studying DSA from static notes doesn't build the fast pattern-recognition interviews demand. Loop drills patterns with quick auto-graded cards, a chess-style rating that adapts to your level, spaced repetition, and duels. Practice stays competitive and retention-first.",
-    built: [
-      ["Frontend", "React (CRA) + React Router app with a pattern hub showing per-pattern mastery and rating, four fast card formats (identify the pattern, crux step, complexity, spot-the-bug), streaks, and an interview-date countdown."],
-      ["Backend & grading", "Node/Express API with server-authoritative grading. Answer keys never reach the browser before you answer, so scores can't be faked. First-attempt-only Elo via a uniqueness constraint, and duel resolution serialized with a row lock plus atomic claim so concurrent submits can't double-apply rating."],
-      ["Data & auth", "PostgreSQL with Row-Level Security isolating every user's attempts and duels at the database layer under a two-role least-privilege setup; JWT access tokens with rotating refresh tokens and reuse detection, rate limiting, a CORS allowlist, and schema validation on every request."]
     ]
   },
   {
     repo: "SpotifyPlaylistGenerator",
     name: "The Listening Room",
-    summary: "A mobile app that turns natural-language mood descriptions into Spotify playlists using AI.",
-    primaryLanguage: "TypeScript",
-    category: "Mobile App",
     repoUrl: "https://github.com/KrasiKirov/SpotifyPlaylistGenerator",
     period: "Built 2023",
     role: "Solo",
@@ -111,8 +86,6 @@ const projects = [
       "Shipped as a standalone Android APK: users preview, remove, or rename before it writes a private playlist straight to their account.",
     hardPart:
       "Handling mobile auth properly: PKCE with access tokens living only in device secure storage and never persisted server-side, plus structured-JSON prompting so the songs the model invents reliably resolve to real catalog entries.",
-    badge: "Pinned repo",
-    source: "GitHub pinned repository list",
     images: [
       { src: "assets/listening-room/architecture.svg", alt: "The Listening Room architecture: React Native app with Spotify PKCE auth keeping tokens in device secure storage, a FastAPI backend prompting OpenAI for a JSON tracklist, and each track resolved against the Spotify catalog before saving a private playlist" },
       { src: "assets/listening-room/landing.png", alt: "The Listening Room: landing screen inviting you to pair with Spotify and compose a side" },
@@ -126,20 +99,11 @@ const projects = [
       { label: "OpenAI", color: "green" },
       { label: "Spotify API", color: "green" },
       { label: "Railway", color: "blue" }
-    ],
-    why: "Manual playlist curation is slow. Describe a mood or scenario in plain language and AI composes a tracklist, resolves each song on Spotify, and saves it as a private playlist.",
-    built: [
-      ["Mobile client", "React Native + Expo app with Spotify PKCE auth; access tokens live in secure storage and are never persisted server-side. Distributed as a standalone Android APK."],
-      ["AI generation", "FastAPI backend deployed on Railway prompts OpenAI (gpt-4.1-mini) for a JSON-structured tracklist from the user's description plus optional genre, decade, and mood filters."],
-      ["Resolve & save", "Matches generated tracks on Spotify, lets users preview and remove songs or rename the playlist, then writes it to their account."]
     ]
   },
   {
     repo: "BriefPDFReader",
     name: "BriefPDF Reader",
-    summary: "Upload a PDF, choose a target length, and get a faithful AI summary rendered as clean Markdown.",
-    primaryLanguage: "JavaScript",
-    category: "Full-Stack App",
     repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
     liveUrl: "https://brief-pdf-reader.vercel.app",
     period: "Built 2023",
@@ -156,8 +120,6 @@ const projects = [
       "Deployed and length-controlled from 10 to 2,500 words, with per-IP rate limiting, request timeouts and retries, 20 MB PDF-only validation, and the API key kept server-side.",
     hardPart:
       "Staying faithful past the context window: recursively chunking and re-summarizing large documents so the final summary still reflects the whole PDF, not just the first slice that happened to fit.",
-    badge: "Pinned repo",
-    source: "GitHub pinned repository list",
     images: [
       { src: "assets/briefpdf/architecture.svg", alt: "BriefPDF Reader architecture: extract and chunk tokens, then summarise in a single pass or recursively chunk-and-re-summarise when the document exceeds the context window" },
       { src: "assets/briefpdf/landing.jpg", alt: "BriefPDF Reader landing: an editorial document condenser; choose a PDF and set a target length, then condense" },
@@ -169,20 +131,11 @@ const projects = [
       { label: "OpenAI", color: "green" },
       { label: "Vercel", color: "gray" },
       { label: "Railway", color: "blue" }
-    ],
-    why: "Reading a long PDF end to end is slow when you only need the gist. Drop in a document, pick how many words you want back (10–2500), and get a length-controlled summary.",
-    built: [
-      ["Frontend", "React (CRA) single-page UI with react-markdown and axios, deployed on Vercel; uploads the PDF and target length, then renders the returned summary as formatted Markdown."],
-      ["Backend", "Express API on Railway (Docker) that extracts text with pdf.js-extract, counts and chunks tokens, and calls OpenAI (gpt-4.1-mini); a single pass for documents that fit the context window, recursive chunk-and-re-summarize for very large ones."],
-      ["Hardening", "Per-IP rate limiting, request timeouts with retries, 20 MB PDF-only upload validation, sanitized errors, and CORS; the OpenAI key stays server-side and is never exposed to the browser."]
     ]
   },
   {
     repo: "EMG_TQ_Modelling",
     name: "EMG to Torque LSTM",
-    summary: "An LSTM that predicts ankle torque from four-channel surface EMG, reaching pooled R² ≥ 0.96.",
-    primaryLanguage: "Python",
-    category: "Research / ML",
     repoUrl: "https://github.com/KrasiKirov/EMG_TQ_Modelling",
     period: "Built 2026",
     role: "Research",
@@ -198,8 +151,6 @@ const projects = [
       "Pooled R² ≥ 0.96 predicting ankle torque, evaluated both within-subject and cross-subject, with per-position R² and RMSE reported across eight joint angles rather than a single headline average.",
     hardPart:
       "Keeping the evaluation honest: windowing the signal so no samples leak between train and test, and reporting cross-subject generalisation across eight joint positions, because a leaky split or a pooled-only score would flatter the model into looking far better than it is.",
-    badge: "Pinned repo",
-    source: "GitHub pinned repository list",
     images: [
       { src: "assets/emg/architecture.svg", alt: "EMG to torque pipeline: four-channel sEMG is bandpassed, rectified, low-pass filtered and MVC-normalised into envelopes, cut into leakage-free windows, then fed to a TensorFlow/Keras LSTM that predicts ankle torque, scored by within- and cross-subject R² and RMSE" }
     ],
