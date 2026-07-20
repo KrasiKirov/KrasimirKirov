@@ -1,0 +1,3 @@
+# Serve the resume inline (opens in the browser) but with a proper saved filename.
+/Resume.pdf
+  Content-Disposition: inline; filename="Kirov,Krasimir_Resume.pdf"
