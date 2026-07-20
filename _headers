@@ -1,3 +1,4 @@
-# Serve the resume inline (opens in the browser) but with a proper saved filename.
+# "inline" doesn't reliably drive the saved filename across browsers (many only
+# honor `filename` on `attachment`) - force the download name instead.
 /Resume.pdf
-  Content-Disposition: inline; filename="Kirov,Krasimir_Resume.pdf"
+  Content-Disposition: attachment; filename="Kirov,Krasimir_Resume.pdf"
