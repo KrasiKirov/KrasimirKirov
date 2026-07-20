@@ -179,41 +179,36 @@ const projects = [
   },
   {
     repo: "EMG_TQ_Modelling",
-    name: "EMG–TQ Modelling",
-    summary: "Models the relationship between EMG signals and joint torque using system identification and machine learning.",
-    primaryLanguage: "MATLAB",
+    name: "EMG to Torque LSTM",
+    summary: "An LSTM that predicts ankle torque from four-channel surface EMG, reaching pooled R² ≥ 0.96.",
+    primaryLanguage: "Python",
     category: "Research / ML",
     repoUrl: "https://github.com/KrasiKirov/EMG_TQ_Modelling",
     period: "Built 2026",
     role: "Research",
-    status: "Research",
-    keyMetric: "System-ID vs ML",
-    uses: "python c",
-    elevator: "Predicting joint torque from EMG signals with system identification and machine learning.",
+    status: "R² ≥ 0.96",
+    keyMetric: "pooled R² ≥ 0.96",
+    uses: "python tensorflow keras c",
+    elevator: "An LSTM that predicts ankle torque from four-channel surface EMG, validated within and across subjects.",
     problem:
-      "Predicting joint torque from surface EMG is a core problem in prosthetics and rehabilitation engineering, and the EMG-to-torque relationship is nonlinear and noisy.",
+      "Predicting joint torque from surface EMG underpins prosthetics and rehabilitation, but the signal is noisy, nonlinear, and varies enormously between people and joint positions. A model can look excellent on paper and still be memorising one subject's quirks.",
     approach:
-      "A MATLAB pipeline processes raw EMG and torque signals, extracts features, and fits parametric models to the neuromuscular input–output dynamics. Python scripts train regression models on the same feature vectors, and C/C++ components handle low-level signal processing for embedded or hardware-in-the-loop evaluation.",
+      "A signal pipeline turns raw sEMG into clean envelopes: bandpass, rectify, low-pass, then MVC normalisation so channels are comparable across subjects. Those envelopes are cut into windows and fed to an LSTM built in TensorFlow/Keras, which learns the temporal relationship between muscle activation and the torque that follows.",
     outcome:
-      "A side-by-side comparison of classical system identification against learned regressors on real experimental data.",
+      "Pooled R² ≥ 0.96 predicting ankle torque, evaluated both within-subject and cross-subject, with per-position R² and RMSE reported across eight joint angles rather than a single headline average.",
     hardPart:
-      "Separating what the nonlinear neuromuscular dynamics actually explain from what a model is merely memorising, by holding classical system identification and learned regressors to the same experimental data and features.",
+      "Keeping the evaluation honest: windowing the signal so no samples leak between train and test, and reporting cross-subject generalisation across eight joint positions, because a leaky split or a pooled-only score would flatter the model into looking far better than it is.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
-      { src: "assets/emg/architecture.svg", alt: "EMG–TQ modelling pipeline: raw EMG and torque signals filtered into features, then parametric system identification compared against learned regressors to predict joint torque" }
+      { src: "assets/emg/architecture.svg", alt: "EMG to torque pipeline: four-channel sEMG is bandpassed, rectified, low-pass filtered and MVC-normalised into envelopes, cut into leakage-free windows, then fed to a TensorFlow/Keras LSTM that predicts ankle torque, scored by within- and cross-subject R² and RMSE" }
     ],
     stack: [
-      { label: "MATLAB", color: "yellow" },
       { label: "Python", color: "blue" },
-      { label: "C++", color: "gray" },
-      { label: "C", color: "gray" }
-    ],
-    why: "Predicting joint torque from surface EMG is a core problem in prosthetics and rehabilitation engineering. This project explores how system identification and AI/ML techniques can learn the nonlinear EMG–torque mapping from experimental data.",
-    built: [
-      ["System identification", "MATLAB-based pipeline for processing raw EMG and torque signals, extracting features, and fitting parametric models to capture the input–output dynamics of the neuromuscular system."],
-      ["ML modelling", "Python scripts training regression models to predict torque from EMG feature vectors, comparing classical system-ID approaches against learned models."],
-      ["C/C++ integration", "Low-level signal processing and real-time components in C and C++ for embedded or hardware-in-the-loop evaluation."]
+      { label: "TensorFlow", color: "yellow" },
+      { label: "Keras", color: "yellow" },
+      { label: "MATLAB", color: "gray" },
+      { label: "C/C++", color: "gray" }
     ]
   }
 ];
