@@ -14,22 +14,22 @@ const projects = [
     uses: "python kafka postgresql pgvector fastapi rag anthropic docker sql",
     elevator: "Freshness-first streaming RAG that answers on-call questions over live incidents in seconds.",
     problem:
-      "During an incident, on-call engineers burn their first minutes reconstructing context — what changed, what's related, what fixed something similar — from data scattered across tools. The information that matters most is the newest, which is exactly what a nightly-batch index misses.",
+      "During an incident, on-call engineers burn their first minutes reconstructing context: what changed, what's related, what fixed something similar, all from data scattered across tools. The information that matters most is the newest, which is exactly what a nightly-batch index misses.",
     approach:
-      "A Kafka pipeline ingests operational events (alerts, deploys, metrics, incident chat, postmortems), normalizes them, and indexes them into Postgres/pgvector within seconds. Queries run hybrid retrieval — dense bge-base embeddings plus Postgres full-text, fused with RRF and cross-encoder reranked — and answers come back LLM-written, grounded and cited. A separate Autopilot consumer reacts to incident lifecycle events and posts a cited brief on its own.",
+      "A Kafka pipeline ingests operational events (alerts, deploys, metrics, incident chat, postmortems), normalizes them, and indexes them into Postgres/pgvector within seconds. Queries run hybrid retrieval (dense bge-base embeddings plus Postgres full-text, fused with RRF and cross-encoder reranked), and answers come back LLM-written, grounded and cited. A separate Autopilot consumer reacts to incident lifecycle events and posts a cited brief on its own.",
     outcome:
       "Hybrid retrieval reaches recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark, beating either retrieval arm alone. A live demo drives the full local streaming stack against real Cloudflare, GitHub, and OpenAI status feeds, and each incident is briefed exactly once via a durable claim, so redelivery and restarts never double-post.",
     hardPart:
-      "Making retrieval trustworthy rather than merely plausible: RRF-fused dense + lexical retrieval, cross-encoder reranking, citation verification, and abstention — so it answers with sources or admits it doesn't know, instead of hallucinating in the middle of an incident.",
+      "Making retrieval trustworthy rather than merely plausible: RRF-fused dense + lexical retrieval, cross-encoder reranking, citation verification, and abstention, so it answers with sources or admits it doesn't know instead of hallucinating in the middle of an incident.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
-      { src: "assets/freshet/live-demo.gif", alt: "Freshet live demo — real public status-feed incidents ingested through Kafka and answered with cited, recency-aware answers" },
-      { src: "assets/freshet/architecture.svg", alt: "Freshet architecture — Kafka ingestion into Postgres with pgvector, hybrid retrieval for cited answers, and the Autopilot agent posting cited Slack briefs" }
+      { src: "assets/freshet/live-demo.gif", alt: "Freshet live demo: real public status-feed incidents ingested through Kafka and answered with cited, recency-aware answers" },
+      { src: "assets/freshet/architecture.svg", alt: "Freshet architecture: Kafka ingestion into Postgres with pgvector, hybrid retrieval for cited answers, and the Autopilot agent posting cited Slack briefs" }
     ],
     numbers: [
-      ["recall@5", "0.81 with hybrid retrieval on a 160-query benchmark — dense + lexical arms fused with RRF, then cross-encoder reranked"],
-      ["nDCG@5", "0.63 — hybrid decisively beats either retrieval arm on ranking quality"],
+      ["recall@5", "0.81 with hybrid retrieval on a 160-query benchmark; dense + lexical arms fused with RRF, then cross-encoder reranked"],
+      ["nDCG@5", "0.63; hybrid decisively beats either retrieval arm on ranking quality"],
       ["Freshness", "events are queryable within seconds of ingestion; the live demo polls real Cloudflare, GitHub, and OpenAI status feeds"]
     ],
     stack: [
@@ -40,11 +40,11 @@ const projects = [
       { label: "Anthropic", color: "green" },
       { label: "Docker", color: "gray" }
     ],
-    why: "During an incident, on-call engineers waste most of their time reconstructing context — what changed, what's related, what fixed something similar — from data scattered across tools, under pressure. The information that matters most is the newest, which is exactly what a nightly-batch index misses. Freshet continuously ingests operational events and indexes them within seconds, answering questions like \"what's happening with scheduler-api?\" with cited, timestamped, recency-aware answers over live incidents.",
+    why: "During an incident, on-call engineers waste most of their time reconstructing context: what changed, what's related, what fixed something similar, all from data scattered across tools, under pressure. The information that matters most is the newest, which is exactly what a nightly-batch index misses. Freshet continuously ingests operational events and indexes them within seconds, answering questions like \"what's happening with scheduler-api?\" with cited, timestamped, recency-aware answers over live incidents.",
     built: [
       ["Streaming ingestion", "A Kafka pipeline ingests operational events (alerts, deploys, metrics, incident chat, postmortems), normalizes them, and indexes them into a Postgres vector store within seconds, so the freshest context is queryable almost immediately. A live demo polls real public status feeds (Cloudflare, GitHub, OpenAI) through the full local streaming stack."],
-      ["Hybrid retrieval & synthesis", "Dense (bge-base-en-v1.5) + lexical (Postgres full-text) retrieval with RRF fusion, cross-encoder reranking, citation verification, and abstention — hybrid wins recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark. Answers are LLM-written, grounded, and cited, with a keyless extractive fallback that stays grounded."],
-      ["Autonomous responder (Autopilot)", "A separate Kafka consumer reacts to incident lifecycle events: when a new incident opens it debounces, investigates with a tool-using agent, and posts a cited incident brief — cause, runbook, status — to stdout or Slack. Each incident is briefed exactly once via a durable claim, so redelivery and restarts never double-post."]
+      ["Hybrid retrieval & synthesis", "Dense (bge-base-en-v1.5) + lexical (Postgres full-text) retrieval with RRF fusion, cross-encoder reranking, citation verification, and abstention; hybrid wins recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark. Answers are LLM-written, grounded, and cited, with a keyless extractive fallback that stays grounded."],
+      ["Autonomous responder (Autopilot)", "A separate Kafka consumer reacts to incident lifecycle events: when a new incident opens it debounces, investigates with a tool-using agent, and posts a cited incident brief (cause, runbook, status) to stdout or Slack. Each incident is briefed exactly once via a durable claim, so redelivery and restarts never double-post."]
     ]
   },
   {
@@ -64,7 +64,7 @@ const projects = [
     problem:
       "Studying DSA from static notes doesn't build the fast pattern recognition interviews actually test.",
     approach:
-      "A React pattern hub with four quick card formats — identify the pattern, crux step, complexity, spot-the-bug — plus spaced repetition, streaks, and head-to-head duels. A Node/Express API grades server-side, and PostgreSQL Row-Level Security isolates every user's attempts and duels at the database layer under a two-role least-privilege setup.",
+      "A React pattern hub with four quick card formats (identify the pattern, crux step, complexity, spot-the-bug), plus spaced repetition, streaks, and head-to-head duels. A Node/Express API grades server-side, and PostgreSQL Row-Level Security isolates every user's attempts and duels at the database layer under a two-role least-privilege setup.",
     outcome:
       "Deployed and playable: answer keys never reach the browser before you answer, so scores can't be faked, and concurrent duel submits can't double-apply a rating change.",
     hardPart:
@@ -72,9 +72,9 @@ const projects = [
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
-      { src: "assets/loop/architecture.svg", alt: "Loop architecture — server-authoritative grading into PostgreSQL with Row-Level Security, and duel submits serialised by a row lock and atomic claim before the Elo update" },
-      { src: "assets/loop/hub.png", alt: "Loop pattern hub — pick a pattern, see mastery and rating, start drilling" },
-      { src: "assets/loop/drill.png", alt: "Loop drill card — four options with a live skill-rating meter" }
+      { src: "assets/loop/architecture.svg", alt: "Loop architecture: server-authoritative grading into PostgreSQL with Row-Level Security, and duel submits serialised by a row lock and atomic claim before the Elo update" },
+      { src: "assets/loop/hub.png", alt: "Loop pattern hub: pick a pattern, see mastery and rating, start drilling" },
+      { src: "assets/loop/drill.png", alt: "Loop drill card: four options with a live skill-rating meter" }
     ],
     stack: [
       { label: "React", color: "blue" },
@@ -114,10 +114,10 @@ const projects = [
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
-      { src: "assets/listening-room/architecture.svg", alt: "The Listening Room architecture — React Native app with Spotify PKCE auth keeping tokens in device secure storage, a FastAPI backend prompting OpenAI for a JSON tracklist, and each track resolved against the Spotify catalog before saving a private playlist" },
-      { src: "assets/listening-room/landing.png", alt: "The Listening Room — landing screen inviting you to pair with Spotify and compose a side" },
-      { src: "assets/listening-room/compose.png", alt: "The Listening Room — describe an evening in plain language to compose a playlist" },
-      { src: "assets/listening-room/tracklist.png", alt: "The Listening Room — preview and curate the AI-generated tracklist before saving" }
+      { src: "assets/listening-room/architecture.svg", alt: "The Listening Room architecture: React Native app with Spotify PKCE auth keeping tokens in device secure storage, a FastAPI backend prompting OpenAI for a JSON tracklist, and each track resolved against the Spotify catalog before saving a private playlist" },
+      { src: "assets/listening-room/landing.png", alt: "The Listening Room: landing screen inviting you to pair with Spotify and compose a side" },
+      { src: "assets/listening-room/compose.png", alt: "The Listening Room: describe an evening in plain language to compose a playlist" },
+      { src: "assets/listening-room/tracklist.png", alt: "The Listening Room: preview and curate the AI-generated tracklist before saving" }
     ],
     stack: [
       { label: "React Native", color: "blue" },
@@ -149,9 +149,9 @@ const projects = [
     uses: "react node openai javascript",
     elevator: "Drop in a PDF, set a word budget, get a faithful summary back.",
     problem:
-      "Reading a long PDF end to end is slow when you only need the gist — and most summarizers ignore how long you actually want the result to be.",
+      "Reading a long PDF end to end is slow when you only need the gist, and most summarizers ignore how long you actually want the result to be.",
     approach:
-      "A React SPA uploads the document and a target length. An Express API on Railway extracts text with pdf.js-extract, counts and chunks tokens, and calls OpenAI — a single pass when the document fits the context window, recursive chunk-and-re-summarize when it doesn't.",
+      "A React SPA uploads the document and a target length. An Express API on Railway extracts text with pdf.js-extract, counts and chunks tokens, and calls OpenAI: a single pass when the document fits the context window, recursive chunk-and-re-summarize when it doesn't.",
     outcome:
       "Deployed and length-controlled from 10 to 2,500 words, with per-IP rate limiting, request timeouts and retries, 20 MB PDF-only validation, and the API key kept server-side.",
     hardPart:
@@ -159,9 +159,9 @@ const projects = [
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
-      { src: "assets/briefpdf/architecture.svg", alt: "BriefPDF Reader architecture — extract and chunk tokens, then summarise in a single pass or recursively chunk-and-re-summarise when the document exceeds the context window" },
-      { src: "assets/briefpdf/landing.jpg", alt: "BriefPDF Reader landing — an editorial document condenser; choose a PDF and set a target length, then condense" },
-      { src: "assets/briefpdf/result.jpg", alt: "BriefPDF Reader summary — the length-controlled output rendered as a clean, typeset Markdown excerpt" }
+      { src: "assets/briefpdf/architecture.svg", alt: "BriefPDF Reader architecture: extract and chunk tokens, then summarise in a single pass or recursively chunk-and-re-summarise when the document exceeds the context window" },
+      { src: "assets/briefpdf/landing.jpg", alt: "BriefPDF Reader landing: an editorial document condenser; choose a PDF and set a target length, then condense" },
+      { src: "assets/briefpdf/result.jpg", alt: "BriefPDF Reader summary: the length-controlled output rendered as a clean, typeset Markdown excerpt" }
     ],
     stack: [
       { label: "React", color: "blue" },
@@ -191,17 +191,17 @@ const projects = [
     uses: "python c",
     elevator: "Predicting joint torque from EMG signals with system identification and machine learning.",
     problem:
-      "Predicting joint torque from surface EMG is a core problem in prosthetics and rehabilitation engineering — and the EMG-to-torque relationship is nonlinear and noisy.",
+      "Predicting joint torque from surface EMG is a core problem in prosthetics and rehabilitation engineering, and the EMG-to-torque relationship is nonlinear and noisy.",
     approach:
       "A MATLAB pipeline processes raw EMG and torque signals, extracts features, and fits parametric models to the neuromuscular input–output dynamics. Python scripts train regression models on the same feature vectors, and C/C++ components handle low-level signal processing for embedded or hardware-in-the-loop evaluation.",
     outcome:
       "A side-by-side comparison of classical system identification against learned regressors on real experimental data.",
     hardPart:
-      "Separating what the nonlinear neuromuscular dynamics actually explain from what a model is merely memorising — by holding classical system identification and learned regressors to the same experimental data and features.",
+      "Separating what the nonlinear neuromuscular dynamics actually explain from what a model is merely memorising, by holding classical system identification and learned regressors to the same experimental data and features.",
     badge: "Pinned repo",
     source: "GitHub pinned repository list",
     images: [
-      { src: "assets/emg/architecture.svg", alt: "EMG–TQ modelling pipeline — raw EMG and torque signals filtered into features, then parametric system identification compared against learned regressors to predict joint torque" }
+      { src: "assets/emg/architecture.svg", alt: "EMG–TQ modelling pipeline: raw EMG and torque signals filtered into features, then parametric system identification compared against learned regressors to predict joint torque" }
     ],
     stack: [
       { label: "MATLAB", color: "yellow" },
@@ -242,7 +242,7 @@ function formatDate(dateString) {
 function updatedText(project) {
   if (project.github) return formatDate(project.github.pushed_at || project.github.updated_at);
   if (githubStatus === "loading") return '<span class="skeleton skeleton-inline"></span>';
-  return "—";
+  return "n/a";
 }
 
 function projectActions(project) {
@@ -367,7 +367,7 @@ function applyGithubData(data) {
   }
 }
 
-// Read the precomputed snapshot (built by CI) — one same-origin request, no GitHub
+// Read the precomputed snapshot (built by CI): one same-origin request, no GitHub
 // API calls from the browser, so no rate limits and instant load.
 async function refreshGithubData() {
   githubStatus = "loading";
@@ -376,7 +376,7 @@ async function refreshGithubData() {
     const response = await fetch("./github-data.json", { cache: "no-cache" });
     if (response.ok) applyGithubData(await response.json());
   } catch {
-    // snapshot missing/unreachable — render fallbacks ("—", static repo count) handle it
+    // snapshot missing/unreachable: render fallbacks ("n/a", static repo count) handle it
   }
   githubStatus = "done";
   render();

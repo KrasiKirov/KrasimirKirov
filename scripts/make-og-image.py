@@ -143,7 +143,7 @@ d = ImageDraw.Draw(img, "RGBA")
 PAD = 74
 
 # --- coordinate eyebrow ---
-d.text((PAD, 92), "45.50° N · 73.57° W — MONTRÉAL, QC", font=mono(19), fill=MUTED)
+d.text((PAD, 92), "45.50° N · 73.57° W · MONTRÉAL, QC", font=mono(19), fill=MUTED)
 
 # --- name ---
 d.text((PAD, 128), "Krasimir Kirov", font=fr_semi(92), fill=INK)
@@ -155,7 +155,7 @@ d.line([(PAD, 246), (PAD + 300, 246)], fill=INK + (90,), width=2)
 d.text((PAD, 268), "Backend · Data · Cloud", font=body(38, "SemiBold"), fill=INK)
 
 # --- supporting line (tightened to buy room for the company row) ---
-d.text((PAD, 318), "Software Engineering @ McGill — five internships", font=body(25), fill=INK2)
+d.text((PAD, 318), "Software Engineering @ McGill, five internships", font=body(25), fill=INK2)
 d.text((PAD, 349), "across two continents.", font=body(25), fill=INK2)
 
 # --- company row ---
