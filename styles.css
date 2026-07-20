@@ -131,11 +131,12 @@ h1, h2, h3, .pp-place { text-wrap: balance; }
 p, .hero-lead, .story-summary { text-wrap: pretty; }
 
 h1 {
-  max-width: 15ch;
   margin: 6px 0 22px;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(44px, 6.4vw, 88px);
+  /* capped so "backend, database," stays on one line in IBM Plex Serif;
+     the 720px .hero-copy column is what actually governs the wrap */
+  font-size: clamp(44px, 6.4vw, 78px);
   line-height: 0.98;
   letter-spacing: -0.02em;
 }
@@ -474,7 +475,7 @@ h3 {
   --accent: var(--na);
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 620px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 720px) minmax(0, 1fr);
   gap: clamp(22px, 3vw, 56px);
   align-items: start;
   min-height: calc(100vh - 34px);
@@ -529,7 +530,7 @@ h3 {
 }
 
 .hero-copy, .journey-chapters { position: relative; z-index: 2; }
-.hero-copy { max-width: 620px; padding: 10px 0 0; }
+.hero-copy { max-width: 720px; padding: 10px 0 0; }
 .hero-coordinate { margin: 0 0 18px; }
 .hero-lead {
   max-width: 58ch;
