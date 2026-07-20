@@ -46,7 +46,7 @@
   --glass: rgba(251, 247, 238, 0.82); /* frosted card over the globe */
   --topbar-bg: rgba(246, 241, 229, 0.72);
 
-  --font-display: "Fraunces", "Georgia", "Times New Roman", serif;
+  --font-display: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
   --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 
@@ -134,7 +134,6 @@ h1 {
   max-width: 15ch;
   margin: 6px 0 22px;
   font-family: var(--font-display);
-  font-optical-sizing: auto;
   font-weight: 600;
   font-size: clamp(44px, 6.4vw, 88px);
   line-height: 0.98;
