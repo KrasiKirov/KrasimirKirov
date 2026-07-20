@@ -27,9 +27,9 @@ def font(path, size, instance=None):
         f.set_variation_by_name(instance)
     return f
 
-fr_semi   = lambda s: font("Fraunces.ttf", s, "SemiBold")
-mono      = lambda s: ImageFont.truetype(os.path.join(F, "SpaceMono-Regular.ttf"), s)
-mono_b    = lambda s: ImageFont.truetype(os.path.join(F, "SpaceMono-Bold.ttf"), s)
+serif_semi = lambda s: ImageFont.truetype(os.path.join(F, "IBMPlexSerif-SemiBold.ttf"), s)
+mono      = lambda s: ImageFont.truetype(os.path.join(F, "IBMPlexMono-Regular.ttf"), s)
+mono_b    = lambda s: ImageFont.truetype(os.path.join(F, "IBMPlexMono-Bold.ttf"), s)
 body      = lambda s, i="Regular": font("HankenGrotesk.ttf", s, i)
 
 img = Image.new("RGB", (W, H), PAPER)
@@ -146,7 +146,7 @@ PAD = 74
 d.text((PAD, 92), "45.50° N · 73.57° W · MONTRÉAL, QC", font=mono(19), fill=MUTED)
 
 # --- name ---
-d.text((PAD, 128), "Krasimir Kirov", font=fr_semi(92), fill=INK)
+d.text((PAD, 128), "Krasimir Kirov", font=serif_semi(92), fill=INK)
 
 # --- rule ---
 d.line([(PAD, 246), (PAD + 300, 246)], fill=INK + (90,), width=2)
@@ -195,5 +195,7 @@ def tick(x, y, dx, dy):
 M, L = 34, 26
 tick(M, M, L, L); tick(W - M, M, -L, L); tick(M, H - M, L, -L); tick(W - M, H - M, -L, -L)
 
-img.save(os.path.join(S, "og-image.png"), "PNG", optimize=True)
-print("wrote", os.path.join(S, "og-image.png"), img.size)
+# write to the repo root, which is where the site actually serves it from
+OUT = os.path.join(os.path.dirname(S), "og-image.png")
+img.save(OUT, "PNG", optimize=True)
+print("wrote", OUT, img.size)
