@@ -4,7 +4,6 @@ const projects = [
     name: "Freshet",
     repoUrl: "https://github.com/KrasiKirov/freshet",
     flagship: true,
-    period: "Built 2026",
     role: "Solo",
     status: "Benchmarked · live demo",
     keyMetric: "0.81 recall@5",
@@ -41,7 +40,6 @@ const projects = [
     name: "Loop",
     repoUrl: "https://github.com/KrasiKirov/Loop",
     liveUrl: "https://loop-dsa.vercel.app",
-    period: "Built 2026",
     role: "Solo",
     status: "Live",
     keyMetric: "RLS + concurrency-safe Elo",
@@ -72,7 +70,6 @@ const projects = [
     repo: "SpotifyPlaylistGenerator",
     name: "The Listening Room",
     repoUrl: "https://github.com/KrasiKirov/SpotifyPlaylistGenerator",
-    period: "Built 2023",
     role: "Solo",
     status: "Android APK",
     keyMetric: "Mood → playlist",
@@ -106,7 +103,6 @@ const projects = [
     name: "BriefPDF Reader",
     repoUrl: "https://github.com/KrasiKirov/BriefPDFReader",
     liveUrl: "https://brief-pdf-reader.vercel.app",
-    period: "Built 2023",
     role: "Solo",
     status: "Live",
     keyMetric: "10–2,500 word control",
@@ -137,7 +133,6 @@ const projects = [
     repo: "EMG_TQ_Modelling",
     name: "EMG to Torque LSTM",
     repoUrl: "https://github.com/KrasiKirov/EMG_TQ_Modelling",
-    period: "Built 2026",
     role: "Research",
     status: "R² ≥ 0.96",
     keyMetric: "pooled R² ≥ 0.96",
@@ -181,7 +176,7 @@ const elements = {
 
 function formatDate(dateString) {
   if (!dateString) return "-";
-  return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(new Date(dateString));
+  return new Intl.DateTimeFormat("en", { month: "long", year: "numeric" }).format(new Date(dateString));
 }
 
 // Repo "last updated" value: real date, a loading shimmer, or a graceful fallback.
@@ -238,7 +233,7 @@ function renderRail() {
         data-uses="${project.uses}" data-label="${project.name}">
         <span class="rail-top"><span class="rail-name">${project.name}</span><span class="rail-status">${project.status}</span></span>
         <span class="rail-line">${project.elevator}</span>
-        <span class="rail-period">${project.period}</span>
+        <span class="rail-period">Last updated ${updatedText(project)}</span>
       </button>`;
     })
     .join("");
@@ -250,8 +245,7 @@ function renderStage() {
     ["Role", project.role],
     ["Status", project.status],
     ["Key metric", project.keyMetric],
-    ["Built", project.period.replace("Built ", "")],
-    ["Updated", updatedText(project)]
+    ["Last updated", updatedText(project)]
   ]
     .map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`)
     .join("");
