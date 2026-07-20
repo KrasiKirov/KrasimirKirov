@@ -44,6 +44,7 @@
   --grain-opacity: 0.55;
   --surface-ghost: rgba(251, 247, 238, 0.7);
   --glass: rgba(251, 247, 238, 0.82); /* frosted card over the globe */
+  --topbar-bg: rgba(246, 241, 229, 0.72);
 
   --font-display: "Fraunces", "Georgia", "Times New Roman", serif;
   --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -85,37 +86,7 @@
   --grain-opacity: 0.28;
   --surface-ghost: rgba(233, 222, 201, 0.07);
   --glass: rgba(26, 35, 43, 0.78);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --paper: #12181d;
-    --paper-2: #0d1216;
-    --panel: #1a232b;
-    --panel-2: #212d36;
-    --ink: #e9dec9;
-    --ink-2: #b7c0c6;
-    --muted: #8a969d;
-    --line: #3a4650;
-    --hair: rgba(233, 222, 201, 0.14);
-    --na: #4aa8cf;
-    --eu: #e57a54;
-    --sa: #4fa871;
-    --gold: #e8b24a;
-    --gold-ink: #e8b24a;
-    --shadow: 0 26px 60px -30px rgba(0, 0, 0, 0.72);
-    --shadow-card: 0 18px 40px -26px rgba(0, 0, 0, 0.62);
-    --body-grad:
-      radial-gradient(120% 90% at 12% -10%, rgba(74, 168, 207, 0.10), transparent 55%),
-      radial-gradient(120% 90% at 100% 0%, rgba(229, 122, 84, 0.09), transparent 50%),
-      radial-gradient(120% 120% at 50% 120%, rgba(79, 168, 113, 0.08), transparent 55%),
-      linear-gradient(180deg, #10161b 0%, #131b21 60%, #12181d 100%);
-    --paper-scrim: rgba(18, 24, 29, 0.72);
-    --grain-blend: screen;
-    --grain-opacity: 0.28;
-    --surface-ghost: rgba(233, 222, 201, 0.07);
-    --glass: rgba(26, 35, 43, 0.78);
-  }
+  --topbar-bg: rgba(18, 24, 29, 0.82);
 }
 
 * { box-sizing: border-box; }
@@ -239,7 +210,7 @@ h3 {
   padding: 10px 14px;
   border: 1px solid var(--hair);
   border-radius: 999px;
-  background: rgba(246, 241, 229, 0.72);
+  background: var(--topbar-bg);
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(16px);
 }
@@ -1385,12 +1356,6 @@ h3 {
 :root[data-theme="dark"] .badge-green { background: rgba(79, 168, 113, 0.18); color: #96d6ab; }
 :root[data-theme="dark"] .badge-yellow { background: rgba(232, 178, 74, 0.18); color: #ecc879; }
 :root[data-theme="dark"] .badge-gray { background: rgba(233, 222, 201, 0.12); color: #c3ccd2; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .badge-blue { background: rgba(74, 168, 207, 0.18); color: #9fd6ec; }
-  :root:not([data-theme="light"]) .badge-green { background: rgba(79, 168, 113, 0.18); color: #96d6ab; }
-  :root:not([data-theme="light"]) .badge-yellow { background: rgba(232, 178, 74, 0.18); color: #ecc879; }
-  :root:not([data-theme="light"]) .badge-gray { background: rgba(233, 222, 201, 0.12); color: #c3ccd2; }
-}
 
 .story-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
