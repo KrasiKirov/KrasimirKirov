@@ -25,7 +25,12 @@ note(){ printf '  %s\n' "$1"; }
 
 # ---- validate before touching anything ------------------------------------
 [ -f "$SRC" ] || die "no file at: $SRC"
-[ "$(head -c 4 "$SRC")" = "%PDF" ] || die "not a PDF (missing %PDF header): $SRC"
+[ -r "$SRC" ] || die "file exists but can't be read: $SRC
+    macOS blocks some folders (Desktop, Documents, iCloud) per-app.
+    Run this from your own Terminal, or grant it Full Disk Access in
+    System Settings › Privacy & Security."
+HEADER=$(head -c 4 "$SRC" 2>/dev/null) || die "could not read: $SRC (permissions?)"
+[ "$HEADER" = "%PDF" ] || die "not a PDF (missing %PDF header): $SRC"
 
 SIZE=$(stat -f%z "$SRC")
 [ "$SIZE" -gt 10000 ] || die "suspiciously small (${SIZE} bytes) — is it still exporting?"
