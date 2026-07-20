@@ -21,4 +21,4 @@ Java · C# · Python · JavaScript · SQL · Spring · ASP.NET · React · Vue �
 
 ## Connect
 
-[LinkedIn](https://linkedin.com/in/krasimir-kirov) · [Portfolio](https://krasikirov.github.io/KrasimirKirov/)
+[LinkedIn](https://linkedin.com/in/krasimir-kirov) · [Portfolio](https://krasimirkirov.com/)

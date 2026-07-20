@@ -165,7 +165,7 @@ d.text((PAD, 424), "AWS · UKG · INTACT · POMERLEAU", font=mono_b(29), fill=NA
 
 # --- bottom rule + footer (rule stops short of the globe) ---
 d.line([(PAD, 474), (786, 474)], fill=INK + (48,), width=1)
-URL = "krasikirov.github.io/KrasimirKirov"
+URL = "krasimirkirov.com"
 f_url = mono(21)
 d.text((PAD, 508), URL, font=f_url, fill=INK2)
 url_right = PAD + (d.textbbox((0, 0), URL, font=f_url)[2])
