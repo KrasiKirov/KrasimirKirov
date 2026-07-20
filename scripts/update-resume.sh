@@ -12,12 +12,9 @@
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-FILENAME="Kirov,Krasimir_Resume.pdf"
+FILENAME="KrasimirKirov_Resume.pdf"
 DEST="$REPO/$FILENAME"
-# Cloudflare Pages 307-redirects an unencoded comma in the URL to %2C, which
-# breaks the plain byte-size check below (no -L) — request the encoded form
-# directly so this always hits the real file on the first try.
-LIVE_URL="https://krasimirkirov.com/Kirov%2CKrasimir_Resume.pdf"
+LIVE_URL="https://krasimirkirov.com/$FILENAME"
 
 # Where your working copy lives. Change this line if you move it.
 DEFAULT_SRC="$HOME/Desktop/SE/Kirov,Krasimir_Resume.pdf"
