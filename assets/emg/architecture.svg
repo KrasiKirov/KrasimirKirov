@@ -6,11 +6,11 @@
   </defs>
   <style>
     .box { fill: #f7f1e3; stroke-width: 1.5; }
-    .t { font-family: "Space Mono", ui-monospace, monospace; font-size: 13px; font-weight: 700; fill: #1e2833; }
-    .s { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; fill: #45535e; }
-    .row { font-family: "Space Mono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; fill: #2c7a49; }
+    .t { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; font-weight: 700; fill: #1e2833; }
+    .s { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; fill: #45535e; }
+    .row { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; fill: #2c7a49; }
     .wire { stroke: #45535e; stroke-width: 1.5; fill: none; }
-    .note { font-family: "Space Mono", ui-monospace, monospace; font-size: 9.5px; fill: #2c7a49; font-weight: 700; }
+    .note { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9.5px; fill: #2c7a49; font-weight: 700; }
   </style>
   <rect x="0" y="0" width="760" height="300" fill="#f2ecdd" stroke="#d9d0bb" />
 
