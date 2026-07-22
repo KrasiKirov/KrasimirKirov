@@ -1654,8 +1654,21 @@ button:focus-visible,
 }
 
 /* ---------- responsive ---------- */
+/* Below 1024px the passport shrinks to an ambient corner detail rather than
+   disappearing, so the scroll-driven page turn survives on touch devices.
+   It stays pointer-events:none, so it can never intercept a tap. */
 @media (max-width: 1024px) {
-  .passport { display: none; }
+  .passport {
+    transform: scale(0.62);
+    transform-origin: bottom right;
+  }
+}
+
+@media (max-width: 600px) {
+  .passport { transform: scale(0.5); }
+  /* the 10px caption would land at 5px here — drop it rather than ship
+     text too small to read */
+  .passport-label { display: none; }
 }
 
 @media (max-width: 1020px) {
