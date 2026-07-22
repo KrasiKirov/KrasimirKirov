@@ -589,17 +589,22 @@ function initToolCrossLink() {
 function initPassportTuck() {
   const passport = document.querySelector(".passport");
   const contact = document.querySelector(".contact-section");
-  if (!passport || !contact || !("IntersectionObserver" in window)) return;
+  if (!passport || !contact) return;
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => passport.classList.toggle("tucked", entry.isIntersecting));
-    },
-    // fire once contact reaches the bottom quarter of the screen — the band the
-    // passport actually sits in, rather than the moment it first peeks in
-    { rootMargin: "0px 0px -25% 0px" }
-  );
-  observer.observe(contact);
+  const sync = () => {
+    const r = contact.getBoundingClientRect();
+    // tuck once contact reaches the bottom quarter of the screen — the band the
+    // passport actually occupies — and until it has scrolled back off the top
+    const trigger = window.innerHeight * 0.75;
+    passport.classList.toggle("tucked", r.top < trigger && r.bottom > 0);
+  };
+
+  // a scroll read rather than an IntersectionObserver: this mirrors how
+  // travel-scene.js already tracks position, and IO callbacks are delivered
+  // with the rendering steps, which don't run while a page is hidden
+  sync();
+  window.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
 }
 
 // Dark-mode toggle. The pre-paint script in <head> already set data-theme;
