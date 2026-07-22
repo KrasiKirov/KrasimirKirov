@@ -1648,6 +1648,7 @@ button:focus-visible,
   html { scroll-behavior: auto; }
   .compass-needle { animation: none; transform: translateX(-50%) rotate(0deg); }
   .passport-page { transition: none; }
+  .passport { transition: none; }
   .skeleton { animation: none; }
   .availability-chip::before { animation: none; }
   .stage-inner { animation: none; }
@@ -1661,6 +1662,15 @@ button:focus-visible,
   .passport {
     transform: scale(0.62);
     transform-origin: bottom right;
+    transition: opacity 260ms ease, visibility 260ms;
+  }
+  /* On small screens the contact section runs full-width, so the passport would
+     sit on top of the email/LinkedIn/GitHub buttons. Fade it out once contact
+     is in view (class set in app.js). Desktop keeps it: there it has margin to
+     itself, and arriving at contact is exactly when it turns to "Next stop". */
+  .passport.tucked {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 

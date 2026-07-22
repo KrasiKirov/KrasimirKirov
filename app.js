@@ -580,6 +580,28 @@ function initToolCrossLink() {
   });
 }
 
+// The passport is a fixed corner overlay. On small screens the contact section
+// runs full-width underneath it, so tuck it away while contact is on screen
+// (the CSS only acts on this below 1024px). This deliberately does NOT ride
+// travel-scene.js's journey-stage attribute: that script bails early when
+// WebGL/Three.js is unavailable, which is exactly the low-end phone where the
+// passport most needs to get out of the way.
+function initPassportTuck() {
+  const passport = document.querySelector(".passport");
+  const contact = document.querySelector(".contact-section");
+  if (!passport || !contact || !("IntersectionObserver" in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => passport.classList.toggle("tucked", entry.isIntersecting));
+    },
+    // fire once contact reaches the bottom quarter of the screen — the band the
+    // passport actually sits in, rather than the moment it first peeks in
+    { rootMargin: "0px 0px -25% 0px" }
+  );
+  observer.observe(contact);
+}
+
 // Dark-mode toggle. The pre-paint script in <head> already set data-theme;
 // here we just sync the button and let clicks flip + persist it.
 function initThemeToggle() {
@@ -608,6 +630,7 @@ function boot() {
   render();
   // the tool tokens are static markup, so this wires once
   initToolCrossLink();
+  initPassportTuck();
   labelGaugeCounts();
   if (target) scrollToProject(target);
   initCountUp();
