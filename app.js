@@ -488,7 +488,11 @@ function initToolCrossLink() {
     document.body.appendChild(bubble);
   }
 
+  // the token the bubble currently belongs to, so we can measure distance to it
+  let activeTool = null;
+
   const hide = () => {
+    activeTool = null;
     bubble.hidden = true;
     document.querySelectorAll(".tool-active").forEach((el) => el.classList.remove("tool-active"));
   };
@@ -511,6 +515,7 @@ function initToolCrossLink() {
       `<span class="tb-label">Used at</span>` +
       all.map((p) => `<span class="tb-place">${p}</span>`).join("");
     bubble.hidden = false;
+    activeTool = tool;
     tool.classList.add("tool-active");
 
     // position centred above the token, clamped to the viewport
@@ -538,6 +543,41 @@ function initToolCrossLink() {
     tool.addEventListener("blur", hide);
   });
   window.addEventListener("scroll", hide, { passive: true });
+
+  // Safety net: mouseenter/mouseleave don't always come in pairs. A tap on a
+  // touch screen synthesises the enter but never the leave, and a pointer that
+  // jumps out of the window can skip it too — either way the bubble is left
+  // stranded open. So also close it once the pointer is measurably away from
+  // the token it belongs to.
+  const SLACK = 24; // px of forgiveness, so it survives a slightly wobbly hover
+  document.addEventListener(
+    "pointermove",
+    (event) => {
+      if (!activeTool || bubble.hidden) return;
+      // keyboard focus owns the bubble; don't yank it out from under Tab users
+      if (activeTool === document.activeElement) return;
+      const r = activeTool.getBoundingClientRect();
+      const dx = Math.max(r.left - event.clientX, 0, event.clientX - r.right);
+      const dy = Math.max(r.top - event.clientY, 0, event.clientY - r.bottom);
+      if (Math.hypot(dx, dy) > SLACK) hide();
+    },
+    { passive: true }
+  );
+
+  // touch: tapping anywhere that isn't a tool dismisses it
+  document.addEventListener(
+    "pointerdown",
+    (event) => {
+      if (activeTool && !event.target?.closest?.(".tool[data-tool]")) hide();
+    },
+    { passive: true }
+  );
+
+  // pointer left the page entirely
+  document.addEventListener("mouseleave", hide);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") hide();
+  });
 }
 
 // Dark-mode toggle. The pre-paint script in <head> already set data-theme;
