@@ -5,26 +5,31 @@ const projects = [
     repoUrl: "https://github.com/KrasiKirov/freshet",
     flagship: true,
     role: "Solo",
-    status: "Benchmarked · live demo",
-    keyMetric: "0.81 recall@5",
+    status: "Validated on real incidents",
+    keyMetric: "356× fresher than batch",
     uses: "python kafka postgresql pgvector fastapi rag anthropic docker sql",
-    elevator: "Freshness-first streaming RAG that answers on-call questions over live incidents in seconds.",
+    elevator: "Streaming RAG that answers on-call questions over live incidents in seconds, then briefs and postmortems them on its own.",
     problem:
       "During an incident, on-call engineers burn their first minutes reconstructing context: what changed, what's related, what fixed something similar, all from data scattered across tools. The information that matters most is the newest, which is exactly what a nightly-batch index misses.",
     approach:
-      "A Kafka pipeline ingests operational events (alerts, deploys, metrics, incident chat, postmortems), normalizes them, and indexes them into Postgres/pgvector within seconds. Queries run hybrid retrieval (dense bge-base embeddings plus Postgres full-text, fused with RRF and cross-encoder reranked), and answers come back LLM-written, grounded and cited. A separate Autopilot consumer reacts to incident lifecycle events and posts a cited brief on its own.",
+      "A Kafka pipeline ingests operational events (deploys, alerts, metrics, incident chat, postmortems), normalizes them, and indexes them into Postgres/pgvector within seconds. Queries run hybrid retrieval: dense bge embeddings plus Postgres full-text, fused with RRF, cross-encoder reranked, then citation-verified, abstaining when the evidence is weak. A separate Autopilot consumer watches incident lifecycle events: it identifies the commit that caused the break, pulls the runbook, estimates impact, posts a cited brief to Slack, and threads a postmortem underneath it on resolution.",
     outcome:
-      "Hybrid retrieval reaches recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark, beating either retrieval arm alone. A live demo drives the full local streaming stack against real Cloudflare, GitHub, and OpenAI status feeds, and each incident is briefed exactly once via a durable claim, so redelivery and restarts never double-post.",
+      "Streaming keeps data roughly 356× fresher than an hourly batch baseline, and hybrid retrieval reaches recall@5 0.81 on a 160-query benchmark, beating either arm alone. It holds up off the synthetic corpus too: run against 225 real public status-feed incidents, retrieval surfaces the cause-stating update in the top five 92% of the time, and the abstention floor calibrated on synthetic data transfers to real language with no retuning.",
     hardPart:
-      "Making retrieval trustworthy rather than merely plausible: RRF-fused dense + lexical retrieval, cross-encoder reranking, citation verification, and abstention, so it answers with sources or admits it doesn't know instead of hallucinating in the middle of an incident.",
+      "Keeping the evaluation honest enough that it could disprove the design. A three-arm ablation put the LLM agent against a keyless, deterministic two-step pipeline, and they scored identically (1.00/1.00): the entire lift came from a non-semantic temporal lookup, not from the agency. Reporting that, rather than shipping the agent as the headline, is the part I'd defend hardest; the real-data pass was the same instinct, and it surfaced that only 12 of 225 real incidents ever state a machine-readable cause.",
     images: [
-      { src: "assets/freshet/live-demo.gif", alt: "Freshet live demo: real public status-feed incidents ingested through Kafka and answered with cited, recency-aware answers" },
+      { src: "assets/freshet/live-demo.gif", alt: "Freshet live demo: real public status-feed incidents ingested through Kafka and answered with grounded, cited answers, every claim carrying a source and timestamp" },
+      { src: "assets/freshet/slack-brief.jpg", alt: "Slack thread: the Autopilot posts a cited incident brief with root cause, timeline, resolution and action item, then threads the postmortem underneath it when the incident resolves" },
+      { src: "assets/freshet/autopilot-loop.gif", alt: "The autonomous loop: an incident is injected, the Autopilot briefs it with a cited root cause, then postmortems it on resolution" },
+      { src: "assets/freshet/hero-freshness.png", alt: "Freshness comparison: streaming holds data at about 5 seconds old, while an hourly batch index sawtooths up to about 59 minutes stale just before each refresh, roughly 356 times fresher on average" },
+      { src: "assets/freshet/dashboard.png", alt: "Grafana dashboard during a burst: pipeline latency p50 250ms and p95 475ms, zero dead letters, throughput ramping to about 17 events per second, and consumer lag spiking to about 600 then draining back to zero" },
       { src: "assets/freshet/architecture.svg", alt: "Freshet architecture: Kafka ingestion into Postgres with pgvector, hybrid retrieval for cited answers, and the Autopilot agent posting cited Slack briefs" }
     ],
     numbers: [
-      ["recall@5", "0.81 with hybrid retrieval on a 160-query benchmark; dense + lexical arms fused with RRF, then cross-encoder reranked"],
-      ["nDCG@5", "0.63; hybrid decisively beats either retrieval arm on ranking quality"],
-      ["Freshness", "events are queryable within seconds of ingestion; the live demo polls real Cloudflare, GitHub, and OpenAI status feeds"]
+      ["Freshness", "~356× fresher than an hourly-batch baseline: 5s versus 1,778s mean data staleness, the comparison the system was built to make"],
+      ["Retrieval", "recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark; hybrid beats vector-only (0.80) and keyword-only (0.62)"],
+      ["Real data", "225 real public status-feed incidents, hand-labelled: recall@5 0.92 on the ones that state a cause, abstention 0/12 on-topic vs 8/8 off-topic with no retuning"],
+      ["Honest ablation", "a keyless, deterministic two-step pipeline matches the LLM agent exactly (1.00/1.00), so the win is the retrieval capability, not the agency"]
     ],
     stack: [
       { label: "Python", color: "blue" },

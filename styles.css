@@ -1323,7 +1323,9 @@ h3 {
 /* proof readings */
 .proof-row {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* auto-fit rather than a fixed 3, so a project can carry three or four
+     proof points without stranding an orphan on its own row */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 14px;
   margin-top: 18px;
   padding-top: 15px;

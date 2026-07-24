@@ -17,7 +17,7 @@ DEST="$REPO/$FILENAME"
 LIVE_URL="https://krasimirkirov.com/$FILENAME"
 
 # Where your working copy lives. Change this line if you move it.
-DEFAULT_SRC="$HOME/Desktop/SE/Kirov,Krasimir_Resume.pdf"
+DEFAULT_SRC="$HOME/Desktop/SE/KrasimirKirov_Resume.pdf"
 SRC="${1:-$DEFAULT_SRC}"
 
 die() { printf '\033[31m✗ %s\033[0m\n' "$1" >&2; exit 1; }
