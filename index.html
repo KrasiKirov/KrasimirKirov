@@ -34,10 +34,13 @@
     <meta name="twitter:description" content="Reliable backend, database, and cloud systems. Five internships: AWS, UKG, Intact, and Pomerleau." />
     <meta name="twitter:image" content="https://krasimirkirov.com/og-image.png" />
 
+    <!-- self-hosted display serif: it paints the LCP hero headline, so it is
+         preloaded same-origin ahead of the third-party font CSS below -->
+    <link rel="preload" href="./assets/fonts/ibm-plex-serif-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />

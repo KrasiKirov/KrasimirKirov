@@ -3,6 +3,18 @@
    Aged-paper cartographic theme. Light. Print-journal editorial.
    ============================================================ */
 
+/* The display serif is self-hosted and preloaded (see <head>): it renders the
+   LCP hero headline, so keeping it same-origin removes the two cross-origin hops
+   (googleapis -> gstatic) that otherwise sit in front of first paint. Only
+   weight 600 is used anywhere, so that's all we ship. */
+@font-face {
+  font-family: "IBM Plex Serif";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/fonts/ibm-plex-serif-600.woff2") format("woff2");
+}
+
 :root {
   color-scheme: light;
 
