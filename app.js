@@ -59,9 +59,10 @@ const projects = [
     hardPart:
       "Keeping the rating honest under concurrency: first-attempt-only Elo enforced by a uniqueness constraint, and duel resolution serialized with a row lock plus an atomic claim, so two simultaneous submits can never apply the same rating change twice.",
     images: [
-      { src: "assets/loop/architecture.svg", alt: "Loop architecture: server-authoritative grading into PostgreSQL with Row-Level Security, and duel submits serialised by a row lock and atomic claim before the Elo update" },
-      { src: "assets/loop/hub.png", alt: "Loop pattern hub: pick a pattern, see mastery and rating, start drilling" },
-      { src: "assets/loop/drill.png", alt: "Loop drill card: four options with a live skill-rating meter" }
+      { src: "assets/loop/live-demo.gif", alt: "Loop walkthrough: the landing page, the pattern hub with per-pattern mastery and rating, choosing a difficulty, then a drill card answered correctly for +20 rating and one answered wrong for -10 with the explanation" },
+      { src: "assets/loop/drill.png", alt: "Loop drill card graded correct: the rating climbs +20 to 1020, with the explanation of why a hash set is O(n) where sort-then-scan pays O(n log n)" },
+      { src: "assets/loop/hub.png", alt: "Loop pattern hub: eighteen DSA patterns, each with its own mastery ring and rating, plus a day streak and interview-date countdown" },
+      { src: "assets/loop/architecture.svg", alt: "Loop architecture: server-authoritative grading into PostgreSQL with Row-Level Security, and duel submits serialised by a row lock and atomic claim before the Elo update" }
     ],
     stack: [
       { label: "React", color: "blue" },
