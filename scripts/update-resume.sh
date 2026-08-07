@@ -38,6 +38,32 @@ SIZE=$(stat -f%z "$SRC")
 
 if [ -f "$DEST" ] && cmp -s "$SRC" "$DEST"; then
   ok "already up to date — nothing to publish"
+  note "source: $SRC"
+  note "        $(stat -f '%z bytes, modified %Sm' -t '%b %e %Y %H:%M' "$SRC")"
+  # "Nothing to publish" is only reassuring if the source is the file you just
+  # exported. The usual cause of a surprising no-op is a re-export that landed
+  # somewhere else (Overleaf and most LaTeX editors save to ~/Downloads), so
+  # look for a newer resume-shaped PDF and name it rather than leaving you guessing.
+  # Trailing `|| true` matters: find exits non-zero if any folder is unreadable
+  # (macOS blocks Desktop for some callers), and with `set -o pipefail` that
+  # would abort the script over what is only a best-effort hint. It must be
+  # `|| true` and not `|| NEWER=""` — find still prints the matches it *did*
+  # find before failing, and those are exactly what we want to show.
+  NEWER=$(find "$HOME/Downloads" "$HOME/Desktop" -maxdepth 3 \
+            \( -iname '*resume*.pdf' -o -iname '*cv*.pdf' \) \
+            -newer "$SRC" 2>/dev/null | head -5) || true
+  if [ -n "$NEWER" ]; then
+    printf '\n'
+    note "heads up: these resume PDFs are NEWER than the source above —"
+    printf '%s\n' "$NEWER" | while IFS= read -r f; do note "  $f"; done
+    printf '\n'
+    note "if one of those is the version you meant to publish, pass it directly:"
+    note "  ./scripts/update-resume.sh \"$(printf '%s' "$NEWER" | head -1)\""
+  else
+    printf '\n'
+    note "if you just re-exported, confirm the export actually replaced the file"
+    note "above — nothing newer was found in ~/Downloads or ~/Desktop."
+  fi
   exit 0
 fi
 
