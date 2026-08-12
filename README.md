@@ -15,7 +15,7 @@ Java · C# · Python · JavaScript · SQL · Spring · ASP.NET · React · Vue �
 
 ## Projects
 
-- [Freshet](https://github.com/KrasiKirov/freshet) — Freshness-first streaming RAG for on-call engineers: Kafka ingestion indexed in seconds, hybrid retrieval (0.81 recall@5 on a 160-query benchmark), and an autonomous agent that posts cited incident briefs
+- [Freshet](https://github.com/KrasiKirov/freshet) — Freshness-first streaming RAG for on-call engineers: Kafka ingestion indexed in seconds, hybrid retrieval that wins on ranking (nDCG@5 0.62 on a 160-query benchmark), and an autonomous agent that posts cited incident briefs
 - [Loop](https://github.com/KrasiKirov/Loop) — Competitive DSA interview-prep app with auto-graded cards, a chess-style rating, and duels, React + Node/Express + PostgreSQL (Row-Level Security) — [live demo](https://loop-dsa.vercel.app)
 - [BriefPDF Reader](https://github.com/KrasiKirov/BriefPDFReader) — Length-controlled AI PDF summaries rendered as clean Markdown — [live demo](https://brief-pdf-reader.vercel.app)
 

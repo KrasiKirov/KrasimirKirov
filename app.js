@@ -10,11 +10,11 @@ const projects = [
     uses: "python kafka postgresql pgvector fastapi rag anthropic docker sql",
     elevator: "Streaming RAG that answers on-call questions over live incidents in seconds, then briefs and postmortems them on its own.",
     problem:
-      "During an incident, on-call engineers burn their first minutes reconstructing context: what changed, what's related, what fixed something similar, all from data scattered across tools. The information that matters most is the newest, which is exactly what a nightly-batch index misses.",
+      "During an incident, on-call engineers burn their first minutes reconstructing context: what changed, what's related, what fixed something similar, all from data scattered across tools. The information that matters most is the newest, which is exactly what a batch index misses.",
     approach:
       "A Kafka pipeline ingests operational events (deploys, alerts, metrics, incident chat, postmortems), normalizes them, and indexes them into Postgres/pgvector within seconds. Queries run hybrid retrieval: dense bge embeddings plus Postgres full-text, fused with RRF, cross-encoder reranked, then citation-verified, abstaining when the evidence is weak. A separate Autopilot consumer watches incident lifecycle events: it identifies the commit that caused the break, pulls the runbook, estimates impact, posts a cited brief to Slack, and threads a postmortem underneath it on resolution.",
     outcome:
-      "Streaming keeps data roughly 356× fresher than an hourly batch baseline, and hybrid retrieval reaches recall@5 0.81 on a 160-query benchmark, beating either arm alone. It holds up off the synthetic corpus too: run against 225 real public status-feed incidents, retrieval surfaces the cause-stating update in the top five 92% of the time, and the abstention floor calibrated on synthetic data transfers to real language with no retuning.",
+      "Streaming keeps data roughly 356× fresher than an hourly batch baseline, and on a 160-query benchmark hybrid retrieval ranks relevant events higher than either arm alone (nDCG@5 0.62 versus 0.57 for vector-only). It holds up off the synthetic corpus too: against 225 real public status-feed incidents, retrieval surfaces the cause-stating update in the top five 92% of the time, and the abstention floor calibrated on synthetic data transfers to real language with no retuning.",
     hardPart:
       "Finding the cause of an incident, not just the symptoms of it. Given no service hint, a single-shot retriever surfaces the error spike and the rollback but misses the actual cause roughly five times out of six, because a terse \"Deploy v2.15.0 started\" reads nothing like an answer to \"what caused this?\" Semantic similarity is searching for the wrong thing entirely. The fix was to stop leaning on the embedding and re-retrieve with a different question, \"what changed just before the spike?\", as a non-semantic temporal lookup anchored on the incident's timestamp. That one step takes cause-recall from 0.17 to 1.0, and because it's keyless and deterministic, the reliability never depends on a model's mood.",
     images: [
@@ -27,7 +27,7 @@ const projects = [
     ],
     numbers: [
       ["Freshness", "~356× fresher than an hourly-batch baseline: 5s versus 1,778s mean data staleness, the comparison the system was built to make"],
-      ["Retrieval", "recall@5 0.81 and nDCG@5 0.63 on a 160-query benchmark; hybrid beats vector-only (0.80) and keyword-only (0.62)"],
+      ["Retrieval", "160-query benchmark: hybrid ties vector-only on recall@5 (0.80) but wins the ranking, nDCG@5 0.62 vs 0.57 and MRR 0.62 vs 0.54; keyword-only trails at 0.58"],
       ["Real data", "225 real public status-feed incidents, hand-labelled: recall@5 0.92 on the ones that state a cause, abstention 0/12 on-topic vs 8/8 off-topic with no retuning"],
       ["Honest ablation", "a keyless, deterministic two-step pipeline matches the LLM agent exactly (1.00/1.00), so the win is the retrieval capability, not the agency"]
     ],
