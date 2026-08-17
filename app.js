@@ -29,7 +29,7 @@ const projects = [
       ["Freshness", "~356× fresher than an hourly-batch baseline: 5s versus 1,778s mean data staleness, the comparison the system was built to make"],
       ["Retrieval", "160-query benchmark: hybrid ties vector-only on recall@5 (0.80) but wins the ranking, nDCG@5 0.62 vs 0.57 and MRR 0.62 vs 0.54; keyword-only trails at 0.58"],
       ["Real data", "225 real public status-feed incidents, hand-labelled: recall@5 0.92 on the ones that state a cause, abstention 0/12 on-topic vs 8/8 off-topic with no retuning"],
-      ["Honest ablation", "a keyless, deterministic two-step pipeline matches the LLM agent exactly (1.00/1.00), so the win is the retrieval capability, not the agency"]
+      ["Honest ablation", "a keyless, deterministic two-step pipeline matches the LLM agent exactly (+0.0/+0.0), so the win is the retrieval step, not the agency; the 1.00/1.00 both hit is near-tautological on synthetic data, so the finding is the equivalence, not the score"]
     ],
     stack: [
       { label: "Python", color: "blue" },
