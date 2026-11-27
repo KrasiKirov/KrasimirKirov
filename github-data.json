@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T16:56:51.957Z",
+  "generatedAt": "2026-11-27T16:42:25.543Z",
   "publicRepos": 24,
   "repos": {
     "freshet": {
@@ -45,21 +45,19 @@
       }
     },
     "EMG_TQ_Modelling": {
-      "pushed_at": "2026-11-25T18:04:48Z",
+      "pushed_at": "2026-11-27T06:40:46Z",
       "updated_at": "2026-11-17T05:45:08Z",
       "language": "Python",
       "languages": {
-        "Python": 25717695,
-        "HTML": 3213453,
+        "Python": 236735,
         "MATLAB": 214988,
         "C++": 180425,
         "TypeScript": 111761,
-        "JavaScript": 102694,
         "C": 93487,
         "Makefile": 18781,
         "CSS": 9912,
-        "Shell": 5686,
-        "PowerShell": 592,
+        "Shell": 4693,
+        "HTML": 1011,
         "Batchfile": 306
       }
     }
